@@ -91,27 +91,13 @@ int		check_line_instruc(char *line)
 	int	i;
 
 	count = 0;
-	i = -1;
-	//ft_printf("%s\n", line);
+	i = 0;
 	tmp = ft_strsplit(line, ' ');
-	//ft_printf("%s - %s\n", tmp[0], tmp[1]);
 	while (op_tab[i].nb_arg != 0 && (ft_strcmp(tmp[0], op_tab[i].name) != 0))
 		i++;
 	if (i > 15)
 		return (-1);
 	pmt = ft_strsplit(tmp[1], SEPARATOR_CHAR);
-	/*
-	//
-	ft_printf("%s", tmp[0]);
-	int l = 0;
-	while (pmt[l])
-	{
-		ft_printf(" - %s", pmt[l]);
-		l++;
-	}
-	ft_putchar('\n');
-	//
-	*/
 	if ((count = check_params(pmt, i)) < 0)
 		return (-1);
 	count++;
@@ -128,12 +114,8 @@ int		check_instruc(int fd, t_asm *assm)
 	r = 0;
 	while (get_next_line(fd, &line))
 	{
-		//ft_putstr(line);// -> OK
-		//ft_putchar('\n');// -> OK
 		if ((line = suppr_space_label(line, assm)) == NULL)
 			return (-1);
-		//ft_putstr(line);// -> OK
-		//ft_putchar('\n');// -> OK
 		if (ft_strcmp("\0", line) == 0)
 			;
 		else

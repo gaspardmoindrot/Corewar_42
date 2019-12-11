@@ -30,26 +30,5 @@ int	main(int argc, char **argv)
 		return (0);
 	if (ft_second_turn(&assm, argv[1]) < 0)
 		return (ft_error("error : problem on file\n", 2));
-	ft_printf("\nOK jusque la !\n");
-	ft_putchar('\n');
-	ft_putstr(assm.file);
-	ft_putchar('\n');
-	ft_putnbr(assm.len_name);
-	ft_putchar('\n');
-	ft_putnbr(assm.len_comment);
-        ft_putchar('\n');
-	ft_putnbr(assm.len_bytes);
-        ft_putchar('\n');
-	ft_putnbr(assm.nb_label);
-        ft_putchar('\n');
-	ft_putstr(assm.label[0].name);
-	ft_putchar('\n');
-	ft_putstr(assm.label[1].name);
-        ft_putchar('\n');
-	ft_putnbr(assm.label[0].place);
-        ft_putchar('\n');
-        ft_putnbr(assm.label[1].place);
-        ft_putchar('\n');
-	ft_putchar('\n');
 	return (0);
 }
