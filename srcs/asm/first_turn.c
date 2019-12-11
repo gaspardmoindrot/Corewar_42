@@ -106,10 +106,9 @@ int	check_comment(int fd)
 	return (-1);
 }
 
-t_asm		first_turn(char *str)
+t_asm		first_turn(char *str, t_asm assm)
 {
 	int	fd;
-	t_asm	assm;
 
 	assm.nb_label = 0;
 	assm.len_bytes = 0;

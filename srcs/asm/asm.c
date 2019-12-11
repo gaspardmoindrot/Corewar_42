@@ -25,11 +25,31 @@ int	main(int argc, char **argv)
 		return (ft_error("usage: ./asm champion.s\n", 2));
 	if (!(assm.file = change_s_cor(argv[1])))
 		return (ft_error("error : your file is incorrect\n", 2));
-	assm = first_turn(argv[1]);
+	assm = first_turn(argv[1], assm);
 	if (ft_error_first_turn(assm) == 0)
 		return (0);
 	if (ft_second_turn(&assm, argv[1]) < 0)
 		return (ft_error("error : problem on file\n", 2));
-	ft_printf("\nOK jusque la !\n\n");
+	ft_printf("\nOK jusque la !\n");
+	ft_putchar('\n');
+	ft_putstr(assm.file);
+	ft_putchar('\n');
+	ft_putnbr(assm.len_name);
+	ft_putchar('\n');
+	ft_putnbr(assm.len_comment);
+        ft_putchar('\n');
+	ft_putnbr(assm.len_bytes);
+        ft_putchar('\n');
+	ft_putnbr(assm.nb_label);
+        ft_putchar('\n');
+	ft_putstr(assm.label[0].name);
+	ft_putchar('\n');
+	ft_putstr(assm.label[1].name);
+        ft_putchar('\n');
+	ft_putnbr(assm.label[0].place);
+        ft_putchar('\n');
+        ft_putnbr(assm.label[1].place);
+        ft_putchar('\n');
+	ft_putchar('\n');
 	return (0);
 }

@@ -26,7 +26,7 @@ typedef struct	s_asm
 
 int	ft_error(char *str, int fd);
 char	*change_s_cor(char *str);
-t_asm	first_turn(char *str);
+t_asm	first_turn(char *str, t_asm assm);
 int	check_comment(int fd);
 int	check_name(int fd);
 int	check_nothing(char *str);
