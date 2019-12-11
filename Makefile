@@ -32,7 +32,10 @@ ASM_SRCS_FILES		:=	asm.c \
 				utils.c \
 				check_instruction.c \
 				utils_2.c \
-				second_turn.c
+				second_turn.c \
+				third_turn.c \
+				utils_3.c \
+				ft_printf_binaire.c
 
 CORE_SRCS_FILES		:=	corewar.c
 

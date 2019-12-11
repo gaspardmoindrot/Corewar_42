@@ -7,22 +7,24 @@
 
 # define OP(index)	op_tab[index]
 
-typedef struct	s_label
+typedef struct		s_label
 {
-	int	place;
-	char	*name;
-}		t_label;
+	int		place;
+	char		*name;
+}			t_label;
 
-typedef struct	s_asm
+typedef struct		s_asm
 {
-	char	*file;
-	int	len_name;
-	int	len_comment;
-	int	len_bytes;
-	int	actual_bytes;
-	int	nb_label;
-	t_label	*label;
-}		t_asm;
+	unsigned char	*tab;
+	char		*file;
+	int		fd_file;
+	int		len_name;
+	int		len_comment;
+	int		len_bytes;
+	int		actual_bytes;
+	int		nb_label;
+	t_label		*label;
+}			t_asm;
 
 int	ft_error(char *str, int fd);
 char	*change_s_cor(char *str);
@@ -46,5 +48,18 @@ int	ft_str_isdigit(char *str);
 void	ft_name_label(char *line, t_asm *assm, int *j);
 char	*stock_label(char *line, t_asm *assm, int *j);
 int	ft_second_turn(t_asm *assm, char *str);
+
+int	check_t_dir_label(char *str, t_asm *assm);
+int	check_t_ind_label(char *str, t_asm *assm);
+int	ft_third_turn(t_asm *assm, char *str);
+int	ft_print_binaire(t_asm *assm, char *str);
+
+int     write_comment(int fd, t_asm *assm);
+int      ft_write_next(char *line, int *quote, t_asm *assm);
+int      ft_write_begin(char *line, char *str, int *quote, t_asm *assm);
+unsigned char    ft_deci(char c10, char c1);
+void             ft_print_in_actual(char *str, t_asm *assm, int size);
+int      write_name(int fd, t_asm *assm);
+
 
 #endif
