@@ -60,6 +60,16 @@ int      ft_write_begin(char *line, char *str, int *quote, t_asm *assm);
 unsigned char    ft_deci(char c10, char c1);
 void             ft_print_in_actual(char *str, t_asm *assm, int size);
 int      write_name(int fd, t_asm *assm);
+int             print_instruc(int fd, t_asm *assm);
 
+unsigned int    puissance(unsigned int nb, int p);
+void            ft_char_argu(char **tmp, int i, t_asm *assm);
+int             print_t_reg(char *str, t_asm *assm);
+int     print_t_dir(char *str, t_asm *assm, int j);
+int     print_t_ind(char *str, t_asm *assm);
+void    print_nb_bytes(int bytes, t_asm *assm, unsigned int nb);
+void            ft_print_params(char **tmp, int i, t_asm *assm);
+int             print_line_instruc(char *line, t_asm *assm);
+int             print_instruc(int fd, t_asm *assm);
 
 #endif

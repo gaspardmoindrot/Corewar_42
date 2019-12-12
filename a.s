@@ -19,7 +19,7 @@
 .name		"mychicken"
 .comment	"jump, jump, jump..."
 
-		ld	116, r16
+		ld	0, r16
 		sti r1, %:live, %1
 		ld	%1879310724, r3
 		ld	%65540, r1
@@ -41,7 +41,6 @@ loop:	add r1, r3, r3
 		and	r3, %1048576, r16
 		zjmp %:loop
 #   efee
-
 
 live:	live %1
 		ld	%1879310724, r3

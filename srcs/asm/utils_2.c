@@ -21,7 +21,7 @@ int	check_t_reg(char *str)
 	str++;
 	if (ft_str_isdigit(str) == 0)
 		return (-1);
-	if (ft_atoi(str) > REG_NUMBER)
+	if (ft_atoi(str) > REG_NUMBER || ft_atoi(str) < 1)
 		return (-1);
 	return (1);
 }

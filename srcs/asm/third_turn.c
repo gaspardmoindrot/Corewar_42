@@ -89,8 +89,21 @@ int		ft_third_turn(t_asm *assm, char *str)
 	char	*line;
 	int	fd;
 	int	r;
+	int	r2;
 
 	assm->actual_bytes = 0;
+	r = 0;
+	while (r < assm->nb_label)
+	{
+		r2 = 0;
+		while (r2 < assm->nb_label)
+		{
+			if (ft_strcmp(assm->label[r].name, assm->label[r2].name) == 0 && r != r2)
+				return (-1);
+			r2++;
+		}
+		r++;
+	}
 	if ((fd = open(str, O_RDONLY)) < 3)
 	{
 		ft_putstr("error : can't open the file\n");
