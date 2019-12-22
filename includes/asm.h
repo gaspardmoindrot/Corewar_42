@@ -22,6 +22,7 @@ typedef struct		s_asm
 	int		len_comment;
 	int		len_bytes;
 	int		actual_bytes;
+	int		actual_bytes_l;
 	int		nb_label;
 	t_label		*label;
 }			t_asm;
@@ -62,7 +63,7 @@ void             ft_print_in_actual(char *str, t_asm *assm, int size);
 int      write_name(int fd, t_asm *assm);
 int             print_instruc(int fd, t_asm *assm);
 
-unsigned int    puissance(unsigned int nb, int p);
+unsigned long    puissance(unsigned long nb, int p);
 void            ft_char_argu(char **tmp, int i, t_asm *assm);
 int             print_t_reg(char *str, t_asm *assm);
 int     print_t_dir(char *str, t_asm *assm, int j);
