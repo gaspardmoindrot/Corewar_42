@@ -17,6 +17,21 @@ int	ft_error_first_turn(t_asm assm)
 	return (1);
 }
 
+static void	ft_print_in_file(char *file, unsigned char *tab, t_asm assm)
+{
+	int	h;
+	int	fd;
+
+	if ((fd = open(file, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR)) < 3)
+	{
+		ft_putstr("error : can't open the file\n");
+		exit(EXIT_SUCCESS);
+	}
+	h = -1;
+        while (++h < PROG_NAME_LENGTH + COMMENT_LENGTH + 16 + assm.len_bytes)
+              ft_putchar_fd(tab[h], fd);
+}
+
 int	main(int argc, char **argv)
 {
 	t_asm	assm;
@@ -39,9 +54,6 @@ int	main(int argc, char **argv)
 	while (++i < PROG_NAME_LENGTH + COMMENT_LENGTH + 16 + assm.len_bytes)
 		assm.tab[i] = '\0';
 	ft_print_binaire(&assm, argv[1]);
-
-	int h = -1;
-	while (++h < PROG_NAME_LENGTH + COMMENT_LENGTH + 16 + assm.len_bytes)
-		ft_putchar_fd(assm.tab[h], 1);
+	ft_print_in_file(assm.file, assm.tab, assm);
 	return (0);
 }
