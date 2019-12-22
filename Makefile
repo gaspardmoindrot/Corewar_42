@@ -14,7 +14,8 @@ WHITE			:= "\033[0;37m"
 
 # ========== Editable ========== #
 ASM				:= asm
-COREWAR			:= corewar
+DASM				:= dasm
+COREWAR				:= corewar
 # ============================== #
 
 # ========== Standard ========== #
@@ -37,10 +38,14 @@ ASM_SRCS_FILES		:=	asm.c \
 				utils_3.c \
 				ft_printf_binaire.c
 
+DASM_SRCS_FILES		:=	dasm.c
+
 CORE_SRCS_FILES		:=	corewar.c
 
 ASM_HEADERS_FILES	:=	asm.h \
 				op.h
+
+DASM_HEADERS_FILE	:=	dasm.h
 
 CORE_HEADERS_FILES	:=	corewar.h
 
@@ -48,16 +53,20 @@ CORE_HEADERS_FILES	:=	corewar.h
 
 # ========== Sources =========== #
 ASM_PATH		:= srcs/asm/
+DASM_PATH		:= srcs/dasm/
 CORE_PATH		:= srcs/corewar/
 ASM_SRCS		:= $(addprefix $(ASM_PATH), $(ASM_SRCS_FILES))
+DASM_SRCS		:= $(addprefix $(DASM_PATH), $(DASM_SRCS_FILES))
 CORE_SRCS		:= $(addprefix $(CORE_PATH), $(CORE_SRCS_FILES))
 # ============================== #
 
 # ========== Objects =========== #
 OBJS_PATH			:= objs/
 ASM_OBJS_PATH		:= objs/asm/
+DASM_OBJS_PATH		:= objs/dasm/
 CORE_OBJS_PATH		:= objs/corewar/
 ASM_OBJS		:= $(addprefix $(ASM_OBJS_PATH), $(ASM_SRCS_FILES:.c=.o))
+DASM_OBJS                := $(addprefix $(DASM_OBJS_PATH), $(DASM_SRCS_FILES:.c=.o))
 CORE_OBJS 		:= $(addprefix $(CORE_OBJS_PATH), $(CORE_SRCS_FILES:.c=.o))
 # ============================== #
 
@@ -65,6 +74,7 @@ CORE_OBJS 		:= $(addprefix $(CORE_OBJS_PATH), $(CORE_SRCS_FILES:.c=.o))
 INCLUDES_PATH	:= includes/
 INCLUDES		:= -I $(INCLUDES_PATH)
 ASM_HEADERS		:= $(addprefix $(INCLUDES_PATH), $(ASM_HEADERS_FILES))
+DASM_HEADERS		:= $(addprefix $(INCLUDES_PATH), $(DASM_HEADERS_FILES))
 CORE_HEADERS	:= $(addprefix $(INCLUDES_PATH), $(CORE_HEADERS_FILES))
 # ============================== #
 
@@ -76,7 +86,7 @@ LIBFT			:= -L $(LIBFT_PATH) -lft -lncurses -lpthread
 
 .PHONY: all libft clean fclean re
 
-all: libft $(ASM) $(COREWAR)
+all: libft $(ASM) $(DASM) $(COREWAR)
 
 libft:
 	@make -C $(LIBFT_PATH)
@@ -84,6 +94,11 @@ libft:
 $(ASM_OBJS_PATH)%.o: $(ASM_PATH)%.c $(ASM_HEADERS) $(LIBFT_PATH)libft.a
 	@mkdir $(OBJS_PATH) 2> /dev/null || true
 	@mkdir $(ASM_OBJS_PATH) 2> /dev/null || true
+	$(CC) $(FLAGS) $(INCLUDES) $(LIBFT_INCLUDES) -o $@ -c $<
+
+$(DASM_OBJS_PATH)%.o: $(DASM_PATH)%.c $(DASM_HEADERS) $(LIBFT_PATH)libft.a
+	@mkdir $(OBJS_PATH) 2> /dev/null || true
+	@mkdir $(DASM_OBJS_PATH) 2> /dev/null || true
 	$(CC) $(FLAGS) $(INCLUDES) $(LIBFT_INCLUDES) -o $@ -c $<
 
 $(CORE_OBJS_PATH)%.o: $(CORE_PATH)%.c $(CORE_HEADERS) $(LIBFT_PATH)libft.a
@@ -94,17 +109,20 @@ $(CORE_OBJS_PATH)%.o: $(CORE_PATH)%.c $(CORE_HEADERS) $(LIBFT_PATH)libft.a
 $(ASM): $(ASM_OBJS)
 	$(CC) $(FLAGS) $(LIBFT) $(ASM_OBJS) -o $@
 
+$(DASM): $(DASM_OBJS)
+	$(CC) $(FLAGS) $(LIBFT) $(DASM_OBJS) -o $@
+
 $(COREWAR): $(CORE_OBJS)
 	$(CC) $(FLAGS) $(LIBFT) $(CORE_OBJS) -o $@
 
 clean:
 	@make -C $(LIBFT_PATH) clean &> /dev/null
-	@rm -fv $(ASM_OBJS) $(CORE_OBJS)
+	@rm -fv $(ASM_OBJS) $(DASM_OBJS) $(CORE_OBJS)
 	@rmdir $(OBJS_PATH) 2> /dev/null || true
 
 fclean: clean
 	@make -C $(LIBFT_PATH) fclean &> /dev/null
-	@rm -fv $(ASM) $(COREWAR)
+	@rm -fv $(ASM) $(DASM) $(COREWAR)
 
 re: fclean all
 
