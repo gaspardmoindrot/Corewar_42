@@ -28,8 +28,12 @@ static void	ft_print_in_file(char *file, unsigned char *tab, t_asm assm)
 		exit(EXIT_SUCCESS);
 	}
 	h = -1;
+	ft_putstr("Writing output program to ");
+	ft_putstr(file);
+	ft_putchar('\n');
         while (++h < PROG_NAME_LENGTH + COMMENT_LENGTH + 16 + assm.len_bytes)
               ft_putchar_fd(tab[h], fd);
+	close(fd);
 }
 
 int	main(int argc, char **argv)
