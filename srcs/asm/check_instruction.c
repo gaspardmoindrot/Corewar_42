@@ -1,24 +1,49 @@
 #include "../../includes/asm.h"
 
+static char	*ft_strcat_mal(char *s1, const char *s2)
+{
+	int	len;
+	int	i;
+	char	*str;
+
+	if (!(str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1))))
+		return (NULL);
+	len = ft_strlen(s1);
+	i = 0;
+	while (i < len && s1[i])
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	i = 0;
+	while (s2[i] && i < (int)ft_strlen(s2))
+	{
+		str[len + i] = ((char *)s2)[i];
+		i++;
+	}
+	str[len + i] = '\0';
+	return (str);
+}
+
 char		*suppr_space(char *line)
 {
 	char	**res;
+	char	**res_2;
 	char	*str;
-	int	len;
 	int	i;
 
-	i = -1;
-	len = 0;
+	i = 0;
 	res = ft_split_whitespaces(line);
-	while (res[++i] != NULL)
+	while (res[i] != NULL)
 	{
 		if (i == 0)
-			str = ft_strcat(res[i], " ");
+			str = ft_strcat_mal(res[i], " ");
 		else
-			str = ft_strcat(str, res[i]);
+			str = ft_strcat_mal(str, res[i]);
+		i++;
 	}
-	str = ft_strcat(str, "\0");
-	return (str);
+	res_2 = ft_strsplit(str, '#');
+	return (res_2[0]);
 }
 
 char		*suppr_space_label(char *line, t_asm *assm)
@@ -125,5 +150,7 @@ int		check_instruc(int fd, t_asm *assm)
 			assm->len_bytes = assm->len_bytes + r;
 		}
 	}
+	if (assm->len_bytes == 0)
+		return (-1);
 	return (assm->len_bytes);
 }

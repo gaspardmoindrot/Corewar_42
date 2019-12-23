@@ -347,9 +347,6 @@ void	print_nb_bytes(int bytes, t_asm *assm, unsigned int nb)
 	int	c10;
 
 	i = 1;
-	//ft_printf("%d -> %ld\n", assm->actual_bytes, nb);
-	if (nb >= puissance(2, bytes * 8))
-		return ;
 	while (nb > 0 && bytes * 2 - i > 0)
 	{
 		c10 = nb / (puissance(16, bytes * 2 - i));
