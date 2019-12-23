@@ -1,7 +1,6 @@
 #!/bin/bash
 
 program=../asm
-map_valid=$1
 map_good=0
 map_total=0
 
@@ -44,3 +43,5 @@ do
 	fi
 done
 rm -r 42 our
+
+echo "\n\033[0;35mResult : [$map_good / $map_total] \033[0m"
