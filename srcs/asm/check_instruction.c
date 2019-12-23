@@ -59,9 +59,9 @@ char		*suppr_space_label(char *line, t_asm *assm)
 			return ("\0");
 		else if (ft_strchr(LABEL_CHARS, line[i]) != NULL)
 		{
-			while (ft_strchr(LABEL_CHARS, line[i]) != NULL)
+			while (line[i] && ft_strchr(LABEL_CHARS, line[i]) != NULL)
 				i++;
-			if (line[i] == LABEL_CHAR)
+			if (line[i] && line[i] == LABEL_CHAR)
 			{
 				assm->nb_label++;
 				line = line + i + 1;
@@ -116,6 +116,7 @@ int		check_line_instruc(char *line)
 	char	**pmt;
 	int	count;
 	int	i;
+	int	len;
 
 	count = 0;
 	i = 0;
@@ -123,6 +124,9 @@ int		check_line_instruc(char *line)
 	while (op_tab[i].nb_arg != 0 && (ft_strcmp(tmp[0], op_tab[i].name) != 0))
 		i++;
 	if (i > 15)
+		return (-1);
+	len = ft_strlen(tmp[1]);
+	if (tmp[1][len - 1] == ',')
 		return (-1);
 	pmt = ft_strsplit(tmp[1], SEPARATOR_CHAR);
 	if ((count = check_params(pmt, i)) < 0)
