@@ -105,6 +105,8 @@ int		check_params(char **tmp, int i)
 			return (-1);
 		j++;
 	}
+	if (j != op_tab[i].nb_arg)
+		return (-1);
 	return (count);
 }
 
