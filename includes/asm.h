@@ -39,7 +39,7 @@ int		check_nothing_before(char *line, char *str);
 int		ft_len_next(char *line, int *quote);
 int		check_instruc(int fd, t_asm *assm);
 char		*suppr_space_label(char *line, t_asm *assm);
-char		*suppr_space(char *line);
+char		*suppr_space(char *line, int i);
 int		check_line_instruc(char *line);
 int		check_params(char **tmp, int i);
 int		check_t_ind(char *str);

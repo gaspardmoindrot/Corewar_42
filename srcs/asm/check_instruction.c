@@ -25,13 +25,26 @@ static char	*ft_strcat_mal(char *s1, const char *s2)
 	return (str);
 }
 
-char		*suppr_space(char *line)
+char		*suppr_space(char *line, int j)
 {
 	char	**res;
 	char	**res_2;
 	char	*str;
+	char	*line_b;
 	int	i;
 
+	i = -1;
+	if (line[j] == '-' || line[j] == '%')
+	{	
+		if (!(line_b = (char *)malloc(sizeof(char) * (ft_strlen(line) + 2))))
+			return (NULL);
+		while (++i < j)
+			line_b[i] = line[i];
+		line_b[i] = ' ';
+		while (line[i++ - 1])
+			line_b[i] = line[i - 1];
+		line = line_b;
+	}
 	i = 0;
 	res = ft_split_whitespaces(line);
 	while (res[i] != NULL)
@@ -67,8 +80,9 @@ char		*suppr_space_label(char *line, t_asm *assm)
 				line = line + i + 1;
 				i = -1;
 			}
-			else if (line[i] == ' ' || line[i] == '\t' || line[i] == '\n')
-				return (suppr_space(line));
+			else if (line[i] == ' ' || line[i] == '\t' || line[i] == '\n'
+					|| line[i] == '-' || line[i] == DIRECT_CHAR)
+				return (suppr_space(line, i));
 			else
 				return (NULL);
 		}

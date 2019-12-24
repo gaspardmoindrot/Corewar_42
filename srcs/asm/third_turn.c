@@ -20,8 +20,9 @@ static char	*check_label(char *line)
 				line = line + i + 1;
 				i = -1;
 			}
-			else if (line[i] == ' ' || line[i] == '\t' || line[i] == '\n')
-				return (suppr_space(line));
+			else if (line[i] == ' ' || line[i] == '\t' || line[i] == '\n'
+					|| line[i] == '-' || line[i] == DIRECT_CHAR)
+				return (suppr_space(line, i));
 			else
 				return (NULL);
 		}
