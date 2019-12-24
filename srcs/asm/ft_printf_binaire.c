@@ -425,7 +425,7 @@ int	ft_print_binaire(t_asm *assm, char *str)
 	assm->actual_bytes = 0;
 	if ((fd = open(str, O_RDONLY)) < 3)
 	{
-		ft_putstr("error : can't open the file\n");
+		ft_putstr("\033[0;31merror : can't open the file\n\033[0m");
 		exit(EXIT_SUCCESS);
 	}
 	write_name(fd, assm);

@@ -92,6 +92,7 @@ int		ft_third_turn(t_asm *assm, char *str)
 	int	r2;
 
 	assm->actual_bytes = 0;
+	assm->line_error = 0;
 	r = 0;
 	while (r < assm->nb_label)
 	{
@@ -99,28 +100,29 @@ int		ft_third_turn(t_asm *assm, char *str)
 		while (r2 < assm->nb_label)
 		{
 			if (ft_strcmp(assm->label[r].name, assm->label[r2].name) == 0 && r != r2)
-				return (-1);
+				return (return_f("FATAL ERROR - same label name\n", -1));
 			r2++;
 		}
 		r++;
 	}
 	if ((fd = open(str, O_RDONLY)) < 3)
 	{
-		ft_putstr("error : can't open the file\n");
+		ft_putstr("\033[0;31merror : can't open the file\n\033[0m");
 		exit(EXIT_SUCCESS);
 	}
-	if (check_name(fd) < 0 || check_comment(fd) < 0)
+	if (check_name(fd, &assm->line_error) < 0 || check_comment(fd, &assm->line_error) < 0)
 		return (-1);
 	while (get_next_line(fd, &line))
 	{
+		assm->line_error = assm->line_error + 1;
 		if ((line = check_label(line)) == NULL)
-			return (-1);
+			return (return_f("FATAL ERROR - problem with the label\n", -1));
 		if (ft_strcmp("\0", line) == 0)
 			;
 		else
 		{
 			if ((r = check_label_2(line, assm)) < 0)
-				return (-1);
+				return (return_f("FATAL ERROR - argument call an inexistant label\n", -1));
 			assm->actual_bytes = assm->actual_bytes + r;
 		}
 	}

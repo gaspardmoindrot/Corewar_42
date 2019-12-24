@@ -59,9 +59,15 @@ char		*change_s_cor(char *str)
 
 	i = 0;
 	if (ft_strchr(str, '.') == NULL)
+	{
+		return_f("FATAL ERROR - your file needs a .s extension\n", 0);
 		return (NULL);
+	}
 	if (ft_strcmp(ft_strrchr(str, '.'), ".s"))
+	{
+		return_f("FATAL ERROR - your file needs a .s extension\n", 0);
 		return (NULL);
+	}
 	s = ft_strsub(str, 0, ft_strrchr_nbr(str, '.'));
 	s = ft_strcat_2(s, ".cor\0");
 	return (s);

@@ -5,6 +5,8 @@ int	ft_str_isdigit(char *str)
 	int	i;
 
 	i = 0;
+	if (ft_strlen(str) == 0)
+		return (0);
 	while (str[i])
 	{
 		if (ft_isdigit(str[i]) == 0)

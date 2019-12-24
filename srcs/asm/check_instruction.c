@@ -89,7 +89,7 @@ int		check_params(char **tmp, int i)
 	while (tmp[j] != NULL)
 	{
 		if (j + 1 > op_tab[i].nb_arg)
-			return (-1);
+			return (return_f("FATAL ERROR - too much params\n", -1));
 		if ((op_tab[i].args[j] == T_REG || op_tab[i].args[j] == T_REG + T_DIR || op_tab[i].args[j] == T_REG + T_IND || op_tab[i].args[j] == T_REG + T_IND + T_DIR) && check_t_reg(tmp[j]) == 1)
 			count = count + 1;
 		else if ((op_tab[i].args[j] == T_DIR || op_tab[i].args[j] == T_DIR + T_REG || op_tab[i].args[j] == T_DIR + T_IND || op_tab[i].args[j] == T_DIR + T_REG + T_IND) && check_t_dir(tmp[j]) == 1)
@@ -102,11 +102,11 @@ int		check_params(char **tmp, int i)
 		else if ((op_tab[i].args[j] == T_IND || op_tab[i].args[j] == T_IND + T_REG || op_tab[i].args[j] == T_IND + T_DIR || op_tab[i].args[j] == T_IND + T_DIR + T_REG) && check_t_ind(tmp[j]) == 1)
 			count = count + 2;
 		else
-			return (-1);
+			return (return_f("FATAL ERROR - an argument does not match with the opcode\n", -1));
 		j++;
 	}
 	if (j != op_tab[i].nb_arg)
-		return (-1);
+		return (return_f("FATAL ERROR - too few arguments\n", -1));
 	return (count);
 }
 
@@ -124,10 +124,10 @@ int		check_line_instruc(char *line)
 	while (op_tab[i].nb_arg != 0 && (ft_strcmp(tmp[0], op_tab[i].name) != 0))
 		i++;
 	if (i > 15)
-		return (-1);
+		return (return_f("FATAL ERROR - opcode unknown\n", -1));
 	len = ft_strlen(tmp[1]);
 	if (tmp[1][len - 1] == ',')
-		return (-1);
+		return (return_f("FATAL ERROR - there is a final coma\n", -1));
 	pmt = ft_strsplit(tmp[1], SEPARATOR_CHAR);
 	if ((count = check_params(pmt, i)) < 0)
 		return (-1);
@@ -141,12 +141,12 @@ int		check_instruc(int fd, t_asm *assm)
 {
 	char	*line;
 	int	r;
-	
+
 	r = 0;
 	while (get_next_line(fd, &line))
 	{
 		if ((line = suppr_space_label(line, assm)) == NULL)
-			return (-1);
+			return (return_f("FATAL ERROR - wrong syntax line\n", -1));
 		if (ft_strcmp("\0", line) == 0)
 			;
 		else
@@ -157,6 +157,6 @@ int		check_instruc(int fd, t_asm *assm)
 		}
 	}
 	if (assm->len_bytes == 0)
-		return (-1);
+		return (return_f("FATAL ERROR - no instructions\n", -1));
 	return (assm->len_bytes);
 }

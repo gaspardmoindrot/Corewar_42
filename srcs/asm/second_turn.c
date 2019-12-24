@@ -63,22 +63,24 @@ int	ft_second_turn(t_asm *assm, char *str)
 	int	r;
 
 	assm->actual_bytes = 0;
+	assm->line_error = 0;
 	i = 0;
 	if ((fd = open(str, O_RDONLY)) < 3)
 	{
-		ft_putstr("error : can't open the file\n");
+		ft_putstr("\033[0;31merror : can't open the file\n\033[0m");
 		exit(EXIT_SUCCESS);
 	}
 	if (!(assm->label = (t_label *)malloc(sizeof(t_label) * assm->nb_label)))
+		return (return_f("FATAL ERROR - problem with a malloc\n", -1));
+	if (check_name(fd, &assm->line_error) < 0)
 		return (-1);
-	if (check_name(fd) < 0)
-		return (-1);
-	if (check_comment(fd) < 0)
+	if (check_comment(fd, &assm->line_error) < 0)
 		return (-1);
 	while (get_next_line(fd, &line))
 	{
+		assm->line_error = assm->line_error + 1;
 		if ((line = stock_label(line, assm, &i)) == NULL)
-			return (-1);
+			return (return_f("FATAL ERROR - problem with the label\n", -1));
 		if (ft_strcmp("\0", line) == 0)
 			;
 		else
