@@ -20,9 +20,9 @@ do
 			echo "\033[0;31m\t[KO] $map_valid.s\t\t#problem on your map_checker\033[0m"
 		else
 			mv $map_valid.cor our
-			echo $map_valid > a
-			x=`awk -F / '{print $NF}' a`
-			rm a
+			echo $map_valid > b
+			x=`awk -F / '{print $NF}' b`
+			rm b
 			resultat=$(cmp 42/$x.cor our/$x.cor)
 			if [ -z "$resultat" ]; then
 				echo "\033[0;32m\t[OK] $map_valid.s \033[0m"
@@ -32,7 +32,7 @@ do
 			fi
 		fi
 	else
-		a=$($program $map_valid.s)
+		a=$($program $map_valid.s 2>/dev/null)
 		if [ "$a" != "Writing output program to $map_valid.cor" ]; then
 			echo "\033[0;32m\t[OK] $map_valid.s \033[0m"
 			map_good=$(($map_good + 1))
