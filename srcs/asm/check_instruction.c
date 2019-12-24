@@ -33,16 +33,24 @@ char		*suppr_space(char *line, int j)
 	char	*line_b;
 	int	i;
 
-	i = -1;
+	i = 0;
 	if (line[j] == '-' || line[j] == '%')
 	{	
 		if (!(line_b = (char *)malloc(sizeof(char) * (ft_strlen(line) + 2))))
 			return (NULL);
-		while (++i < j)
+		while (i < j)
+		{
 			line_b[i] = line[i];
+			i++;
+		}
 		line_b[i] = ' ';
-		while (line[i++ - 1])
+		i++;
+		while (line[i - 1])
+		{
 			line_b[i] = line[i - 1];
+			i++;
+		}
+		line_b[i] = '\0';
 		line = line_b;
 	}
 	i = 0;
