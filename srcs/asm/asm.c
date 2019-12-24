@@ -26,8 +26,12 @@ int	return_f(char *str, int return_f)
 
 int	ft_error_first_turn(t_asm assm)
 {
-	if (assm.len_name < 0 || assm.len_comment < 0 || assm.len_bytes < 0)
-		return (ft_error("error : problem on file\n", 2, assm.line_error));
+	if (assm.len_bytes < 0)
+                return (ft_error("error : problem on instructions\n", 2, assm.line_error));
+	if (assm.len_name < 0)
+		return (ft_error("error : problem on name\n", 2, -1));
+	if (assm.len_comment < 0)
+                return (ft_error("error : problem on comment\n", 2, -1));
 	if (assm.len_name > PROG_NAME_LENGTH)
 	{
 		return_f("FATAL ERROR - name too big\n", 0);

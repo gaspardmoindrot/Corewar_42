@@ -145,6 +145,7 @@ int		check_instruc(int fd, t_asm *assm)
 	r = 0;
 	while (get_next_line(fd, &line))
 	{
+		assm->line_error++;
 		if ((line = suppr_space_label(line, assm)) == NULL)
 			return (return_f("FATAL ERROR - wrong syntax line\n", -1));
 		if (ft_strcmp("\0", line) == 0)
