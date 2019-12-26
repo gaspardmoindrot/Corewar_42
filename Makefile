@@ -21,7 +21,7 @@ COREWAR				:= corewar
 # ========== Standard ========== #
 #
 CC				:= gcc
-FLAGS			:= -g -fsanitize=address -Wall -Wextra -Werror
+FLAGS			:= -g -Wall -Wextra -Werror
 # ============================== #
 
 # =========== Files ============ #
@@ -38,14 +38,21 @@ ASM_SRCS_FILES		:=	asm.c \
 				utils_3.c \
 				ft_printf_binaire.c
 
-DASM_SRCS_FILES		:=	dasm.c
+DASM_SRCS_FILES		:=	dasm.c \
+				change_file.c \
+				begin.c \
+				init.c \
+				then.c \
+				op.c \
+				write_argu.c
 
 CORE_SRCS_FILES		:=	corewar.c
 
 ASM_HEADERS_FILES	:=	asm.h \
 				op.h
 
-DASM_HEADERS_FILE	:=	dasm.h
+DASM_HEADERS_FILE	:=	dasm.h \
+				op.h
 
 CORE_HEADERS_FILES	:=	corewar.h
 
