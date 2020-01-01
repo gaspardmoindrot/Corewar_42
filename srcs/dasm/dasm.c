@@ -1,6 +1,6 @@
 #include "../../includes/dasm.h"
 
-void	free_tab(char **tab)
+void		free_tab(char **tab)
 {
 	int	i;
 
@@ -13,7 +13,7 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
-int	ft_error(char *str, int fd, int error, int r)
+int		ft_error(char *str, int fd, int error, int r)
 {
 	if (error >= 0)
 	{
@@ -29,7 +29,7 @@ int	ft_error(char *str, int fd, int error, int r)
 	return (r);
 }
 
-int	return_f(char *str, int return_f)
+int		return_f(char *str, int return_f)
 {
 	ft_putstr_fd("\033[0;31m", 2);
 	ft_putstr_fd(str, 2);
@@ -37,7 +37,35 @@ int	return_f(char *str, int return_f)
 	return (return_f);
 }
 
-int	main(int argc, char **argv)
+static void	print_dasm(t_dasm *dasm)
+{
+	int	fd;
+	int	i;
+
+	i = 2;
+	if ((fd = open(dasm->file, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR)) < 3)
+	{
+		ft_putstr("\033[0;31merror : can't open last file\n\033[0m");
+		exit(EXIT_SUCCESS);
+	}
+	ft_putstr("Writing reverse output program to ");
+	ft_putstr(dasm->file);
+	ft_putchar('\n');
+	ft_putstr_fd(".name \"", fd);
+	ft_putstr_fd(dasm->tab[0], fd);
+	ft_putstr_fd("\"\n", fd);
+	ft_putstr_fd(".comment \"", fd);
+	ft_putstr_fd(dasm->tab[1], fd);
+	ft_putstr_fd("\"\n\n", fd);
+	while (ft_strlen(dasm->tab[i]) != 0)
+	{
+		ft_putstr_fd(dasm->tab[i], fd);
+		ft_putchar_fd('\n', fd);
+		i++;
+	}
+}
+
+int		main(int argc, char **argv)
 {
 	t_dasm	dasm;
 	int	nb;
@@ -59,7 +87,7 @@ int	main(int argc, char **argv)
 		return (ft_error("error : your file is incorrect\n", 2, -1, 0));
 	if (then(&dasm) == -1)
 		return (ft_error("error : instructions are false\n", 2, -1, 0));
-
+	print_dasm(&dasm);
 	free_tab(dasm.tab);
 	free(dasm.file);
 	close(dasm.fd);

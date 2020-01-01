@@ -43,7 +43,7 @@ void	put_comment_in_tab(t_dasm *dasm)
 	i = 12 + PROG_NAME_LENGTH;
 	while (i < (12 + PROG_NAME_LENGTH + COMMENT_LENGTH))
 	{
-		dasm->tab[1][i - 12 + PROG_NAME_LENGTH] = dasm->buf[i];
+		dasm->tab[1][i - 12 - PROG_NAME_LENGTH] = dasm->buf[i];
 		i++;
 	}
 }

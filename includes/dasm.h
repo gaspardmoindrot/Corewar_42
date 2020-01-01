@@ -36,7 +36,13 @@ int			check_number_instruct(t_dasm *dasm);
 int			then(t_dasm *dasm);
 int			instruct_alone(t_dasm *dasm, int i);
 int			write_opcode(t_dasm *dasm, int opcode);
-void			write_big_arg(t_dasm *dasm, int nb_inst, int opcode, int j, int i);
-void			write_small_arg(t_dasm *dasm, int opcode, int j, int i);
+int			write_big_arg(t_dasm *dasm, unsigned int nb_i, int opcode, int j, int i);
+int			write_small_arg(t_dasm *dasm, int opcode, int j, int i);
+
+void			ft_putnbr_dasm(int n, t_dasm *dasm, int *j);
+int			write_reg(t_dasm *dasm, int j, int i);
+int			write_dir(t_dasm *dasm, int j, int i, int opcode);
+int			write_ind(t_dasm *dasm, int j, int i);
+unsigned long		puissance(unsigned long nb, int p);
 
 #endif
