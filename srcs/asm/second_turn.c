@@ -59,6 +59,7 @@ char	*stock_label(char *line, t_asm *assm, int *j)
 int	ft_second_turn(t_asm *assm, char *str)
 {
 	char	*line;
+	char	*str_2;
 	int	i;
 	int	fd;
 	int	r;
@@ -80,16 +81,21 @@ int	ft_second_turn(t_asm *assm, char *str)
 	while (get_next_line(fd, &line))
 	{
 		assm->line_error = assm->line_error + 1;
-		if ((line = stock_label(line, assm, &i)) == NULL)
+		if ((str_2 = stock_label(line, assm, &i)) == NULL)
+		{
+			free(line);
 			return (return_f("FATAL ERROR - problem with the label\n", -1));
-		if (ft_strcmp("\0", line) == 0)
+		}
+		if (ft_strcmp("\0", str_2) == 0)
 			;
 		else
 		{
-			if ((r = check_line_instruc(line)) < 0)
+			if ((r = check_line_instruc(str_2)) < 0)
 				return (-1);
+			free(str_2);
 			assm->actual_bytes = assm->actual_bytes + r;
 		}
+		free(line);
 	}
 	close(fd);
 	return (0);

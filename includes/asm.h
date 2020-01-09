@@ -76,4 +76,9 @@ int		print_instruc(int fd, t_asm *assm);
 
 int		return_f(char *str, int return_f);
 
+void		free_tab(char **tab);
+void		ft_print_in_file(char *file, unsigned char *tab, t_asm assm);
+char		*ft_put_together(char **res);
+int		check_label_2(char *line, t_asm *assm);
+
 #endif

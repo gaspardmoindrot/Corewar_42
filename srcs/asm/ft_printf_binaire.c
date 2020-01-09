@@ -4,6 +4,7 @@ int	write_comment(int fd, t_asm *assm)
 {
 	char	*line;
 	char	*str;
+	char	*str_2;
 	int	comment;
 	int	quote;
 	int	i;
@@ -13,7 +14,9 @@ int	write_comment(int fd, t_asm *assm)
 	comment = 0;
 	quote = 0;
 	ft_print_in_actual("0\0", assm, 4);
-	ft_print_in_actual(ft_itoa_base(assm->len_bytes, 16), assm, 4);
+	str_2 = ft_itoa_base(assm->len_bytes, 16);
+	ft_print_in_actual(str_2, assm, 4);
+	free(str_2);
 	while (get_next_line(fd, &line))
 	{
 		i = 0;
@@ -158,6 +161,7 @@ int	write_name(int fd, t_asm *assm)
 {
 	char	*line;
 	char	*str;
+	char	*str_2;
 	int	name;
 	int	quote;
 	int	i;
@@ -166,7 +170,9 @@ int	write_name(int fd, t_asm *assm)
 
 	name = 0;
 	quote = 0;
-	ft_print_in_actual(ft_itoa_base(COREWAR_EXEC_MAGIC, 16), assm, 4);
+	str_2 = ft_itoa_base(COREWAR_EXEC_MAGIC, 16);
+	ft_print_in_actual(str_2, assm, 4);
+	free(str_2);
 	while (get_next_line(fd, &line))
 	{
 		i = 0;
@@ -393,27 +399,34 @@ int		print_line_instruc(char *line, t_asm *assm)
 	assm->tab[assm->actual_bytes] = op_tab[i].opcode;
 	assm->actual_bytes++;
 	pmt = ft_strsplit(tmp[1], SEPARATOR_CHAR);
+	free_tab(tmp);
 	if (op_tab[i].nb_arg > 1)
 		ft_char_argu(pmt, i, assm);
 	ft_print_params(pmt, i, assm);
+	free_tab(pmt);
 	return (0);
 }
 
 int		print_instruc(int fd, t_asm *assm)
 {
 	char	*line;
+	char	*str;
 	int	r;
 
 	r = 0;
 	while (get_next_line(fd, &line))
 	{
 		assm->actual_bytes_l = assm->actual_bytes + 1;
-		if ((line = suppr_space_label(line, assm)) == NULL)
+		if ((str = suppr_space_label(line, assm)) == NULL)
 			return (-1);
-		if (ft_strcmp("\0", line) == 0)
+		if (ft_strcmp("\0", str) == 0)
 			;
 		else
-			print_line_instruc(line, assm);
+		{
+			print_line_instruc(str, assm);
+			free(str);
+		}
+		free(line);
 	}
 	return (assm->len_bytes);
 }

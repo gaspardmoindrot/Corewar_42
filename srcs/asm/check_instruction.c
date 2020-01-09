@@ -1,5 +1,56 @@
 #include "../../includes/asm.h"
 
+char	*ft_put_together(char **res)
+{
+	int	i;
+	int	len;
+	char	*str;
+	int	j;
+
+	i = 0;
+	len = 0;
+	while (res[i])
+	{
+		len = len + ft_strlen(res[i]);
+		i++;
+	}
+	if (!(str = (char *)malloc(sizeof(char) * (len + 2))))
+		return (NULL);
+	str[len + 1] = '\0';
+	i = 0;
+	len = 0;
+	while (res[i])
+	{
+		j = 0;
+		while (res[i][j])
+		{
+			str[len] = res[i][j];
+			len++;
+			j++;
+		}
+		if (i == 0)
+		{
+			str[len] = ' ';
+			len++;
+		}
+		i++;
+	}
+	return (str);
+}
+
+void	free_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i] != NULL)
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+}
+
 static char	*ft_strcat_mal(char *s1, const char *s2)
 {
 	int	len;
@@ -31,10 +82,11 @@ char		*suppr_space(char *line, int j)
 	char	**res_2;
 	char	*str;
 	char	*line_b;
+	char	*str_r;
 	int	i;
 
 	i = 0;
-	if (line[j] == '-' || line[j] == '%')
+	if (line[j] == '-' || line[j] == DIRECT_CHAR)
 	{	
 		if (!(line_b = (char *)malloc(sizeof(char) * (ft_strlen(line) + 2))))
 			return (NULL);
@@ -51,20 +103,19 @@ char		*suppr_space(char *line, int j)
 			i++;
 		}
 		line_b[i] = '\0';
-		line = line_b;
 	}
+	else
+		line_b = ft_strcat_mal("\0", line);
 	i = 0;
-	res = ft_split_whitespaces(line);
-	while (res[i] != NULL)
-	{
-		if (i == 0)
-			str = ft_strcat_mal(res[i], " ");
-		else
-			str = ft_strcat_mal(str, res[i]);
-		i++;
-	}
+	res = ft_split_whitespaces(line_b);
+	free(line_b);
+	str = ft_put_together(res);
+	free_tab(res);
 	res_2 = ft_strsplit(str, '#');
-	return (res_2[0]);
+	free(str);
+	str_r = ft_strcat_mal("\0", res_2[0]);
+	free_tab(res_2);
+	return (str_r);
 }
 
 char		*suppr_space_label(char *line, t_asm *assm)
@@ -151,8 +202,10 @@ int		check_line_instruc(char *line)
 	if (tmp[1][len - 1] == ',')
 		return (return_f("FATAL ERROR - there is a final coma\n", -1));
 	pmt = ft_strsplit(tmp[1], SEPARATOR_CHAR);
+	free_tab(tmp);
 	if ((count = check_params(pmt, i)) < 0)
 		return (-1);
+	free_tab(pmt);
 	count++;
 	if (op_tab[i].nb_arg > 1)
 		count++;
@@ -162,22 +215,25 @@ int		check_line_instruc(char *line)
 int		check_instruc(int fd, t_asm *assm)
 {
 	char	*line;
+	char	*str;
 	int	r;
 
 	r = 0;
 	while (get_next_line(fd, &line))
 	{
 		assm->line_error++;
-		if ((line = suppr_space_label(line, assm)) == NULL)
+		if ((str = suppr_space_label(line, assm)) == NULL)
 			return (return_f("FATAL ERROR - wrong syntax line\n", -1));
-		if (ft_strcmp("\0", line) == 0)
+		if (ft_strcmp("\0", str) == 0)
 			;
 		else
 		{
-			if ((r = check_line_instruc(line)) < 0)
+			if ((r = check_line_instruc(str)) < 0)
 				return (-1);
 			assm->len_bytes = assm->len_bytes + r;
+			free(str);
 		}
+		free(line);
 	}
 	if (assm->len_bytes == 0)
 		return (return_f("FATAL ERROR - no instructions\n", -1));

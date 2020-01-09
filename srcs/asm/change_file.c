@@ -56,6 +56,7 @@ char		*change_s_cor(char *str)
 {
 	int	i;
 	char	*s;
+	char	*s_2;
 
 	i = 0;
 	if (ft_strchr(str, '.') == NULL)
@@ -69,6 +70,7 @@ char		*change_s_cor(char *str)
 		return (NULL);
 	}
 	s = ft_strsub(str, 0, ft_strrchr_nbr(str, '.'));
-	s = ft_strcat_2(s, ".cor\0");
-	return (s);
+	s_2 = ft_strcat_2(s, ".cor\0");
+	free(s);
+	return (s_2);
 }

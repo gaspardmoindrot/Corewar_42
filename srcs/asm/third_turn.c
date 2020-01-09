@@ -62,7 +62,7 @@ static int	check_params_label(char **tmp, int i, t_asm *assm)
 	return (count);
 }
 
-static int	check_label_2(char *line, t_asm *assm)
+int	check_label_2(char *line, t_asm *assm)
 {
 	char	**tmp;
 	char	**pmt;
@@ -77,8 +77,10 @@ static int	check_label_2(char *line, t_asm *assm)
 	if (i > 15)
 		return (-1);
 	pmt = ft_strsplit(tmp[1], SEPARATOR_CHAR);
+	free_tab(tmp);
 	if ((count = check_params_label(pmt, i, assm)) < 0)
 		return (-1);
+	free_tab(pmt);
 	count++;
 	if (op_tab[i].nb_arg > 1)
 		count++;
@@ -88,6 +90,7 @@ static int	check_label_2(char *line, t_asm *assm)
 int		ft_third_turn(t_asm *assm, char *str)
 {
 	char	*line;
+	char	*str_2;
 	int	fd;
 	int	r;
 	int	r2;
@@ -116,16 +119,18 @@ int		ft_third_turn(t_asm *assm, char *str)
 	while (get_next_line(fd, &line))
 	{
 		assm->line_error = assm->line_error + 1;
-		if ((line = check_label(line)) == NULL)
+		if ((str_2 = check_label(line)) == NULL)
 			return (return_f("FATAL ERROR - problem with the label\n", -1));
-		if (ft_strcmp("\0", line) == 0)
+		if (ft_strcmp("\0", str_2) == 0)
 			;
 		else
 		{
-			if ((r = check_label_2(line, assm)) < 0)
+			if ((r = check_label_2(str_2, assm)) < 0)
 				return (return_f("FATAL ERROR - argument call an inexistant label\n", -1));
 			assm->actual_bytes = assm->actual_bytes + r;
+			free(str_2);
 		}
+		free(line);
 	}
 	close(fd);
 	return (0);

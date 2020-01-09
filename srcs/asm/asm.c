@@ -45,7 +45,7 @@ int	ft_error_first_turn(t_asm assm)
 	return (1);
 }
 
-static void	ft_print_in_file(char *file, unsigned char *tab, t_asm assm)
+void	ft_print_in_file(char *file, unsigned char *tab, t_asm assm)
 {
 	int	h;
 	int	fd;
@@ -87,5 +87,8 @@ int	main(int argc, char **argv)
 		assm.tab[i] = '\0';
 	ft_print_binaire(&assm, argv[1]);
 	ft_print_in_file(assm.file, assm.tab, assm);
+	free(assm.file);
+	free(assm.tab);
+	//while (1) {};
 	return (0);
 }
