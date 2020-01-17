@@ -38,7 +38,7 @@ int		ft_len_begin(char *line, char *str, int *quote);
 int		check_nothing_before(char *line, char *str);
 int		ft_len_next(char *line, int *quote);
 int		check_instruc(int fd, t_asm *assm);
-char		*suppr_space_label(char *line, t_asm *assm);
+char		*suppr_space_label(char *line, t_asm *assm, int i);
 char		*suppr_space(char *line, int i);
 int		check_line_instruc(char *line);
 int		check_params(char **tmp, int i);
@@ -48,7 +48,7 @@ int		check_t_reg(char *str);
 int		ft_str_isdigit(char *str);
 
 void		ft_name_label(char *line, t_asm *assm, int *j);
-char		*stock_label(char *line, t_asm *assm, int *j);
+char		*stock_label(char *line, t_asm *assm, int *j, int i);
 int		ft_second_turn(t_asm *assm, char *str);
 
 int		check_t_dir_label(char *str, t_asm *assm);
@@ -80,5 +80,13 @@ void		free_tab(char **tab);
 void		ft_print_in_file(char *file, unsigned char *tab, t_asm assm);
 char		*ft_put_together(char **res);
 int		check_label_2(char *line, t_asm *assm);
+
+char		*ft_put_together_b(char *str, char **res);
+char		*suppr_space_label_b(char *line, int i);
+char		*suppr_space_b(char *line, int j);
+int		check_params_b(char **tmp, int i, int j, int count);
+char		*stock_label_b(char *line, int i);
+int		ft_second_turn_b(t_asm *assm, int fd, int i);
+int		ft_third_turn_b(t_asm *assm, int fd);
 
 #endif

@@ -51,7 +51,7 @@ HEADERS = libft.h
 INCLUDES = $(addprefix $(INCLUDES_DIR)/, $(HEADERS))
 
 CCC = gcc
-CFLAGS = -O3 -Wall -Wextra -Werror -I $(INCLUDES)
+CFLAGS = -Wall -Wextra -Werror -I $(INCLUDES)
 
 RED := "\033[0;31m"
 GREEN := "\033[0;32m"

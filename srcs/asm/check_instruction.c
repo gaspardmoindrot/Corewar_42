@@ -1,22 +1,11 @@
 #include "../../includes/asm.h"
 
-char	*ft_put_together(char **res)
+char	*ft_put_together_b(char *str, char **res)
 {
 	int	i;
 	int	len;
-	char	*str;
 	int	j;
 
-	i = 0;
-	len = 0;
-	while (res[i])
-	{
-		len = len + ft_strlen(res[i]);
-		i++;
-	}
-	if (!(str = (char *)malloc(sizeof(char) * (len + 2))))
-		return (NULL);
-	str[len + 1] = '\0';
 	i = 0;
 	len = 0;
 	while (res[i])
@@ -35,6 +24,26 @@ char	*ft_put_together(char **res)
 		}
 		i++;
 	}
+	return (str);
+}
+
+char	*ft_put_together(char **res)
+{
+	int	i;
+	int	len;
+	char	*str;
+
+	i = 0;
+	len = 0;
+	while (res[i])
+	{
+		len = len + ft_strlen(res[i]);
+		i++;
+	}
+	if (!(str = (char *)malloc(sizeof(char) * (len + 2))))
+		return (NULL);
+	str[len + 1] = '\0';
+	str = ft_put_together_b(str, res);
 	return (str);
 }
 
@@ -76,53 +85,66 @@ static char	*ft_strcat_mal(char *s1, const char *s2)
 	return (str);
 }
 
+char		*suppr_space_b(char *line, int j)
+{
+	char	*str;
+	int	i;
+
+	i = 0;
+	if (!(str = (char *)malloc(sizeof(char) * (ft_strlen(line) + 2))))
+		return (NULL);
+	while (i < j)
+	{
+		str[i] = line[i];
+		i++;
+	}
+	str[i] = ' ';
+	i++;
+	while (line[i - 1])
+	{
+		str[i] = line[i - 1];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
 char		*suppr_space(char *line, int j)
 {
 	char	**res;
 	char	**res_2;
-	char	*str;
-	char	*line_b;
-	char	*str_r;
+	char	*str[3];
 	int	i;
 
-	i = 0;
 	if (line[j] == '-' || line[j] == DIRECT_CHAR)
-	{	
-		if (!(line_b = (char *)malloc(sizeof(char) * (ft_strlen(line) + 2))))
+	{
+		if (!(str[1] = suppr_space_b(line, j)))
 			return (NULL);
-		while (i < j)
-		{
-			line_b[i] = line[i];
-			i++;
-		}
-		line_b[i] = ' ';
-		i++;
-		while (line[i - 1])
-		{
-			line_b[i] = line[i - 1];
-			i++;
-		}
-		line_b[i] = '\0';
 	}
 	else
-		line_b = ft_strcat_mal("\0", line);
+		str[1] = ft_strcat_mal("\0", line);
 	i = 0;
-	res = ft_split_whitespaces(line_b);
-	free(line_b);
-	str = ft_put_together(res);
+	res = ft_split_whitespaces(str[1]);
+	free(str[1]);
+	str[0] = ft_put_together(res);
 	free_tab(res);
-	res_2 = ft_strsplit(str, '#');
-	free(str);
-	str_r = ft_strcat_mal("\0", res_2[0]);
+	res_2 = ft_strsplit(str[0], '#');
+	free(str[0]);
+	str[2] = ft_strcat_mal("\0", res_2[0]);
 	free_tab(res_2);
-	return (str_r);
+	return (str[2]);
 }
 
-char		*suppr_space_label(char *line, t_asm *assm)
+char		*suppr_space_label_b(char *line, int i)
 {
-	int	i;
+	if (line[i] == ' ' || line[i] == '\t' || line[i] == '\n'
+			|| line[i] == '-' || line[i] == DIRECT_CHAR)
+		return (suppr_space(line, i));
+	return (NULL);
+}
 
-	i = 0;
+char		*suppr_space_label(char *line, t_asm *assm, int i)
+{
 	while (line[i])
 	{
 		if (line[i] == ' ' || line[i] == '\t' || line[i] == '\n')
@@ -139,17 +161,36 @@ char		*suppr_space_label(char *line, t_asm *assm)
 				line = line + i + 1;
 				i = -1;
 			}
-			else if (line[i] == ' ' || line[i] == '\t' || line[i] == '\n'
-					|| line[i] == '-' || line[i] == DIRECT_CHAR)
-				return (suppr_space(line, i));
 			else
-				return (NULL);
+				return (suppr_space_label_b(line, i));
 		}
 		else
 			return (NULL);
 		i++;
 	}
 	return ("\0");
+}
+
+int		check_params_b(char **tmp, int i, int j, int count)
+{
+	if ((op_tab[i].args[j] == T_DIR
+		|| op_tab[i].args[j] == T_DIR + T_REG
+		|| op_tab[i].args[j] == T_DIR + T_IND
+		|| op_tab[i].args[j] == T_DIR + T_REG + T_IND)
+			&& check_t_dir(tmp[j]) == 1)
+	{
+		if (op_tab[i].label == 0)
+			return (count + 4);
+		else
+			return (count + 2);
+	}
+	else if ((op_tab[i].args[j] == T_IND
+				|| op_tab[i].args[j] == T_IND + T_REG
+				|| op_tab[i].args[j] == T_IND + T_DIR
+				|| op_tab[i].args[j] == T_IND + T_DIR + T_REG)
+			&& check_t_ind(tmp[j]) == 1)
+		return (count + 2);
+	return (return_f("FATAL ERROR - an argument does not match with the opcode\n", -1));
 }
 
 int		check_params(char **tmp, int i)
@@ -163,19 +204,15 @@ int		check_params(char **tmp, int i)
 	{
 		if (j + 1 > op_tab[i].nb_arg)
 			return (return_f("FATAL ERROR - too much params\n", -1));
-		if ((op_tab[i].args[j] == T_REG || op_tab[i].args[j] == T_REG + T_DIR || op_tab[i].args[j] == T_REG + T_IND || op_tab[i].args[j] == T_REG + T_IND + T_DIR) && check_t_reg(tmp[j]) == 1)
+		if ((op_tab[i].args[j] == T_REG || op_tab[i].args[j] == T_REG + T_DIR
+					|| op_tab[i].args[j] == T_REG + T_IND
+					|| op_tab[i].args[j] == T_REG + T_IND + T_DIR)
+				&& check_t_reg(tmp[j]) == 1)
 			count = count + 1;
-		else if ((op_tab[i].args[j] == T_DIR || op_tab[i].args[j] == T_DIR + T_REG || op_tab[i].args[j] == T_DIR + T_IND || op_tab[i].args[j] == T_DIR + T_REG + T_IND) && check_t_dir(tmp[j]) == 1)
-		{
-			if (op_tab[i].label == 0)
-				count = count + 4;
-			else
-				count = count + 2;
-		}
-		else if ((op_tab[i].args[j] == T_IND || op_tab[i].args[j] == T_IND + T_REG || op_tab[i].args[j] == T_IND + T_DIR || op_tab[i].args[j] == T_IND + T_DIR + T_REG) && check_t_ind(tmp[j]) == 1)
-			count = count + 2;
 		else
-			return (return_f("FATAL ERROR - an argument does not match with the opcode\n", -1));
+			count = check_params_b(tmp, i, j, count);
+		if (count < 0)
+			return (-1);
 		j++;
 	}
 	if (j != op_tab[i].nb_arg)
@@ -222,7 +259,7 @@ int		check_instruc(int fd, t_asm *assm)
 	while (get_next_line(fd, &line))
 	{
 		assm->line_error++;
-		if ((str = suppr_space_label(line, assm)) == NULL)
+		if ((str = suppr_space_label(line, assm, 0)) == NULL)
 			return (return_f("FATAL ERROR - wrong syntax line\n", -1));
 		if (ft_strcmp("\0", str) == 0)
 			;

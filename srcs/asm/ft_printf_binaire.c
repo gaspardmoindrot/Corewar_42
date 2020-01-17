@@ -273,6 +273,35 @@ int		print_t_reg(char *str, t_asm *assm)
 	return (1);
 }
 
+int	print_t_dir_b(char *str, int i, t_asm *assm, int j)
+{
+	str++;
+	while (ft_strcmp(str, assm->label[i].name) != 0)
+		i++;
+	if (op_tab[j].label == 0)
+	{
+		if (assm->label[i].place + PROG_NAME_LENGTH
+			+ COMMENT_LENGTH + 16 - assm->actual_bytes_l >= 0)
+			print_nb_bytes(4, assm, assm->label[i].place
+				+ PROG_NAME_LENGTH + COMMENT_LENGTH + 16
+				- assm->actual_bytes_l);
+		else
+			print_nb_bytes(4, assm, puissance(16, 8)
+				+ (assm->label[i].place + PROG_NAME_LENGTH
+				+ COMMENT_LENGTH + 16 - assm->actual_bytes_l));
+		return (1);
+	}
+	if (assm->label[i].place + PROG_NAME_LENGTH
+		+ COMMENT_LENGTH + 16 - assm->actual_bytes_l >= 0)
+		print_nb_bytes(2, assm, assm->label[i].place + PROG_NAME_LENGTH
+			+ COMMENT_LENGTH + 16 - assm->actual_bytes_l);
+	else
+		print_nb_bytes(2, assm, 65536
+		+ (assm->label[i].place + PROG_NAME_LENGTH
+			+ COMMENT_LENGTH + 16 - assm->actual_bytes_l));
+	return (1);
+}
+
 int	print_t_dir(char *str, t_asm *assm, int j)
 {
 	int i;
@@ -282,26 +311,7 @@ int	print_t_dir(char *str, t_asm *assm, int j)
 		return (-1);
 	str++;
 	if (*str == LABEL_CHAR)
-	{
-		str++;
-		while (ft_strcmp(str, assm->label[i].name) != 0)
-                        i++;
-		if (op_tab[j].label == 0)
-		{
-			if (assm->label[i].place + PROG_NAME_LENGTH + COMMENT_LENGTH + 16 - assm->actual_bytes_l >= 0)
-                                print_nb_bytes(4, assm, assm->label[i].place + PROG_NAME_LENGTH + COMMENT_LENGTH + 16 - assm->actual_bytes_l);
-			else
-                                print_nb_bytes(4, assm, puissance(16, 8) + (assm->label[i].place + PROG_NAME_LENGTH + COMMENT_LENGTH + 16 - assm->actual_bytes_l));
-		}
-		else
-		{
-			if (assm->label[i].place + PROG_NAME_LENGTH + COMMENT_LENGTH + 16 - assm->actual_bytes_l >= 0)
-                        	print_nb_bytes(2, assm, assm->label[i].place + PROG_NAME_LENGTH + COMMENT_LENGTH + 16 - assm->actual_bytes_l);
-                	else
-               	        	print_nb_bytes(2, assm, 65536 + (assm->label[i].place + PROG_NAME_LENGTH + COMMENT_LENGTH + 16 - assm->actual_bytes_l));
-		}
-		return (1);
-	}
+		return (print_t_dir_b(str, i, assm, j));
 	if (*str == '-')
 	{
 		str++;
@@ -331,9 +341,11 @@ int	print_t_ind(char *str, t_asm *assm)
 		while (ft_strcmp(str, assm->label[i].name) != 0)
 			i++;
 		if (assm->label[i].place + PROG_NAME_LENGTH + COMMENT_LENGTH + 16 - assm->actual_bytes_l >= 0)
-			print_nb_bytes(2, assm, assm->label[i].place + PROG_NAME_LENGTH + COMMENT_LENGTH + 16 - assm->actual_bytes_l);
+			print_nb_bytes(2, assm, assm->label[i].place + PROG_NAME_LENGTH
+					+ COMMENT_LENGTH + 16 - assm->actual_bytes_l);
 		else
-			print_nb_bytes(2, assm, 65536 + (assm->label[i].place + PROG_NAME_LENGTH + COMMENT_LENGTH + 16 - assm->actual_bytes_l));
+			print_nb_bytes(2, assm, 65536 + (assm->label[i].place
+						+ PROG_NAME_LENGTH + COMMENT_LENGTH + 16 - assm->actual_bytes_l));
 		return (1);
 	}
 	if (*str == '-')
@@ -356,7 +368,7 @@ void	print_nb_bytes(int bytes, t_asm *assm, unsigned int nb)
 	while (nb > 0 && bytes * 2 - i > 0)
 	{
 		c10 = nb / (puissance(16, bytes * 2 - i));
-                nb = nb - c10 * (puissance(16, bytes * 2 - i));
+		nb = nb - c10 * (puissance(16, bytes * 2 - i));
 		c1 = nb / (puissance(16, bytes * 2 - i - 1));
 		nb = nb - c1 * (puissance(16, bytes * 2 - i - 1));
 		assm->tab[assm->actual_bytes + (i - 1) / 2] = 16 * c10 + c1;
@@ -417,7 +429,7 @@ int		print_instruc(int fd, t_asm *assm)
 	while (get_next_line(fd, &line))
 	{
 		assm->actual_bytes_l = assm->actual_bytes + 1;
-		if ((str = suppr_space_label(line, assm)) == NULL)
+		if ((str = suppr_space_label(line, assm, 0)) == NULL)
 			return (-1);
 		if (ft_strcmp("\0", str) == 0)
 			;

@@ -1,10 +1,7 @@
 #include "../../includes/asm.h"
 
-static char	*check_label(char *line)
+static char	*check_label(char *line, int i)
 {
-	int	i;
-
-	i = 0;
 	while (line[i])
 	{
 		if (line[i] == ' ' || line[i] == '\t' || line[i] == '\n')
@@ -13,24 +10,43 @@ static char	*check_label(char *line)
 			return ("\0");
 		else if (ft_strchr(LABEL_CHARS, line[i]) != NULL)
 		{
-			while (ft_strchr(LABEL_CHARS, line[i]) != NULL)
+			while (line[i] && ft_strchr(LABEL_CHARS, line[i]) != NULL)
 				i++;
-			if (line[i] == LABEL_CHAR)
+			if (line[i] && line[i] == LABEL_CHAR)
 			{
 				line = line + i + 1;
 				i = -1;
 			}
-			else if (line[i] == ' ' || line[i] == '\t' || line[i] == '\n'
-					|| line[i] == '-' || line[i] == DIRECT_CHAR)
-				return (suppr_space(line, i));
 			else
-				return (NULL);
+				return (suppr_space_label_b(line, i));
 		}
 		else
 			return (NULL);
 		i++;
 	}
 	return ("\0");
+}
+
+static int	check_params_label_b(char **tmp, int i, int j, int count, t_asm *assm)
+{
+	if ((op_tab[i].args[j] == T_DIR
+				|| op_tab[i].args[j] == T_DIR + T_REG
+				|| op_tab[i].args[j] == T_DIR + T_IND
+				|| op_tab[i].args[j] == T_DIR + T_REG + T_IND)
+			&& check_t_dir_label(tmp[j], assm) == 1)
+	{
+		if (op_tab[i].label == 0)
+			return (count + 4);
+		else
+			return (count + 2);
+	}
+	else if ((op_tab[i].args[j] == T_IND
+				|| op_tab[i].args[j] == T_IND + T_REG
+				|| op_tab[i].args[j] == T_IND + T_DIR
+				|| op_tab[i].args[j] == T_IND + T_DIR + T_REG)
+			&& check_t_ind_label(tmp[j], assm) == 1)
+		return (count + 2);
+	return (return_f("FATAL ERROR - an argument does not match with the opcode\n", -1));
 }
 
 static int	check_params_label(char **tmp, int i, t_asm *assm)
@@ -44,18 +60,15 @@ static int	check_params_label(char **tmp, int i, t_asm *assm)
 	{
 		if (j + 1 > op_tab[i].nb_arg)
 			return (-1);
-		if ((op_tab[i].args[j] == T_REG || op_tab[i].args[j] == T_REG + T_DIR || op_tab[i].args[j] == T_REG + T_IND || op_tab[i].args[j] == T_REG + T_IND + T_DIR) && check_t_reg(tmp[j]) == 1)
+		if ((op_tab[i].args[j] == T_REG
+					|| op_tab[i].args[j] == T_REG + T_DIR
+					|| op_tab[i].args[j] == T_REG + T_IND
+					|| op_tab[i].args[j] == T_REG + T_IND + T_DIR)
+				&& check_t_reg(tmp[j]) == 1)
 			count = count + 1;
-		else if ((op_tab[i].args[j] == T_DIR || op_tab[i].args[j] == T_DIR + T_REG || op_tab[i].args[j] == T_DIR + T_IND || op_tab[i].args[j] == T_DIR + T_REG + T_IND) && check_t_dir_label(tmp[j], assm) == 1)
-		{
-			if (op_tab[i].label == 0)
-				count = count + 4;
-			else
-				count = count + 2;
-		}
-		else if ((op_tab[i].args[j] == T_IND || op_tab[i].args[j] == T_IND + T_REG || op_tab[i].args[j] == T_IND + T_DIR || op_tab[i].args[j] == T_IND + T_DIR + T_REG) && check_t_ind_label(tmp[j], assm) == 1)
-			count = count + 2;
 		else
+			count = check_params_label_b(tmp, i, j, count, assm);
+		if (count < 0)
 			return (-1);
 		j++;
 	}
@@ -89,37 +102,43 @@ int	check_label_2(char *line, t_asm *assm)
 
 int		ft_third_turn(t_asm *assm, char *str)
 {
-	char	*line;
-	char	*str_2;
 	int	fd;
-	int	r;
-	int	r2;
+	int	r[2];
 
 	assm->actual_bytes = 0;
 	assm->line_error = 0;
-	r = 0;
-	while (r < assm->nb_label)
+	r[0] = 0;
+	while (r[0] < assm->nb_label)
 	{
-		r2 = 0;
-		while (r2 < assm->nb_label)
+		r[1] = 0;
+		while (r[1] < assm->nb_label)
 		{
-			if (ft_strcmp(assm->label[r].name, assm->label[r2].name) == 0 && r != r2)
+			if (ft_strcmp(assm->label[r[0]].name, assm->label[r[1]].name) == 0 && r[0] != r[1])
 				return (return_f("FATAL ERROR - same label name\n", -1));
-			r2++;
+			r[1]++;
 		}
-		r++;
+		r[0]++;
 	}
 	if ((fd = open(str, O_RDONLY)) < 3)
-	{
-		ft_putstr("\033[0;31merror : can't open the file\n\033[0m");
 		exit(EXIT_SUCCESS);
-	}
 	if (check_name(fd, &assm->line_error) < 0 || check_comment(fd, &assm->line_error) < 0)
 		return (-1);
+	if (ft_third_turn_b(assm, fd) < 0)
+		return (-1);
+	close(fd);
+	return (0);
+}
+
+int	ft_third_turn_b(t_asm *assm, int fd)
+{
+	char	*line;
+	char	*str_2;
+	int	r;
+
 	while (get_next_line(fd, &line))
 	{
 		assm->line_error = assm->line_error + 1;
-		if ((str_2 = check_label(line)) == NULL)
+		if ((str_2 = check_label(line, 0)) == NULL)
 			return (return_f("FATAL ERROR - problem with the label\n", -1));
 		if (ft_strcmp("\0", str_2) == 0)
 			;
@@ -132,6 +151,5 @@ int		ft_third_turn(t_asm *assm, char *str)
 		}
 		free(line);
 	}
-	close(fd);
 	return (0);
 }
