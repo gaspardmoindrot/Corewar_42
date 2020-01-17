@@ -1,15 +1,15 @@
 #include "../../includes/asm.h"
 
-int	write_comment(int fd, t_asm *assm)
+int			write_comment(int fd, t_asm *assm)
 {
 	char	*line;
 	char	*str;
 	char	*str_2;
-	int	comment;
-	int	quote;
-	int	i;
-	int	len_comment;
-	int	r;
+	int		comment;
+	int		quote;
+	int		i;
+	int		len_comment;
+	int		r;
 
 	comment = 0;
 	quote = 0;
@@ -66,10 +66,10 @@ int	write_comment(int fd, t_asm *assm)
 	return (-1);
 }
 
-int	ft_write_next(char *line, int *quote, t_asm *assm)
+int			ft_write_next(char *line, int *quote, t_asm *assm)
 {
-	int	i;
-	int	len;
+	int		i;
+	int		len;
 
 	len = 0;
 	i = 0;
@@ -84,8 +84,9 @@ int	ft_write_next(char *line, int *quote, t_asm *assm)
 			len++;
 		}
 		else if (line[i] == COMMENT_CHAR)
-			break;
-		else if (*quote != 1 && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
+			break ;
+		else if (*quote != 1 && line[i] != ' '
+				&& line[i] != '\t' && line[i] != '\n')
 			return (-1);
 		i++;
 	}
@@ -112,8 +113,9 @@ int	ft_write_begin(char *line, char *str, int *quote, t_asm *assm)
 			len++;
 		}
 		else if (line[i] == COMMENT_CHAR)
-			break;
-		else if (*quote != 1 && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
+			break ;
+		else if (*quote != 1 && line[i] != ' '
+				&& line[i] != '\t' && line[i] != '\n')
 			return (-1);
 		i++;
 	}
@@ -122,18 +124,20 @@ int	ft_write_begin(char *line, char *str, int *quote, t_asm *assm)
 
 unsigned char	ft_deci(char c10, char c1)
 {
-	if (c10 == 'A' || c10 == 'B' || c10 == 'C' || c10 == 'D' || c10 == 'E' || c10 == 'F')
+	if (c10 == 'A' || c10 == 'B' || c10 == 'C'
+			|| c10 == 'D' || c10 == 'E' || c10 == 'F')
 		c10 = c10 - 55;
 	else
 		c10 = c10 - 48;
-	if (c1 == 'A' || c1 == 'B' || c1 == 'C' || c1 == 'D' || c1 == 'E' || c1 == 'F')
+	if (c1 == 'A' || c1 == 'B' || c1 == 'C'
+			|| c1 == 'D' || c1 == 'E' || c1 == 'F')
 		c1 = c1 - 55;
 	else
 		c1 = c1 - 48;
 	return (c10 * 16 + c1);
 }
 
-void		ft_print_in_actual(char *str, t_asm *assm, int size)
+void			ft_print_in_actual(char *str, t_asm *assm, int size)
 {
 	int	len;
 	int	i;
@@ -144,7 +148,8 @@ void		ft_print_in_actual(char *str, t_asm *assm, int size)
 	{
 		if (len - 1 >= 0)
 		{
-			assm->tab[assm->actual_bytes + size - i] = ft_deci(str[len - 1], str[len]);
+			assm->tab[assm->actual_bytes + size - i] = ft_deci(str[len - 1],
+					str[len]);
 			len = len - 2;
 		}
 		else
@@ -157,16 +162,16 @@ void		ft_print_in_actual(char *str, t_asm *assm, int size)
 	assm->actual_bytes = assm->actual_bytes + size;
 }
 
-int	write_name(int fd, t_asm *assm)
+int				write_name(int fd, t_asm *assm)
 {
 	char	*line;
 	char	*str;
 	char	*str_2;
-	int	name;
-	int	quote;
-	int	i;
-	int	len_name;
-	int	r;
+	int		name;
+	int		quote;
+	int		i;
+	int		len_name;
+	int		r;
 
 	name = 0;
 	quote = 0;
@@ -237,7 +242,7 @@ unsigned long	puissance(unsigned long nb, int p)
 	return (nb_f);
 }
 
-void		ft_char_argu(char **tmp, int i, t_asm *assm)
+void			ft_char_argu(char **tmp, int i, t_asm *assm)
 {
 	int	j;
 	int	count;
@@ -261,7 +266,7 @@ void		ft_char_argu(char **tmp, int i, t_asm *assm)
 	assm->actual_bytes++;
 }
 
-int		print_t_reg(char *str, t_asm *assm)
+int				print_t_reg(char *str, t_asm *assm)
 {
 	if (*str != 'r')
 		return (-1);
@@ -273,7 +278,7 @@ int		print_t_reg(char *str, t_asm *assm)
 	return (1);
 }
 
-int	print_t_dir_b(char *str, int i, t_asm *assm, int j)
+int				print_t_dir_b(char *str, int i, t_asm *assm, int j)
 {
 	str++;
 	while (ft_strcmp(str, assm->label[i].name) != 0)
@@ -302,7 +307,7 @@ int	print_t_dir_b(char *str, int i, t_asm *assm, int j)
 	return (1);
 }
 
-int	print_t_dir(char *str, t_asm *assm, int j)
+int				print_t_dir(char *str, t_asm *assm, int j)
 {
 	int i;
 
@@ -330,7 +335,7 @@ int	print_t_dir(char *str, t_asm *assm, int j)
 	return (1);
 }
 
-int	print_t_ind(char *str, t_asm *assm)
+int				print_t_ind(char *str, t_asm *assm)
 {
 	int	i;
 
@@ -340,12 +345,13 @@ int	print_t_ind(char *str, t_asm *assm)
 		str++;
 		while (ft_strcmp(str, assm->label[i].name) != 0)
 			i++;
-		if (assm->label[i].place + PROG_NAME_LENGTH + COMMENT_LENGTH + 16 - assm->actual_bytes_l >= 0)
+		if (assm->label[i].place + PROG_NAME_LENGTH + COMMENT_LENGTH + 16
+				- assm->actual_bytes_l >= 0)
 			print_nb_bytes(2, assm, assm->label[i].place + PROG_NAME_LENGTH
 					+ COMMENT_LENGTH + 16 - assm->actual_bytes_l);
 		else
-			print_nb_bytes(2, assm, 65536 + (assm->label[i].place
-						+ PROG_NAME_LENGTH + COMMENT_LENGTH + 16 - assm->actual_bytes_l));
+			print_nb_bytes(2, assm, 65536 + (assm->label[i].place +
+				PROG_NAME_LENGTH + COMMENT_LENGTH + 16 - assm->actual_bytes_l));
 		return (1);
 	}
 	if (*str == '-')
@@ -358,7 +364,7 @@ int	print_t_ind(char *str, t_asm *assm)
 	return (1);
 }
 
-void	print_nb_bytes(int bytes, t_asm *assm, unsigned int nb)
+void			print_nb_bytes(int bytes, t_asm *assm, unsigned int nb)
 {
 	int	i;
 	int	c1;
@@ -377,7 +383,7 @@ void	print_nb_bytes(int bytes, t_asm *assm, unsigned int nb)
 	assm->actual_bytes = assm->actual_bytes + bytes;
 }
 
-void		ft_print_params(char **tmp, int i, t_asm *assm)
+void			ft_print_params(char **tmp, int i, t_asm *assm)
 {
 	int	j;
 	int	count;
@@ -396,11 +402,11 @@ void		ft_print_params(char **tmp, int i, t_asm *assm)
 	}
 }
 
-int		print_line_instruc(char *line, t_asm *assm)
+int				print_line_instruc(char *line, t_asm *assm)
 {
 	char	**tmp;
 	char	**pmt;
-	int	i;
+	int		i;
 
 	i = 0;
 	tmp = ft_strsplit(line, ' ');
@@ -419,11 +425,11 @@ int		print_line_instruc(char *line, t_asm *assm)
 	return (0);
 }
 
-int		print_instruc(int fd, t_asm *assm)
+int				print_instruc(int fd, t_asm *assm)
 {
 	char	*line;
 	char	*str;
-	int	r;
+	int		r;
 
 	r = 0;
 	while (get_next_line(fd, &line))
@@ -443,7 +449,7 @@ int		print_instruc(int fd, t_asm *assm)
 	return (assm->len_bytes);
 }
 
-int	ft_print_binaire(t_asm *assm, char *str)
+int				ft_print_binaire(t_asm *assm, char *str)
 {
 	int	fd;
 

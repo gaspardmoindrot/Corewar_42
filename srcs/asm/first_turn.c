@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   first_turn.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/17 16:50:26 by gmoindro          #+#    #+#             */
+/*   Updated: 2020/01/17 16:51:20 by gmoindro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/asm.h"
 
-int	check_name(int fd, int *error)
+int			check_name(int fd, int *error)
 {
 	char	*line;
 	char	*str;
-	int	name;
-	int	quote;
-	int	i;
-	int	len_name;
-	int	r;
+	int		name;
+	int		quote;
+	int		i;
+	int		len_name;
+	int		r;
 
 	name = 0;
 	quote = 0;
@@ -54,15 +66,15 @@ int	check_name(int fd, int *error)
 	return (return_f("FATAL ERROR - wrong syntax name\n", -1));
 }
 
-int	check_comment(int fd, int *error)
+int			check_comment(int fd, int *error)
 {
 	char	*line;
 	char	*str;
-	int	comment;
-	int	quote;
-	int	i;
-	int	len_comment;
-	int	r;
+	int		comment;
+	int		quote;
+	int		i;
+	int		len_comment;
+	int		r;
 
 	comment = 0;
 	quote = 0;
@@ -110,7 +122,7 @@ int	check_comment(int fd, int *error)
 
 t_asm		first_turn(char *str, t_asm assm)
 {
-	int	fd;
+	int		fd;
 
 	assm.nb_label = 0;
 	assm.len_bytes = 0;

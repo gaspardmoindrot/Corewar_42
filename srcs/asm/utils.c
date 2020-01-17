@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/17 17:07:41 by gmoindro          #+#    #+#             */
+/*   Updated: 2020/01/17 17:08:33 by gmoindro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/asm.h"
 
 int	ft_len_next(char *line, int *quote)
@@ -14,8 +26,9 @@ int	ft_len_next(char *line, int *quote)
 		else if (*quote == 1)
 			len++;
 		else if (line[i] == COMMENT_CHAR)
-			break;
-		else if (*quote != 1 && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
+			break ;
+		else if (*quote != 1 && line[i] != ' '
+				&& line[i] != '\t' && line[i] != '\n')
 			return (-1);
 		i++;
 	}
@@ -38,8 +51,9 @@ int	ft_len_begin(char *line, char *str, int *quote)
 		else if (*quote == 1)
 			len++;
 		else if (line[i] == COMMENT_CHAR)
-			break;
-		else if (*quote != 1 && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
+			break ;
+		else if (*quote != 1 && line[i] != ' '
+				&& line[i] != '\t' && line[i] != '\n')
 			return (-1);
 		i++;
 	}
@@ -90,7 +104,7 @@ int	check_nothing(char *str)
 			return (1);
 		if (str[i] != ' ' && str[i] != '\t' && str[i] == '\n')
 			return (0);
-				i++;
+		i++;
 	}
 	return (1);
 }

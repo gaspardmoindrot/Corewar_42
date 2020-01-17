@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_3.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/17 17:08:54 by gmoindro          #+#    #+#             */
+/*   Updated: 2020/01/17 17:09:31 by gmoindro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/asm.h"
 
 static int	check_label_dir(char *str, t_asm *assm)
@@ -14,7 +26,7 @@ static int	check_label_dir(char *str, t_asm *assm)
 	return (-1);
 }
 
-int		check_t_dir_label(char *str, t_asm *assm)
+int			check_t_dir_label(char *str, t_asm *assm)
 {
 	if (*str != DIRECT_CHAR)
 		return (-1);
@@ -45,13 +57,13 @@ int		check_t_dir_label(char *str, t_asm *assm)
 	return (1);
 }
 
-int		check_t_ind_label(char *str, t_asm *assm)
+int			check_t_ind_label(char *str, t_asm *assm)
 {
 	if (*str == LABEL_CHAR)
 	{
 		str++;
 		if (check_label_dir(str, assm) < 0)
-                        return (-1);
+			return (-1);
 		while (*str)
 		{
 			if (ft_strchr(LABEL_CHARS, *str) == NULL)

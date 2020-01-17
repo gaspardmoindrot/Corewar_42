@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_instruction.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/17 16:47:26 by gmoindro          #+#    #+#             */
+/*   Updated: 2020/01/17 16:50:16 by gmoindro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/asm.h"
 
-char	*ft_put_together_b(char *str, char **res)
+char		*ft_put_together_b(char *str, char **res)
 {
-	int	i;
-	int	len;
-	int	j;
+	int		i;
+	int		len;
+	int		j;
 
 	i = 0;
 	len = 0;
@@ -27,10 +39,10 @@ char	*ft_put_together_b(char *str, char **res)
 	return (str);
 }
 
-char	*ft_put_together(char **res)
+char		*ft_put_together(char **res)
 {
-	int	i;
-	int	len;
+	int		i;
+	int		len;
 	char	*str;
 
 	i = 0;
@@ -47,9 +59,9 @@ char	*ft_put_together(char **res)
 	return (str);
 }
 
-void	free_tab(char **tab)
+void		free_tab(char **tab)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while (tab[i] != NULL)
@@ -62,11 +74,12 @@ void	free_tab(char **tab)
 
 static char	*ft_strcat_mal(char *s1, const char *s2)
 {
-	int	len;
-	int	i;
+	int		len;
+	int		i;
 	char	*str;
 
-	if (!(str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1))))
+	if (!(str = (char *)malloc(sizeof(char)
+				* (ft_strlen(s1) + ft_strlen(s2) + 1))))
 		return (NULL);
 	len = ft_strlen(s1);
 	i = 0;
@@ -88,7 +101,7 @@ static char	*ft_strcat_mal(char *s1, const char *s2)
 char		*suppr_space_b(char *line, int j)
 {
 	char	*str;
-	int	i;
+	int		i;
 
 	i = 0;
 	if (!(str = (char *)malloc(sizeof(char) * (ft_strlen(line) + 2))))
@@ -114,7 +127,7 @@ char		*suppr_space(char *line, int j)
 	char	**res;
 	char	**res_2;
 	char	*str[3];
-	int	i;
+	int		i;
 
 	if (line[j] == '-' || line[j] == DIRECT_CHAR)
 	{
@@ -171,7 +184,7 @@ char		*suppr_space_label(char *line, t_asm *assm, int i)
 	return ("\0");
 }
 
-int		check_params_b(char **tmp, int i, int j, int count)
+int			check_params_b(char **tmp, int i, int j, int count)
 {
 	if ((op_tab[i].args[j] == T_DIR
 		|| op_tab[i].args[j] == T_DIR + T_REG
@@ -190,10 +203,10 @@ int		check_params_b(char **tmp, int i, int j, int count)
 				|| op_tab[i].args[j] == T_IND + T_DIR + T_REG)
 			&& check_t_ind(tmp[j]) == 1)
 		return (count + 2);
-	return (return_f("FATAL ERROR - an argument does not match with the opcode\n", -1));
+	return (return_f("FATAL ERROR - not match with the opcode\n", -1));
 }
 
-int		check_params(char **tmp, int i)
+int			check_params(char **tmp, int i)
 {
 	int	j;
 	int	count;
@@ -220,13 +233,13 @@ int		check_params(char **tmp, int i)
 	return (count);
 }
 
-int		check_line_instruc(char *line)
+int			check_line_instruc(char *line)
 {
 	char	**tmp;
 	char	**pmt;
-	int	count;
-	int	i;
-	int	len;
+	int		count;
+	int		i;
+	int		len;
 
 	count = 0;
 	i = 0;
@@ -249,11 +262,11 @@ int		check_line_instruc(char *line)
 	return (count);
 }
 
-int		check_instruc(int fd, t_asm *assm)
+int			check_instruc(int fd, t_asm *assm)
 {
 	char	*line;
 	char	*str;
-	int	r;
+	int		r;
 
 	r = 0;
 	while (get_next_line(fd, &line))

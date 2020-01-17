@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   change_file.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/17 16:46:29 by gmoindro          #+#    #+#             */
+/*   Updated: 2020/01/17 16:47:22 by gmoindro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/asm.h"
 
 static char	*ft_strcat_2(char *s1, const char *s2)
 {
-	int     len;
-	int     i;
-	int     len_2;
-	char    *s;
+	int		len;
+	int		i;
+	int		len_2;
+	char	*s;
 
 	len = ft_strlen(s1);
 	len_2 = ft_strlen(s2);
@@ -30,8 +42,8 @@ static char	*ft_strcat_2(char *s1, const char *s2)
 
 static int	ft_strrchr_nbr(const char *s, int c)
 {
-	int i;
-	int res;
+	int		i;
+	int		res;
 
 	i = 0;
 	res = -1;
@@ -54,7 +66,7 @@ static int	ft_strrchr_nbr(const char *s, int c)
 
 char		*change_s_cor(char *str)
 {
-	int	i;
+	int		i;
 	char	*s;
 	char	*s_2;
 

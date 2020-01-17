@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   second_turn.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/17 17:03:48 by gmoindro          #+#    #+#             */
+/*   Updated: 2020/01/17 17:04:32 by gmoindro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/asm.h"
 
-void	ft_name_label(char *line, t_asm *assm, int *j)
+void		ft_name_label(char *line, t_asm *assm, int *j)
 {
 	int	i;
 
@@ -20,7 +32,7 @@ void	ft_name_label(char *line, t_asm *assm, int *j)
 	}
 }
 
-char	*stock_label_b(char *line, int i)
+char		*stock_label_b(char *line, int i)
 {
 	if (line[i] == ' ' || line[i] == '\t' || line[i] == '\n'
 			|| line[i] == '-' || line[i] == DIRECT_CHAR)
@@ -28,7 +40,7 @@ char	*stock_label_b(char *line, int i)
 	return (NULL);
 }
 
-char	*stock_label(char *line, t_asm *assm, int *j, int i)
+char		*stock_label(char *line, t_asm *assm, int *j, int i)
 {
 	while (line[++i])
 	{
@@ -57,11 +69,11 @@ char	*stock_label(char *line, t_asm *assm, int *j, int i)
 	return ("\0");
 }
 
-int	ft_second_turn_b(t_asm *assm, int fd, int i)
+int			ft_second_turn_b(t_asm *assm, int fd, int i)
 {
 	char	*line;
 	char	*str_2;
-	int	r;
+	int		r;
 
 	while (get_next_line(fd, &line))
 	{
@@ -85,7 +97,7 @@ int	ft_second_turn_b(t_asm *assm, int fd, int i)
 	return (0);
 }
 
-int	ft_second_turn(t_asm *assm, char *str)
+int			ft_second_turn(t_asm *assm, char *str)
 {
 	int	fd;
 
@@ -103,7 +115,7 @@ int	ft_second_turn(t_asm *assm, char *str)
 	if (check_comment(fd, &assm->line_error) < 0)
 		return (-1);
 	if (ft_second_turn_b(assm, fd, 0) < 0)
-			return (-1);
+		return (-1);
 	close(fd);
 	return (0);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   third_turn.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/17 17:05:15 by gmoindro          #+#    #+#             */
+/*   Updated: 2020/01/17 17:07:13 by gmoindro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/asm.h"
 
 static char	*check_label(char *line, int i)
@@ -46,7 +58,7 @@ static int	check_params_label_b(char **tmp, int i, int j, int count, t_asm *assm
 				|| op_tab[i].args[j] == T_IND + T_DIR + T_REG)
 			&& check_t_ind_label(tmp[j], assm) == 1)
 		return (count + 2);
-	return (return_f("FATAL ERROR - an argument does not match with the opcode\n", -1));
+	return (return_f("FATAL ERROR - not match with the opcode\n", -1));
 }
 
 static int	check_params_label(char **tmp, int i, t_asm *assm)
@@ -75,12 +87,12 @@ static int	check_params_label(char **tmp, int i, t_asm *assm)
 	return (count);
 }
 
-int	check_label_2(char *line, t_asm *assm)
+int			check_label_2(char *line, t_asm *assm)
 {
 	char	**tmp;
 	char	**pmt;
-	int	count;
-	int	i;
+	int		count;
+	int		i;
 
 	count = 0;
 	i = 0;
@@ -100,7 +112,7 @@ int	check_label_2(char *line, t_asm *assm)
 	return (count);
 }
 
-int		ft_third_turn(t_asm *assm, char *str)
+int			ft_third_turn(t_asm *assm, char *str)
 {
 	int	fd;
 	int	r[2];
@@ -113,7 +125,8 @@ int		ft_third_turn(t_asm *assm, char *str)
 		r[1] = 0;
 		while (r[1] < assm->nb_label)
 		{
-			if (ft_strcmp(assm->label[r[0]].name, assm->label[r[1]].name) == 0 && r[0] != r[1])
+			if (ft_strcmp(assm->label[r[0]].name, assm->label[r[1]].name) == 0
+					&& r[0] != r[1])
 				return (return_f("FATAL ERROR - same label name\n", -1));
 			r[1]++;
 		}
@@ -121,7 +134,8 @@ int		ft_third_turn(t_asm *assm, char *str)
 	}
 	if ((fd = open(str, O_RDONLY)) < 3)
 		exit(EXIT_SUCCESS);
-	if (check_name(fd, &assm->line_error) < 0 || check_comment(fd, &assm->line_error) < 0)
+	if (check_name(fd, &assm->line_error) < 0
+			|| check_comment(fd, &assm->line_error) < 0)
 		return (-1);
 	if (ft_third_turn_b(assm, fd) < 0)
 		return (-1);
@@ -129,11 +143,11 @@ int		ft_third_turn(t_asm *assm, char *str)
 	return (0);
 }
 
-int	ft_third_turn_b(t_asm *assm, int fd)
+int			ft_third_turn_b(t_asm *assm, int fd)
 {
 	char	*line;
 	char	*str_2;
-	int	r;
+	int		r;
 
 	while (get_next_line(fd, &line))
 	{
@@ -145,7 +159,7 @@ int	ft_third_turn_b(t_asm *assm, int fd)
 		else
 		{
 			if ((r = check_label_2(str_2, assm)) < 0)
-				return (return_f("FATAL ERROR - argument call an inexistant label\n", -1));
+				return (return_f("FATAL ERROR - inexistant label\n", -1));
 			assm->actual_bytes = assm->actual_bytes + r;
 			free(str_2);
 		}

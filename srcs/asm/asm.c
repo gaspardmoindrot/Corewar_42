@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   asm.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/17 16:41:30 by gmoindro          #+#    #+#             */
+/*   Updated: 2020/01/17 16:46:17 by gmoindro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/asm.h"
 
-int	ft_error(char *str, int fd, int error)
+int		ft_error(char *str, int fd, int error)
 {
 	if (error >= 0)
 	{
@@ -16,7 +28,7 @@ int	ft_error(char *str, int fd, int error)
 	return (0);
 }
 
-int	return_f(char *str, int return_f)
+int		return_f(char *str, int return_f)
 {
 	ft_putstr_fd("\033[0;31m", 2);
 	ft_putstr_fd(str, 2);
@@ -24,14 +36,14 @@ int	return_f(char *str, int return_f)
 	return (return_f);
 }
 
-int	ft_error_first_turn(t_asm assm)
+int		ft_error_first_turn(t_asm assm)
 {
 	if (assm.len_bytes < 0)
-                return (ft_error("error : problem on instructions\n", 2, assm.line_error));
+		return (ft_error("error : problem on instruct\n", 2, assm.line_error));
 	if (assm.len_name < 0)
 		return (ft_error("error : problem on name\n", 2, -1));
 	if (assm.len_comment < 0)
-                return (ft_error("error : problem on comment\n", 2, -1));
+		return (ft_error("error : problem on comment\n", 2, -1));
 	if (assm.len_name > PROG_NAME_LENGTH)
 	{
 		return_f("FATAL ERROR - name too big\n", 0);
@@ -47,8 +59,8 @@ int	ft_error_first_turn(t_asm assm)
 
 void	ft_print_in_file(char *file, unsigned char *tab, t_asm assm)
 {
-	int	h;
-	int	fd;
+	int		h;
+	int		fd;
 
 	if ((fd = open(file, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR)) < 3)
 	{
@@ -59,15 +71,15 @@ void	ft_print_in_file(char *file, unsigned char *tab, t_asm assm)
 	ft_putstr("Writing output program to ");
 	ft_putstr(file);
 	ft_putchar('\n');
-        while (++h < PROG_NAME_LENGTH + COMMENT_LENGTH + 16 + assm.len_bytes)
-              ft_putchar_fd(tab[h], fd);
+	while (++h < PROG_NAME_LENGTH + COMMENT_LENGTH + 16 + assm.len_bytes)
+		ft_putchar_fd(tab[h], fd);
 	close(fd);
 }
 
-int	main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
 	t_asm	assm;
-	int	i;
+	int		i;
 
 	i = -1;
 	if (argc != 2)
@@ -81,7 +93,8 @@ int	main(int argc, char **argv)
 		return (ft_error("error : problem on file\n", 2, assm.line_error));
 	if (ft_third_turn(&assm, argv[1]) < 0)
 		return (ft_error("error : problem on file\n", 2, assm.line_error));
-	if (!(assm.tab = (unsigned char *)malloc(sizeof(unsigned char) * (PROG_NAME_LENGTH + COMMENT_LENGTH + 16 + assm.len_bytes))))
+	if (!(assm.tab = (unsigned char *)malloc(sizeof(unsigned char)
+				* (PROG_NAME_LENGTH + COMMENT_LENGTH + 16 + assm.len_bytes))))
 		return (ft_error("error : probleme de malloc\n", 2, -1));
 	while (++i < PROG_NAME_LENGTH + COMMENT_LENGTH + 16 + assm.len_bytes)
 		assm.tab[i] = '\0';
@@ -89,6 +102,5 @@ int	main(int argc, char **argv)
 	ft_print_in_file(assm.file, assm.tab, assm);
 	free(assm.file);
 	free(assm.tab);
-	//while (1) {};
 	return (0);
 }
