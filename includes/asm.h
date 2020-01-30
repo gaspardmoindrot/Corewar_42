@@ -6,7 +6,7 @@
 /*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 17:10:46 by gmoindro          #+#    #+#             */
-/*   Updated: 2020/01/17 17:14:44 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/01/30 14:34:00 by gmoindro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,8 @@ int					check_params_b(char **tmp, int i, int j, int count);
 char				*stock_label_b(char *line, int i);
 int					ft_second_turn_b(t_asm *assm, int fd, int i);
 int					ft_third_turn_b(t_asm *assm, int fd);
+int					check_back_final(char *str);
+int					check_no_space_number(char **tab, int i, int com);
+char				*ft_return_space(char *str);
 
 #endif

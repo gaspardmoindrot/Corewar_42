@@ -6,7 +6,7 @@
 /*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 17:07:41 by gmoindro          #+#    #+#             */
-/*   Updated: 2020/01/17 17:08:33 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/01/30 14:07:27 by gmoindro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,32 @@ int	check_nothing(char *str)
 	{
 		if (str[i] == '#')
 			return (1);
-		if (str[i] != ' ' && str[i] != '\t' && str[i] == '\n')
+		if (str[i] != ' ' && str[i] != '\t' && str[i] != '\n')
 			return (0);
 		i++;
 	}
+	return (1);
+}
+
+int	check_back_final(char *str)
+{
+	int		fd;
+	int		ret;
+	char	buf[1001];
+	char	a;
+
+	fd = open(str, O_RDONLY);
+	while ((ret = read(fd, buf, 1000)) > 0)
+	{
+		buf[ret] = '\0';
+		if (ret < 1000)
+			break ;
+		a = buf[ret - 1];
+	}
+	close(fd);
+	if (ret == 0 && a != '\n')
+		return (-1);
+	else if (ret > 0 && buf[ret - 1] != '\n')
+		return (-1);
 	return (1);
 }

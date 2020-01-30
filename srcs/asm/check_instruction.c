@@ -6,18 +6,39 @@
 /*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 16:47:26 by gmoindro          #+#    #+#             */
-/*   Updated: 2020/01/17 16:50:16 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/01/30 14:36:31 by gmoindro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/asm.h"
+
+int			check_no_space_number(char **tab, int i, int com)
+{
+	if (i == 0 || i == 1 || com > 0)
+		return (1);
+	if (tab[i][0] == 'r' || tab[i][0] == DIRECT_CHAR
+			|| tab[i][0] == SEPARATOR_CHAR)
+		return (1);
+	if (tab[i - 1][ft_strlen(tab[i - 1]) - 1] != ',')
+		return (-1);
+	return (1);
+}
+
+char		*ft_return_space(char *str)
+{
+	str[0] = 'A';
+	str[1] = '\0';
+	return (str);
+}
 
 char		*ft_put_together_b(char *str, char **res)
 {
 	int		i;
 	int		len;
 	int		j;
+	int		com;
 
+	com = 0;
 	i = 0;
 	len = 0;
 	while (res[i])
@@ -26,6 +47,8 @@ char		*ft_put_together_b(char *str, char **res)
 		while (res[i][j])
 		{
 			str[len] = res[i][j];
+			if (res[i][j] == COMMENT_CHAR)
+				com++;
 			len++;
 			j++;
 		}
@@ -34,6 +57,8 @@ char		*ft_put_together_b(char *str, char **res)
 			str[len] = ' ';
 			len++;
 		}
+		if (check_no_space_number(res, i, com) < 0)
+			return (ft_return_space(str));
 		i++;
 	}
 	return (str);

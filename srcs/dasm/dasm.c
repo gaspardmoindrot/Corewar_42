@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dasm.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/30 12:35:11 by gmoindro          #+#    #+#             */
+/*   Updated: 2020/01/30 12:35:41 by gmoindro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/dasm.h"
 
 void		free_tab(char **tab)
@@ -13,7 +25,7 @@ void		free_tab(char **tab)
 	free(tab);
 }
 
-int		ft_error(char *str, int fd, int error, int r)
+int			ft_error(char *str, int fd, int error, int r)
 {
 	if (error >= 0)
 	{
@@ -29,7 +41,7 @@ int		ft_error(char *str, int fd, int error, int r)
 	return (r);
 }
 
-int		return_f(char *str, int return_f)
+int			return_f(char *str, int return_f)
 {
 	ft_putstr_fd("\033[0;31m", 2);
 	ft_putstr_fd(str, 2);
@@ -65,10 +77,10 @@ static void	print_dasm(t_dasm *dasm)
 	}
 }
 
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	t_dasm	dasm;
-	int	nb;
+	int		nb;
 
 	nb = COMMENT_LENGTH + PROG_NAME_LENGTH + CHAMP_MAX_SIZE + 17;
 	if (argc != 2)

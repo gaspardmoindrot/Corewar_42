@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   write_argu.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/30 12:37:57 by gmoindro          #+#    #+#             */
+/*   Updated: 2020/01/30 12:38:19 by gmoindro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/dasm.h"
 
 void	ft_putnbr_dasm(int n, t_dasm *dasm, int *j)
@@ -25,7 +37,7 @@ void	ft_putnbr_dasm(int n, t_dasm *dasm, int *j)
 	}
 }
 
-int	write_reg(t_dasm *dasm, int j, int i)
+int		write_reg(t_dasm *dasm, int j, int i)
 {
 	unsigned int	nb;
 
@@ -38,7 +50,7 @@ int	write_reg(t_dasm *dasm, int j, int i)
 	return (j);
 }
 
-int	write_dir(t_dasm *dasm, int j, int i, int opcode)
+int		write_dir(t_dasm *dasm, int j, int i, int opcode)
 {
 	unsigned int	nb;
 
@@ -60,7 +72,7 @@ int	write_dir(t_dasm *dasm, int j, int i, int opcode)
 	return (j);
 }
 
-int	write_ind(t_dasm *dasm, int j, int i)
+int		write_ind(t_dasm *dasm, int j, int i)
 {
 	unsigned int	nb;
 

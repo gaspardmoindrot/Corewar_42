@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/30 12:35:44 by gmoindro          #+#    #+#             */
+/*   Updated: 2020/01/30 12:36:00 by gmoindro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/dasm.h"
 
 char	**init_tab(void)
 {
 	char	**tab;
-	int	nb;
-	int	i;
+	int		nb;
+	int		i;
 
 	nb = PROG_NAME_LENGTH + COMMENT_LENGTH + (CHAMP_MAX_SIZE / 2);
 	if (!(tab = (char **)malloc(sizeof(char *) * (nb + 1))))

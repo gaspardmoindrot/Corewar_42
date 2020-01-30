@@ -6,7 +6,7 @@
 /*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 16:50:26 by gmoindro          #+#    #+#             */
-/*   Updated: 2020/01/17 16:51:20 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/01/30 13:21:00 by gmoindro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,5 +139,8 @@ t_asm		first_turn(char *str, t_asm assm)
 	if ((assm.len_bytes = check_instruc(fd, &assm)) < 0)
 		return (assm);
 	close(fd);
+	fd = check_back_final(str);
+	if (fd < 0)
+		assm.len_name = -100;
 	return (assm);
 }

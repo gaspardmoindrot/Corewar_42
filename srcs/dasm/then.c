@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   then.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/30 12:36:07 by gmoindro          #+#    #+#             */
+/*   Updated: 2020/01/30 12:37:41 by gmoindro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/dasm.h"
 
 unsigned long	puissance(unsigned long nb, int p)
@@ -15,9 +27,9 @@ unsigned long	puissance(unsigned long nb, int p)
 	return (nb_f);
 }
 
-int	write_opcode(t_dasm *dasm, int opcode)
+int				write_opcode(t_dasm *dasm, int opcode)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while (op_tab[opcode - 1].name[i])
@@ -29,10 +41,10 @@ int	write_opcode(t_dasm *dasm, int opcode)
 	return (i + 1);
 }
 
-int	write_big_arg(t_dasm *dasm, unsigned int nb_i, int opcode, int j, int i)
+int				write_big_arg(t_dasm *dasm, unsigned int nb_i, int opcode, int j, int i)
 {
-	int	pass;
-	int	inst;
+	int		pass;
+	int		inst;
 
 	pass = 0;
 	i = i + 2;
@@ -76,7 +88,7 @@ int	write_big_arg(t_dasm *dasm, unsigned int nb_i, int opcode, int j, int i)
 	return (i);
 }
 
-int	write_small_arg(t_dasm *dasm, int opcode, int j, int i)
+int				write_small_arg(t_dasm *dasm, int opcode, int j, int i)
 {
 	if (op_tab[opcode - 1].args[0] == 1)
 	{
@@ -98,12 +110,12 @@ int	write_small_arg(t_dasm *dasm, int opcode, int j, int i)
 	return (-1);
 }
 
-int	instruct_alone(t_dasm *dasm, int i)
+int				instruct_alone(t_dasm *dasm, int i)
 {
-	int		j;
-	int		nb;
+	int				j;
+	int				nb;
 	unsigned int	nb_inst;
-	int		opcode;
+	int				opcode;
 
 	j = 0;
 	nb_inst = dasm->buf[i + 1];
@@ -127,10 +139,10 @@ int	instruct_alone(t_dasm *dasm, int i)
 	return (i);
 }
 
-int	then(t_dasm *dasm)
+int				then(t_dasm *dasm)
 {
-	int	i;
-	int	bis;
+	int		i;
+	int		bis;
 
 	dasm->nb_tab = 2;
 	i = PROG_NAME_LENGTH + COMMENT_LENGTH + 16;

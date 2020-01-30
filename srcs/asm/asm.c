@@ -6,7 +6,7 @@
 /*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 16:41:30 by gmoindro          #+#    #+#             */
-/*   Updated: 2020/01/17 16:46:17 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/01/30 13:24:20 by gmoindro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int		ft_error_first_turn(t_asm assm)
 {
 	if (assm.len_bytes < 0)
 		return (ft_error("error : problem on instruct\n", 2, assm.line_error));
+	if (assm.len_name == -100)
+		return (ft_error("error : the last char is not a \\n\n", 2, -1));
 	if (assm.len_name < 0)
 		return (ft_error("error : problem on name\n", 2, -1));
 	if (assm.len_comment < 0)
