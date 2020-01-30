@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf_binaire.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/30 14:44:38 by gmoindro          #+#    #+#             */
+/*   Updated: 2020/01/30 15:00:18 by gmoindro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/asm.h"
 
-int			write_comment(int fd, t_asm *assm)
+int				write_comment(int fd, t_asm *assm)
 {
 	char	*line;
 	char	*str;
@@ -66,7 +78,7 @@ int			write_comment(int fd, t_asm *assm)
 	return (-1);
 }
 
-int			ft_write_next(char *line, int *quote, t_asm *assm)
+int				ft_write_next(char *line, int *quote, t_asm *assm)
 {
 	int		i;
 	int		len;
@@ -93,7 +105,7 @@ int			ft_write_next(char *line, int *quote, t_asm *assm)
 	return (len);
 }
 
-int	ft_write_begin(char *line, char *str, int *quote, t_asm *assm)
+int				ft_write_begin(char *line, char *str, int *quote, t_asm *assm)
 {
 	int	i;
 	int	len;
