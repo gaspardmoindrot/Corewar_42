@@ -126,6 +126,7 @@ clean:
 	@make -C $(LIBFT_PATH) clean &> /dev/null
 	@rm -fv $(ASM_OBJS) $(DASM_OBJS) $(CORE_OBJS)
 	@rmdir $(OBJS_PATH) 2> /dev/null || true
+	@rm -rf objs/
 
 fclean: clean
 	@make -C $(LIBFT_PATH) fclean &> /dev/null
