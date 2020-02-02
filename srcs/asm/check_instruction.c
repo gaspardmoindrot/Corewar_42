@@ -6,7 +6,7 @@
 /*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 16:47:26 by gmoindro          #+#    #+#             */
-/*   Updated: 2020/01/30 14:43:23 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/02/02 16:24:07 by gmoindro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,7 +271,7 @@ int			check_line_instruc(char *line)
 	tmp = ft_strsplit(line, ' ');
 	while (op_tab[i].nb_arg != 0 && (ft_strcmp(tmp[0], op_tab[i].name) != 0))
 		i++;
-	if (i > 15)
+	if (i > 15 || tmp[1] == NULL)
 		return (return_f("FATAL ERROR - opcode unknown\n", -1));
 	len = ft_strlen(tmp[1]);
 	if (tmp[1][len - 1] == ',')
