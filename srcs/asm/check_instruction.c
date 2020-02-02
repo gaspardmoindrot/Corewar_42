@@ -6,7 +6,7 @@
 /*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 16:47:26 by gmoindro          #+#    #+#             */
-/*   Updated: 2020/02/02 16:24:07 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/02/02 18:09:45 by gmoindro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,14 +272,23 @@ int			check_line_instruc(char *line)
 	while (op_tab[i].nb_arg != 0 && (ft_strcmp(tmp[0], op_tab[i].name) != 0))
 		i++;
 	if (i > 15 || tmp[1] == NULL)
+	{
+		free_tab(tmp);
 		return (return_f("FATAL ERROR - opcode unknown\n", -1));
+	}
 	len = ft_strlen(tmp[1]);
 	if (tmp[1][len - 1] == ',')
+	{
+		free_tab(tmp);
 		return (return_f("FATAL ERROR - there is a final coma\n", -1));
+	}
 	pmt = ft_strsplit(tmp[1], SEPARATOR_CHAR);
 	free_tab(tmp);
 	if ((count = check_params(pmt, i)) < 0)
+	{
+		free_tab(pmt);
 		return (-1);
+	}
 	free_tab(pmt);
 	count++;
 	if (op_tab[i].nb_arg > 1)
@@ -304,7 +313,11 @@ int			check_instruc(int fd, t_asm *assm)
 		else
 		{
 			if ((r = check_line_instruc(str)) < 0)
+			{
+				free(str);
+				free(line);
 				return (-1);
+			}
 			assm->len_bytes = assm->len_bytes + r;
 			free(str);
 		}

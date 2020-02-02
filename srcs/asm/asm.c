@@ -6,7 +6,7 @@
 /*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 16:41:30 by gmoindro          #+#    #+#             */
-/*   Updated: 2020/02/02 17:49:14 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/02/02 18:00:45 by gmoindro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,17 @@ int		main(int argc, char **argv)
 		return (ft_error("error : your file is incorrect\n", 2, -1));
 	assm = first_turn(argv[1], assm);
 	if (ft_error_first_turn(assm) == 0)
+	{
+		free(assm.file);
 		return (0);
+	}
 	if (ft_second_turn(&assm, argv[1]) < 0)
 		return (ft_error("error : problem on file\n", 2, assm.line_error));
 	if (ft_third_turn(&assm, argv[1]) < 0)
+	{
+		free(assm.label);
 		return (ft_error("error : problem on file\n", 2, assm.line_error));
+	}
 	if (!(assm.tab = (unsigned char *)malloc(sizeof(unsigned char)
 				* (PROG_NAME_LENGTH + COMMENT_LENGTH + 16 + assm.len_bytes))))
 		return (ft_error("error : probleme de malloc\n", 2, -1));
@@ -105,6 +111,7 @@ int		main(int argc, char **argv)
 	ft_print_in_file(assm.file, assm.tab, assm);
 	free(assm.file);
 	free(assm.tab);
+	free(assm.label);
 	return (0);
 }
 
