@@ -6,11 +6,12 @@
 /*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 16:41:30 by gmoindro          #+#    #+#             */
-/*   Updated: 2020/02/02 16:18:39 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/02/02 17:49:14 by gmoindro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/asm.h"
+#include <stdio.h>
 
 int		ft_error(char *str, int fd, int error)
 {
@@ -106,3 +107,9 @@ int		main(int argc, char **argv)
 	free(assm.tab);
 	return (0);
 }
+
+//__attribute__((destructor)) void end(void)
+//{
+//	printf("end");
+//	while (1);
+//}
