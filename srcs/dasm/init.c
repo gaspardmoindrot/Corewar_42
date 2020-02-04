@@ -6,7 +6,7 @@
 /*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 12:35:44 by gmoindro          #+#    #+#             */
-/*   Updated: 2020/01/30 12:36:00 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/02/04 17:52:03 by gmoindro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	**init_tab(void)
 	char	**tab;
 	int		nb;
 	int		i;
+	int		j;
 
 	nb = PROG_NAME_LENGTH + COMMENT_LENGTH + (CHAMP_MAX_SIZE / 2);
 	if (!(tab = (char **)malloc(sizeof(char *) * (nb + 1))))
@@ -31,9 +32,11 @@ char	**init_tab(void)
 	i = 2;
 	while (i < nb)
 	{
+		j = -1;
 		if (!(tab[i] = (char *)malloc(sizeof(char) * (41))))
 			return (NULL);
-		tab[i][40] = '\0';
+		while (++j < 41)
+			tab[i][j] = 0;
 		i++;
 	}
 	return (tab);

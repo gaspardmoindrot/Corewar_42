@@ -6,7 +6,7 @@
 /*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 12:35:11 by gmoindro          #+#    #+#             */
-/*   Updated: 2020/01/30 12:35:41 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/02/04 17:54:59 by gmoindro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	print_dasm(t_dasm *dasm)
 	ft_putstr_fd(".comment \"", fd);
 	ft_putstr_fd(dasm->tab[1], fd);
 	ft_putstr_fd("\"\n\n", fd);
-	while (ft_strlen(dasm->tab[i]) != 0)
+	while (i < dasm->nb_tab && ft_strlen(dasm->tab[i]) != 0)
 	{
 		ft_putstr_fd(dasm->tab[i], fd);
 		ft_putchar_fd('\n', fd);
