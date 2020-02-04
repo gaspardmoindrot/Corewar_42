@@ -6,7 +6,7 @@
 /*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 16:50:26 by gmoindro          #+#    #+#             */
-/*   Updated: 2020/02/02 16:20:16 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/02/04 14:28:45 by gmoindro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int			check_name(int fd, int *error)
 
 	name = 0;
 	quote = 0;
-	while (get_next_line(fd, &line))
+	while (get_next_line(fd, &line) > 0)
 	{
 		*error = *error + 1;
 		i = 0;
@@ -78,7 +78,7 @@ int			check_comment(int fd, int *error)
 
 	comment = 0;
 	quote = 0;
-	while (get_next_line(fd, &line))
+	while (get_next_line(fd, &line) > 0)
 	{
 		*error = *error + 1;
 		i = 0;
@@ -139,8 +139,5 @@ t_asm		first_turn(char *str, t_asm assm)
 	if ((assm.len_bytes = check_instruc(fd, &assm)) < 0)
 		return (assm);
 	close(fd);
-	fd = check_back_final(str);
-	if (fd < 0)
-		assm.len_name = -100;
 	return (assm);
 }

@@ -6,7 +6,7 @@
 /*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 17:05:15 by gmoindro          #+#    #+#             */
-/*   Updated: 2020/01/17 17:07:13 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/02/04 14:25:50 by gmoindro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,17 +149,23 @@ int			ft_third_turn_b(t_asm *assm, int fd)
 	char	*str_2;
 	int		r;
 
-	while (get_next_line(fd, &line))
+	while (get_next_line(fd, &line) > 0)
 	{
 		assm->line_error = assm->line_error + 1;
 		if ((str_2 = check_label(line, 0)) == NULL)
+		{
+			free(line);
 			return (return_f("FATAL ERROR - problem with the label\n", -1));
+		}
 		if (ft_strcmp("\0", str_2) == 0)
 			;
 		else
 		{
 			if ((r = check_label_2(str_2, assm)) < 0)
+			{
+				free(line);
 				return (return_f("FATAL ERROR - inexistant label\n", -1));
+			}
 			assm->actual_bytes = assm->actual_bytes + r;
 			free(str_2);
 		}

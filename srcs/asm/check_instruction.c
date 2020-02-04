@@ -6,7 +6,7 @@
 /*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 16:47:26 by gmoindro          #+#    #+#             */
-/*   Updated: 2020/02/02 18:09:45 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/02/04 14:32:36 by gmoindro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,11 +303,14 @@ int			check_instruc(int fd, t_asm *assm)
 	int		r;
 
 	r = 0;
-	while (get_next_line(fd, &line))
+	while (get_next_line(fd, &line) > 0)
 	{
 		assm->line_error++;
 		if ((str = suppr_space_label(line, assm, 0)) == NULL)
+		{
+			free(line);
 			return (return_f("FATAL ERROR - wrong syntax line\n", -1));
+		}
 		if (ft_strcmp("\0", str) == 0)
 			;
 		else

@@ -6,7 +6,7 @@
 /*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 17:07:41 by gmoindro          #+#    #+#             */
-/*   Updated: 2020/02/02 16:11:02 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/02/04 14:32:44 by gmoindro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,28 +106,5 @@ int	check_nothing(char *str)
 			return (0);
 		i++;
 	}
-	return (1);
-}
-
-int	check_back_final(char *str)
-{
-	int		fd;
-	int		ret;
-	char	buf[1001];
-	char	a;
-
-	fd = open(str, O_RDONLY);
-	while ((ret = read(fd, buf, 1000)) > 0)
-	{
-		buf[ret] = '\0';
-		if (ret < 1000)
-			break ;
-		a = buf[ret - 1];
-	}
-	close(fd);
-	if (ret == 0 && a != '\n')
-		return (-1);
-	else if (ret > 0 && buf[ret - 1] != '\n')
-		return (-1);
 	return (1);
 }

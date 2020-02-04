@@ -6,7 +6,7 @@
 /*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 17:03:48 by gmoindro          #+#    #+#             */
-/*   Updated: 2020/02/02 18:05:09 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/02/04 14:24:58 by gmoindro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int			ft_second_turn_b(t_asm *assm, int fd, int i)
 	char	*str_2;
 	int		r;
 
-	while (get_next_line(fd, &line))
+	while (get_next_line(fd, &line) > 0)
 	{
 		assm->line_error = assm->line_error + 1;
 		if ((str_2 = stock_label(line, assm, &i, -1)) == NULL)

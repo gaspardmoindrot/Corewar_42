@@ -6,7 +6,7 @@
 /*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 14:44:38 by gmoindro          #+#    #+#             */
-/*   Updated: 2020/01/30 15:00:18 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/02/04 15:45:29 by gmoindro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int				write_comment(int fd, t_asm *assm)
 	str_2 = ft_itoa_base(assm->len_bytes, 16);
 	ft_print_in_actual(str_2, assm, 4);
 	free(str_2);
-	while (get_next_line(fd, &line))
+	while (get_next_line(fd, &line) > 0)
 	{
 		i = 0;
 		if (comment == 0 && (str = ft_strstr(line, COMMENT_CMD_STRING)))
@@ -190,7 +190,7 @@ int				write_name(int fd, t_asm *assm)
 	str_2 = ft_itoa_base(COREWAR_EXEC_MAGIC, 16);
 	ft_print_in_actual(str_2, assm, 4);
 	free(str_2);
-	while (get_next_line(fd, &line))
+	while (get_next_line(fd, &line) > 0)
 	{
 		i = 0;
 		if (name == 0 && (str = ft_strstr(line, NAME_CMD_STRING)))
@@ -444,11 +444,14 @@ int				print_instruc(int fd, t_asm *assm)
 	int		r;
 
 	r = 0;
-	while (get_next_line(fd, &line))
+	while (get_next_line(fd, &line) > 0)
 	{
 		assm->actual_bytes_l = assm->actual_bytes + 1;
 		if ((str = suppr_space_label(line, assm, 0)) == NULL)
+		{
+			free(line);
 			return (-1);
+		}
 		if (ft_strcmp("\0", str) == 0)
 			;
 		else
