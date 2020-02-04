@@ -6,7 +6,7 @@
 /*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 12:37:57 by gmoindro          #+#    #+#             */
-/*   Updated: 2020/02/04 17:29:51 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/02/04 18:56:35 by gmoindro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,18 @@ void	ft_putnbr_dasm(int n, t_dasm *dasm, int *j)
 {
 	if (n == -2147483648)
 	{
-		ft_putstr("-2147483648");
+		dasm->tab[dasm->nb_tab][*j] = '-';
+		dasm->tab[dasm->nb_tab][*j + 1] = '2';
+		dasm->tab[dasm->nb_tab][*j + 2] = '1';
+		dasm->tab[dasm->nb_tab][*j + 3] = '4';
+		dasm->tab[dasm->nb_tab][*j + 4] = '7';
+		dasm->tab[dasm->nb_tab][*j + 5] = '4';
+		dasm->tab[dasm->nb_tab][*j + 6] = '8';
+		dasm->tab[dasm->nb_tab][*j + 7] = '3';
+		dasm->tab[dasm->nb_tab][*j + 8] = '6';
+		dasm->tab[dasm->nb_tab][*j + 9] = '4';
+		dasm->tab[dasm->nb_tab][*j + 10] = '8';
+		*j = *j + 11;
 		return ;
 	}
 	if (n < 0)
