@@ -6,7 +6,7 @@
 /*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 16:50:26 by gmoindro          #+#    #+#             */
-/*   Updated: 2020/02/04 14:28:45 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/02/04 16:45:48 by gmoindro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,15 @@ int			check_name(int fd, int *error)
 		{
 			name++;
 			if (check_nothing_before(line, NAME_CMD_STRING) == 0)
+			{
+				free(line);
 				return (return_f("FATAL ERROR - wrong syntax name\n", -1));
+			}
 			if ((len_name = ft_len_begin(str, NAME_CMD_STRING, &quote)) < 0)
+			{
+				free(line);
 				return (return_f("FATAL ERROR - wrong syntax name\n", -1));
+			}
 			if (quote == 1)
 				len_name++;
 			if (quote == 2)
@@ -46,16 +52,22 @@ int			check_name(int fd, int *error)
 		else if (name == 0 && ft_strstr(line, NAME_CMD_STRING) == NULL)
 		{
 			if (check_nothing(line) == 0)
+			{
+				free(line);
 				return (return_f("FATAL_ERROR - wrong syntax on a line\n", -1));
+			}
 		}
 		else
 		{
 			if ((r = ft_len_next(line, &quote)) < 0)
+			{
+				free(line);
 				return (return_f("FATAL ERROR - wrong syntax name\n", -1));
+			}
 			len_name = len_name + r;
 			if (quote == 1)
 				len_name++;
-			if (quote == 2)
+			else if (quote == 2)
 			{
 				free(line);
 				return (len_name);
@@ -86,9 +98,15 @@ int			check_comment(int fd, int *error)
 		{
 			comment++;
 			if (check_nothing_before(line, COMMENT_CMD_STRING) == 0)
+			{
+				free(line);
 				return (return_f("FATAL ERROR - wrong syntax comment\n", -1));
+			}
 			if ((len_comment = ft_len_begin(str, COMMENT_CMD_STRING, &quote)) < 0)
+			{
+				free(line);
 				return (return_f("FATAL ERROR - wrong syntax comment\n", -1));
+			}
 			if (quote == 1)
 				len_comment++;
 			if (quote == 2)
@@ -100,12 +118,18 @@ int			check_comment(int fd, int *error)
 		else if (comment == 0 && ft_strstr(line, COMMENT_CMD_STRING) == NULL)
 		{
 			if (check_nothing(line) == 0)
+			{
+				free(line);
 				return (return_f("FATAL_ERROR - wrong syntax on a line\n", -1));
+			}
 		}
 		else
 		{
 			if ((r = ft_len_next(line, &quote)) < 0)
+			{
+				free(line);
 				return (return_f("FATAL ERROR - wrong syntax comment\n", -1));
+			}
 			len_comment = len_comment + r;
 			if (quote == 1)
 				len_comment++;

@@ -6,7 +6,7 @@
 /*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 17:05:15 by gmoindro          #+#    #+#             */
-/*   Updated: 2020/02/04 14:25:50 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/02/04 16:55:16 by gmoindro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,10 @@ int			check_label_2(char *line, t_asm *assm)
 	pmt = ft_strsplit(tmp[1], SEPARATOR_CHAR);
 	free_tab(tmp);
 	if ((count = check_params_label(pmt, i, assm)) < 0)
+	{
+		free_tab(pmt);
 		return (-1);
+	}
 	free_tab(pmt);
 	count++;
 	if (op_tab[i].nb_arg > 1)
@@ -164,6 +167,7 @@ int			ft_third_turn_b(t_asm *assm, int fd)
 			if ((r = check_label_2(str_2, assm)) < 0)
 			{
 				free(line);
+				free(str_2);
 				return (return_f("FATAL ERROR - inexistant label\n", -1));
 			}
 			assm->actual_bytes = assm->actual_bytes + r;

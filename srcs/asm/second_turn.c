@@ -6,7 +6,7 @@
 /*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 17:03:48 by gmoindro          #+#    #+#             */
-/*   Updated: 2020/02/04 14:24:58 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/02/04 16:19:47 by gmoindro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,10 @@ int			ft_second_turn_b(t_asm *assm, int fd, int i)
 		else
 		{
 			if ((r = check_line_instruc(str_2)) < 0)
+			{
+				free(line);
 				return (-1);
+			}
 			free(str_2);
 			assm->actual_bytes = assm->actual_bytes + r;
 		}
@@ -108,8 +111,9 @@ int			ft_second_turn(t_asm *assm, char *str)
 		ft_putstr("\033[0;31merror : can't open the file\n\033[0m");
 		exit(EXIT_SUCCESS);
 	}
-	if (!(assm->label = (t_label *)malloc(sizeof(t_label) * assm->nb_label)))
+	if (!(assm->label = (t_label *)malloc(sizeof(t_label) * (assm->nb_label + 1))))
 		return (return_f("FATAL ERROR - problem with a malloc\n", -1));
+	assm->label[assm->nb_label].name = NULL;
 	if (check_name(fd, &assm->line_error) < 0)
 		return (-1);
 	if (check_comment(fd, &assm->line_error) < 0)

@@ -6,7 +6,7 @@
 /*   By: gmoindro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 16:41:30 by gmoindro          #+#    #+#             */
-/*   Updated: 2020/02/04 14:29:06 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/02/04 16:55:19 by gmoindro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,25 @@ void	ft_print_in_file(char *file, unsigned char *tab, t_asm assm)
 	close(fd);
 }
 
+void	free_global(t_asm *assm, int nb)
+{
+	int		i;
+
+	i = 0;
+	free(assm->file);
+	if (nb > 1)
+	{
+		while (i < assm->nb_label && assm->label[i].name != NULL)
+		{
+			free(assm->label[i].name);
+			i++;
+		}
+		free(assm->label);
+	}
+	if (nb > 2)
+		free(assm->tab);
+}
+
 int		main(int argc, char **argv)
 {
 	t_asm	assm;
@@ -90,26 +109,30 @@ int		main(int argc, char **argv)
 	assm = first_turn(argv[1], assm);
 	if (ft_error_first_turn(assm) == 0)
 	{
-		free(assm.file);
+		free_global(&assm, 1);
 		return (0);
 	}
 	if (ft_second_turn(&assm, argv[1]) < 0)
+	{
+		free_global(&assm, 2);
 		return (ft_error("error : problem on file\n", 2, assm.line_error));
+	}
 	if (ft_third_turn(&assm, argv[1]) < 0)
 	{
-		free(assm.label);
+		free_global(&assm, 2);
 		return (ft_error("error : problem on file\n", 2, assm.line_error));
 	}
 	if (!(assm.tab = (unsigned char *)malloc(sizeof(unsigned char)
 				* (PROG_NAME_LENGTH + COMMENT_LENGTH + 16 + assm.len_bytes))))
+	{
+		free_global(&assm, 2);
 		return (ft_error("error : probleme de malloc\n", 2, -1));
+	}
 	while (++i < PROG_NAME_LENGTH + COMMENT_LENGTH + 16 + assm.len_bytes)
 		assm.tab[i] = '\0';
 	ft_print_binaire(&assm, argv[1]);
 	ft_print_in_file(assm.file, assm.tab, assm);
-	free(assm.file);
-	free(assm.tab);
-	free(assm.label);
+	free_global(&assm, 3);
 	return (0);
 }
 
