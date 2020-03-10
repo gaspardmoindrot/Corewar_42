@@ -12,102 +12,130 @@
 
 #include "../../includes/asm.h"
 
+int			check_name_c(char *line, int *quote, int *len_name)
+{
+	int		r;
+
+	if ((r = ft_len_next(line, quote)) < 0)
+		return (return_f("FATAL ERROR - wrong syntax name\n", -1));
+	*len_name = *len_name + r;
+	if (*quote == 1)
+		*len_name = *len_name + 1;
+	else if (*quote == 2)
+		return (*len_name);
+	return (1);
+}
+
+int			check_name_b(char *line, int *name, int *quote, int *len_name)
+{
+	int		i;
+	char	*str;
+
+	i = 0;
+	if (*name == 0 && (str = ft_strstr(line, NAME_CMD_STRING)))
+	{
+		*name = *name + 1;
+		if (check_nothing_before(line, NAME_CMD_STRING, 0) == 0)
+			return (return_f("FATAL ERROR - wrong syntax name\n", -1));
+		if ((*len_name = ft_len_begin(str, NAME_CMD_STRING, quote)) < 0)
+			return (return_f("FATAL ERROR - wrong syntax name\n", -1));
+		if (*quote == 1)
+			*len_name = *len_name + 1;
+		if (*quote == 2)
+			return (*len_name);
+	}
+	else if (*name == 0 && ft_strstr(line, NAME_CMD_STRING) == NULL)
+	{
+		if (check_nothing(line) == 0)
+			return (return_f("FATAL_ERROR - wrong syntax on a line\n", -1));
+	}
+	else
+		return (check_name_c(line, quote, len_name));
+	return (1);
+}
+
 int			check_name(int fd, int *error)
 {
 	char	*line;
-	char	*str;
 	int		name;
 	int		quote;
-	int		i;
 	int		len_name;
-	int		r;
 
 	name = 0;
 	quote = 0;
-	while (get_next_line(fd, &line) > 0)
+	len_name = 0;
+	while (get_next_line(fd, &line) > 0 && ++(*error))
 	{
-		*error = *error + 1;
-		i = 0;
-		if (name == 0 && (str = ft_strstr(line, NAME_CMD_STRING)))
-		{
-			name++;
-			if (check_nothing_before(line, NAME_CMD_STRING, 0) == 0
-					&& f_l(&line))
-				return (return_f("FATAL ERROR - wrong syntax name\n", -1));
-			if ((len_name = ft_len_begin(str, NAME_CMD_STRING, &quote)) < 0
-							&& f_l(&line))
-				return (return_f("FATAL ERROR - wrong syntax name\n", -1));
-			if (quote == 1)
-				len_name++;
-			if (quote == 2 && f_l(&line))
-				return (len_name);
-		}
-		else if (name == 0 && ft_strstr(line, NAME_CMD_STRING) == NULL)
-		{
-			if (check_nothing(line) == 0 && f_l(&line))
-				return (return_f("FATAL_ERROR - wrong syntax on a line\n", -1));
-		}
-		else
-		{
-			if ((r = ft_len_next(line, &quote)) < 0 && f_l(&line))
-				return (return_f("FATAL ERROR - wrong syntax name\n", -1));
-			len_name = len_name + r;
-			if (quote == 1)
-				len_name++;
-			else if (quote == 2 && f_l(&line))
-				return (len_name);
-		}
+		if (check_name_b(line, &name, &quote, &len_name) < 0
+				&& f_l(&line))
+			return (-1);
 		free(line);
+		if (quote == 2)
+			return (len_name);
 	}
 	return (return_f("FATAL ERROR - wrong syntax name\n", -1));
+}
+
+int			check_comment_c(char *line, int *quote, int *len_comment)
+{
+	int		r;
+
+	if ((r = ft_len_next(line, quote)) < 0)
+		return (return_f("FATAL ERROR - wrong syntax name\n", -1));
+	*len_comment = *len_comment + r;
+	if (*quote == 1)
+		*len_comment = *len_comment + 1;
+	else if (*quote == 2)
+		return (*len_comment);
+	return (1);
+}
+
+int			check_comment_b(char *line, int *comment, int *quote, int *len_c)
+{
+	int		i;
+	char	*str;
+
+	i = 0;
+	if (*comment == 0 && (str = ft_strstr(line, COMMENT_CMD_STRING)))
+	{
+		*comment = *comment + 1;
+		if (check_nothing_before(line, COMMENT_CMD_STRING, 0) == 0)
+			return (return_f("FATAL ERROR - wrong syntax comment\n", -1));
+		if ((*len_c = ft_len_begin(str, COMMENT_CMD_STRING, quote)) < 0)
+			return (return_f("FATAL ERROR - wrong syntax comment\n", -1));
+		if (*quote == 1)
+			*len_c = *len_c + 1;
+		if (*quote == 2)
+			return (*len_c);
+	}
+	else if (*comment == 0 && ft_strstr(line, COMMENT_CMD_STRING) == NULL)
+	{
+		if (check_nothing(line) == 0)
+			return (return_f("FATAL_ERROR - wrong syntax on a line\n", -1));
+	}
+	else
+		return (check_name_c(line, quote, len_c));
+	return (1);
 }
 
 int			check_comment(int fd, int *error)
 {
 	char	*line;
-	char	*str;
 	int		comment;
 	int		quote;
-	int		i;
 	int		len_comment;
-	int		r;
 
 	comment = 0;
 	quote = 0;
-	while (get_next_line(fd, &line) > 0)
+	len_comment = 0;
+	while (get_next_line(fd, &line) > 0 && ++(*error))
 	{
-		*error = *error + 1;
-		i = 0;
-		if (comment == 0 && (str = ft_strstr(line, COMMENT_CMD_STRING)))
-		{
-			comment++;
-			if (check_nothing_before(line, COMMENT_CMD_STRING, 0) == 0
-							&& f_l(&line))
-				return (return_f("FATAL ERROR - wrong syntax comment\n", -1));
-			if ((len_comment = ft_len_begin(str, COMMENT_CMD_STRING, &quote)) < 0
-							&& f_l(&line))
-				return (return_f("FATAL ERROR - wrong syntax comment\n", -1));
-			if (quote == 1)
-				len_comment++;
-			if (quote == 2 && f_l(&line))
-				return (len_comment);
-		}
-		else if (comment == 0 && ft_strstr(line, COMMENT_CMD_STRING) == NULL)
-		{
-			if (check_nothing(line) == 0 && f_l(&line))
-				return (return_f("FATAL_ERROR - wrong syntax on a line\n", -1));
-		}
-		else
-		{
-			if ((r = ft_len_next(line, &quote)) < 0 && f_l(&line))
-				return (return_f("FATAL ERROR - wrong syntax comment\n", -1));
-			len_comment = len_comment + r;
-			if (quote == 1)
-				len_comment++;
-			if (quote == 2 && f_l(&line))
-				return (len_comment);
-		}
+		if (check_comment_b(line, &comment, &quote, &len_comment) < 0
+				&& f_l(&line))
+			return (-1);
 		free(line);
+		if (quote == 2)
+			return (len_comment);
 	}
 	return (return_f("FATAL ERROR - wrong syntax comment\n", -1));
 }

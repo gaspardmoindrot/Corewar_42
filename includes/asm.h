@@ -110,5 +110,9 @@ int					check_params_label(char **tmp, int i, t_asm *assm);
 int					check_n_b(int i, char *str);
 int					check_t_dir_label_b(char c, char *str);
 t_op_n				ft_init_op_n(int i, int j, int count);
+int					check_name_c(char *line, int *quote, int *len_name);
+int					check_name_b(char *line, int *name, int *quote, int *l_n);
+int					check_comment_c(char *line, int *quote, int *len_comment);
+int					check_comment_b(char *line, int *c, int *quote, int *l_c);
 
 #endif
