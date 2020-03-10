@@ -13,6 +13,12 @@
 #include "../../includes/asm.h"
 #include <stdio.h>
 
+short	f_l(char **line)
+{
+	free(*line);
+	return (1);
+}
+
 int		ft_error(char *str, int fd, int error)
 {
 	if (error >= 0)
@@ -77,7 +83,7 @@ void	ft_print_in_file(char *file, unsigned char *tab, t_asm assm)
 	close(fd);
 }
 
-void	free_global(t_asm *assm, int nb)
+short	free_global(t_asm *assm, int nb)
 {
 	int		i;
 
@@ -94,6 +100,7 @@ void	free_global(t_asm *assm, int nb)
 	}
 	if (nb > 2)
 		free(assm->tab);
+	return (1);
 }
 
 int		main(int argc, char **argv)
@@ -107,27 +114,16 @@ int		main(int argc, char **argv)
 	if (!(assm.file = change_s_cor(argv[1])))
 		return (ft_error("error : your file is incorrect\n", 2, -1));
 	assm = first_turn(argv[1], assm);
-	if (ft_error_first_turn(assm) == 0)
-	{
-		free_global(&assm, 1);
+	if (ft_error_first_turn(assm) == 0 && free_global(&assm, 1))
 		return (0);
-	}
-	if (ft_second_turn(&assm, argv[1]) < 0)
-	{
-		free_global(&assm, 2);
+	if (ft_second_turn(&assm, argv[1]) < 0 && free_global(&assm, 2))
 		return (ft_error("error : problem on file\n", 2, assm.line_error));
-	}
-	if (ft_third_turn(&assm, argv[1]) < 0)
-	{
-		free_global(&assm, 2);
+	if (ft_third_turn(&assm, argv[1]) < 0 && free_global(&assm, 2))
 		return (ft_error("error : problem on file\n", 2, assm.line_error));
-	}
 	if (!(assm.tab = (unsigned char *)malloc(sizeof(unsigned char)
-				* (PROG_NAME_LENGTH + COMMENT_LENGTH + 16 + assm.len_bytes))))
-	{
-		free_global(&assm, 2);
+			* (PROG_NAME_LENGTH + COMMENT_LENGTH + 16 + assm.len_bytes)))
+				&& free_global(&assm, 2))
 		return (ft_error("error : probleme de malloc\n", 2, -1));
-	}
 	while (++i < PROG_NAME_LENGTH + COMMENT_LENGTH + 16 + assm.len_bytes)
 		assm.tab[i] = '\0';
 	ft_print_binaire(&assm, argv[1]);

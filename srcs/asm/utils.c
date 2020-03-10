@@ -60,11 +60,15 @@ int	ft_len_begin(char *line, char *str, int *quote)
 	return (len);
 }
 
-int	check_nothing_before(char *line, char *str)
+int	check_n_b(int i, char *str)
 {
-	int	i;
+	if (!str[i])
+		return (1);
+	return (0);
+}
 
-	i = 0;
+int	check_nothing_before(char *line, char *str, int i)
+{
 	while (*line)
 	{
 		if (str[i] && *line == str[i])
@@ -78,10 +82,7 @@ int	check_nothing_before(char *line, char *str)
 					line = line + 1;
 					i++;
 				}
-				if (!str[i])
-					return (1);
-				else
-					return (0);
+				return (check_n_b(i, str));
 			}
 		}
 		else if (*line != ' ' && *line != '\t' && *line != '\n')

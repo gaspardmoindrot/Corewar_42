@@ -78,20 +78,14 @@ int			ft_second_turn_b(t_asm *assm, int fd, int i)
 	while (get_next_line(fd, &line) > 0)
 	{
 		assm->line_error = assm->line_error + 1;
-		if ((str_2 = stock_label(line, assm, &i, -1)) == NULL)
-		{
-			free(line);
+		if ((str_2 = stock_label(line, assm, &i, -1)) == NULL && f_l(&line))
 			return (return_f("FATAL ERROR - problem with the label\n", -1));
-		}
 		if (ft_strcmp("\0", str_2) == 0)
 			;
 		else
 		{
-			if ((r = check_line_instruc(str_2)) < 0)
-			{
-				free(line);
+			if ((r = check_line_instruc(str_2)) < 0 && f_l(&line))
 				return (-1);
-			}
 			free(str_2);
 			assm->actual_bytes = assm->actual_bytes + r;
 		}

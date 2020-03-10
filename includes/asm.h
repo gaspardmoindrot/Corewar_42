@@ -40,6 +40,8 @@ typedef struct		s_asm
 	t_label			*label;
 }					t_asm;
 
+
+
 int					ft_error(char *str, int fd, int a);
 char				*change_s_cor(char *str);
 t_asm				first_turn(char *str, t_asm assm);
@@ -47,7 +49,7 @@ int					check_comment(int fd, int *error);
 int					check_name(int fd, int *error);
 int					check_nothing(char *str);
 int					ft_len_begin(char *line, char *str, int *quote);
-int					check_nothing_before(char *line, char *str);
+int					check_nothing_before(char *line, char *str, int i);
 int					ft_len_next(char *line, int *quote);
 int					check_instruc(int fd, t_asm *assm);
 char				*suppr_space_label(char *line, t_asm *assm, int i);
@@ -82,7 +84,7 @@ void				ft_print_params(char **tmp, int i, t_asm *assm);
 int					print_line_instruc(char *line, t_asm *assm);
 int					print_instruc(int fd, t_asm *assm);
 int					return_f(char *str, int return_f);
-void				free_tab(char **tab);
+short				free_tab(char **tab);
 void				ft_print_in_file(char *file, unsigned char *ta, t_asm assm);
 char				*ft_put_together(char **res);
 int					check_label_2(char *line, t_asm *assm);
@@ -95,6 +97,12 @@ int					ft_second_turn_b(t_asm *assm, int fd, int i);
 int					ft_third_turn_b(t_asm *assm, int fd);
 int					check_no_space_number(char **tab, int i, int com);
 char				*ft_return_space(char *str);
-void				free_global(t_asm *assm, int nb);
+short				free_global(t_asm *assm, int nb);
+short				f_l(char **line);
+char				*check_label(char *line, int i);
+int					check_params_label_b(char **tmp, int i, int j, int count, t_asm *assm);
+int					check_params_label(char **tmp, int i, t_asm *assm);
+int					check_n_b(int i, char *str);
+int					check_t_dir_label_b(char c, char *str);
 
 #endif

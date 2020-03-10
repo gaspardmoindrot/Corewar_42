@@ -52,5 +52,6 @@ int					write_reg(t_dasm *dasm, int j, int i);
 int					write_dir(t_dasm *dasm, int j, int i, int opcode);
 int					write_ind(t_dasm *dasm, int j, int i);
 unsigned long		puissance(unsigned long nb, int p);
+void				ft_putnbr_dasm_b(t_dasm *dasm, int *j);
 
 #endif

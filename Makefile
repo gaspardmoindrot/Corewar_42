@@ -36,7 +36,7 @@ ASM_SRCS_FILES		:=	asm.c \
 				second_turn.c \
 				third_turn.c \
 				utils_3.c \
-				ft_printf_binaire.c
+				ft_printf_binaire.c \
 
 DASM_SRCS_FILES		:=	dasm.c \
 				change_file.c \

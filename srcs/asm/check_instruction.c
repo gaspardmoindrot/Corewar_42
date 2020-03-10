@@ -33,33 +33,29 @@ char		*ft_return_space(char *str)
 
 char		*ft_put_together_b(char *str, char **res)
 {
-	int		i;
-	int		len;
-	int		j;
-	int		com;
+	int		tab[4];
 
-	com = 0;
-	i = 0;
-	len = 0;
-	while (res[i])
+	tab[3] = 0;
+	tab[0] = 0;
+	tab[1] = 0;
+	while (res[tab[0]])
 	{
-		j = 0;
-		while (res[i][j])
+		tab[2] = 0;
+		while (res[tab[0]][tab[2]])
 		{
-			str[len] = res[i][j];
-			if (res[i][j] == COMMENT_CHAR)
-				com++;
-			len++;
-			j++;
+			str[tab[1]] = res[tab[0]][tab[2]];
+			if (res[tab[0]][tab[2]] == COMMENT_CHAR)
+				tab[3]++;
+			tab[1]++;
+			tab[2]++;
 		}
-		if (i == 0)
-		{
-			str[len] = ' ';
-			len++;
-		}
-		if (check_no_space_number(res, i, com) < 0)
+		if (tab[0] == 0)
+			str[tab[1]] = ' ';
+		if (tab[0] == 0)
+			tab[1]++;
+		if (check_no_space_number(res, tab[0], tab[3]) < 0)
 			return (ft_return_space(str));
-		i++;
+		tab[0]++;
 	}
 	return (str);
 }
@@ -84,7 +80,7 @@ char		*ft_put_together(char **res)
 	return (str);
 }
 
-void		free_tab(char **tab)
+short		free_tab(char **tab)
 {
 	int		i;
 
@@ -95,6 +91,7 @@ void		free_tab(char **tab)
 		i++;
 	}
 	free(tab);
+	return (1);
 }
 
 static char	*ft_strcat_mal(char *s1, const char *s2)
@@ -271,24 +268,15 @@ int			check_line_instruc(char *line)
 	tmp = ft_strsplit(line, ' ');
 	while (op_tab[i].nb_arg != 0 && (ft_strcmp(tmp[0], op_tab[i].name) != 0))
 		i++;
-	if (i > 15 || tmp[1] == NULL)
-	{
-		free_tab(tmp);
+	if ((i > 15 || tmp[1] == NULL) && free_tab(tmp))
 		return (return_f("FATAL ERROR - opcode unknown\n", -1));
-	}
 	len = ft_strlen(tmp[1]);
-	if (tmp[1][len - 1] == ',')
-	{
-		free_tab(tmp);
+	if (tmp[1][len - 1] == ',' && free_tab(tmp))
 		return (return_f("FATAL ERROR - there is a final coma\n", -1));
-	}
 	pmt = ft_strsplit(tmp[1], SEPARATOR_CHAR);
 	free_tab(tmp);
-	if ((count = check_params(pmt, i)) < 0)
-	{
-		free_tab(pmt);
+	if ((count = check_params(pmt, i)) < 0 && free_tab(pmt))
 		return (-1);
-	}
 	free_tab(pmt);
 	count++;
 	if (op_tab[i].nb_arg > 1)
@@ -306,21 +294,15 @@ int			check_instruc(int fd, t_asm *assm)
 	while (get_next_line(fd, &line) > 0)
 	{
 		assm->line_error++;
-		if ((str = suppr_space_label(line, assm, 0)) == NULL)
-		{
-			free(line);
+		if ((str = suppr_space_label(line, assm, 0)) == NULL && f_l(&line))
 			return (return_f("FATAL ERROR - wrong syntax line\n", -1));
-		}
 		if (ft_strcmp("\0", str) == 0)
 			;
 		else
 		{
-			if ((r = check_line_instruc(str)) < 0)
-			{
-				free(str);
-				free(line);
+			if ((r = check_line_instruc(str)) < 0 && f_l(&str)
+					&& f_l(&line))
 				return (-1);
-			}
 			assm->len_bytes = assm->len_bytes + r;
 			free(str);
 		}

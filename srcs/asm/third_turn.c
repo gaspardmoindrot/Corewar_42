@@ -12,7 +12,7 @@
 
 #include "../../includes/asm.h"
 
-static char	*check_label(char *line, int i)
+char	*check_label(char *line, int i)
 {
 	while (line[i])
 	{
@@ -39,7 +39,7 @@ static char	*check_label(char *line, int i)
 	return ("\0");
 }
 
-static int	check_params_label_b(char **tmp, int i, int j, int count, t_asm *assm)
+int	check_params_label_b(char **tmp, int i, int j, int count, t_asm *assm)
 {
 	if ((op_tab[i].args[j] == T_DIR
 				|| op_tab[i].args[j] == T_DIR + T_REG
@@ -61,7 +61,7 @@ static int	check_params_label_b(char **tmp, int i, int j, int count, t_asm *assm
 	return (return_f("FATAL ERROR - not match with the opcode\n", -1));
 }
 
-static int	check_params_label(char **tmp, int i, t_asm *assm)
+int	check_params_label(char **tmp, int i, t_asm *assm)
 {
 	int	j;
 	int	count;
@@ -135,12 +135,10 @@ int			ft_third_turn(t_asm *assm, char *str)
 		}
 		r[0]++;
 	}
-	if ((fd = open(str, O_RDONLY)) < 3)
-		exit(EXIT_SUCCESS);
-	if (check_name(fd, &assm->line_error) < 0
-			|| check_comment(fd, &assm->line_error) < 0)
-		return (-1);
-	if (ft_third_turn_b(assm, fd) < 0)
+	if ((fd = open(str, O_RDONLY)) < 3
+			|| check_name(fd, &assm->line_error) < 0
+			|| check_comment(fd, &assm->line_error) < 0
+			|| ft_third_turn_b(assm, fd) < 0)
 		return (-1);
 	close(fd);
 	return (0);
@@ -155,21 +153,15 @@ int			ft_third_turn_b(t_asm *assm, int fd)
 	while (get_next_line(fd, &line) > 0)
 	{
 		assm->line_error = assm->line_error + 1;
-		if ((str_2 = check_label(line, 0)) == NULL)
-		{
-			free(line);
+		if ((str_2 = check_label(line, 0)) == NULL && f_l(&line))
 			return (return_f("FATAL ERROR - problem with the label\n", -1));
-		}
 		if (ft_strcmp("\0", str_2) == 0)
 			;
 		else
 		{
-			if ((r = check_label_2(str_2, assm)) < 0)
-			{
-				free(line);
-				free(str_2);
+			if ((r = check_label_2(str_2, assm)) < 0
+							&& f_l(&line) && f_l(&str_2))
 				return (return_f("FATAL ERROR - inexistant label\n", -1));
-			}
 			assm->actual_bytes = assm->actual_bytes + r;
 			free(str_2);
 		}

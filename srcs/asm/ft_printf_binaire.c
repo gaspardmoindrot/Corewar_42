@@ -35,9 +35,11 @@ int				write_comment(int fd, t_asm *assm)
 		if (comment == 0 && (str = ft_strstr(line, COMMENT_CMD_STRING)))
 		{
 			comment++;
-			if (check_nothing_before(line, COMMENT_CMD_STRING) == 0)
+			if (check_nothing_before(line, COMMENT_CMD_STRING, 0) == 0
+							&& f_l(&line))
 				return (-1);
-			if ((len_comment = ft_write_begin(str, COMMENT_CMD_STRING, &quote, assm)) < 0)
+			if ((len_comment = ft_write_begin(str, COMMENT_CMD_STRING, &quote, assm)) < 0
+							&& f_l(&line))
 				return (-1);
 			if (quote == 1)
 			{
@@ -45,20 +47,17 @@ int				write_comment(int fd, t_asm *assm)
 				assm->actual_bytes++;
 				len_comment++;
 			}
-			if (quote == 2)
-			{
-				free(line);
+			if (quote == 2 && f_l(&line))
 				return (len_comment);
-			}
 		}
 		else if (comment == 0 && ft_strstr(line, COMMENT_CMD_STRING) == NULL)
 		{
-			if (check_nothing(line) == 0)
+			if (check_nothing(line) == 0 && f_l(&line))
 				return (-1);
 		}
 		else
 		{
-			if ((r = ft_write_next(line, &quote, assm)) < 0)
+			if ((r = ft_write_next(line, &quote, assm)) < 0 && f_l(&line))
 				return (-1);
 			len_comment = len_comment + r;
 			if (quote == 1)
@@ -67,11 +66,8 @@ int				write_comment(int fd, t_asm *assm)
 				assm->actual_bytes++;
 				len_comment++;
 			}
-			if (quote == 2)
-			{
-				free(line);
+			if (quote == 2 && f_l(&line))
 				return (len_comment);
-			}
 		}
 		free(line);
 	}
@@ -196,9 +192,11 @@ int				write_name(int fd, t_asm *assm)
 		if (name == 0 && (str = ft_strstr(line, NAME_CMD_STRING)))
 		{
 			name++;
-			if (check_nothing_before(line, NAME_CMD_STRING) == 0)
+			if (check_nothing_before(line, NAME_CMD_STRING, 0) == 0
+							&& f_l(&line))
 				return (-1);
-			if ((len_name = ft_write_begin(str, NAME_CMD_STRING, &quote, assm)) < 0)
+			if ((len_name = ft_write_begin(str, NAME_CMD_STRING, &quote, assm)) < 0
+						&& f_l(&line))
 				return (-1);
 			if (quote == 1)
 			{
@@ -206,20 +204,17 @@ int				write_name(int fd, t_asm *assm)
 				assm->actual_bytes++;
 				len_name++;
 			}
-			if (quote == 2)
-			{
-				free(line);
+			if (quote == 2 && f_l(&line))
 				return (len_name);
-			}
 		}
 		else if (name == 0 && ft_strstr(line, NAME_CMD_STRING) == NULL)
 		{
-			if (check_nothing(line) == 0)
+			if (check_nothing(line) == 0 && f_l(&line))
 				return (-1);
 		}
 		else
 		{
-			if ((r = ft_write_next(line, &quote, assm)) < 0)
+			if ((r = ft_write_next(line, &quote, assm)) < 0 && f_l(&line))
 				return (-1);
 			len_name = len_name + r;
 			if (quote == 1)
@@ -228,11 +223,8 @@ int				write_name(int fd, t_asm *assm)
 				assm->actual_bytes++;
 				len_name++;
 			}
-			if (quote == 2)
-			{
-				free(line);
+			if (quote == 2 && f_l(&line))
 				return (len_name);
-			}
 		}
 		free(line);
 	}

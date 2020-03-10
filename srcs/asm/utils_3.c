@@ -26,6 +26,21 @@ static int	check_label_dir(char *str, t_asm *assm)
 	return (-1);
 }
 
+int			check_t_dir_label_b(char c, char *str)
+{
+	if (c == '-')
+	{
+		if (ft_str_isdigit(str + 1) == 0)
+			return (-1);
+	}
+	else
+	{
+		if (ft_str_isdigit(str) == 0)
+			return (-1);
+	}
+	return (1);
+}
+
 int			check_t_dir_label(char *str, t_asm *assm)
 {
 	if (*str != DIRECT_CHAR)
@@ -44,17 +59,7 @@ int			check_t_dir_label(char *str, t_asm *assm)
 		}
 		return (1);
 	}
-	if (*str == '-')
-	{
-		if (ft_str_isdigit(str + 1) == 0)
-			return (-1);
-	}
-	else
-	{
-		if (ft_str_isdigit(str) == 0)
-			return (-1);
-	}
-	return (1);
+	return (check_t_dir_label_b(*str, str));
 }
 
 int			check_t_ind_label(char *str, t_asm *assm)

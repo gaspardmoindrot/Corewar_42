@@ -12,21 +12,26 @@
 
 #include "../../includes/dasm.h"
 
+void	ft_putnbr_dasm_b(t_dasm *dasm, int *j)
+{
+	dasm->tab[dasm->nb_tab][*j] = '-';
+	dasm->tab[dasm->nb_tab][*j + 1] = '2';
+	dasm->tab[dasm->nb_tab][*j + 2] = '1';
+	dasm->tab[dasm->nb_tab][*j + 3] = '4';
+	dasm->tab[dasm->nb_tab][*j + 4] = '7';
+	dasm->tab[dasm->nb_tab][*j + 5] = '4';
+	dasm->tab[dasm->nb_tab][*j + 6] = '8';
+	dasm->tab[dasm->nb_tab][*j + 7] = '3';
+	dasm->tab[dasm->nb_tab][*j + 8] = '6';
+	dasm->tab[dasm->nb_tab][*j + 9] = '4';
+	dasm->tab[dasm->nb_tab][*j + 10] = '8';
+}
+
 void	ft_putnbr_dasm(int n, t_dasm *dasm, int *j)
 {
 	if (n == -2147483648)
 	{
-		dasm->tab[dasm->nb_tab][*j] = '-';
-		dasm->tab[dasm->nb_tab][*j + 1] = '2';
-		dasm->tab[dasm->nb_tab][*j + 2] = '1';
-		dasm->tab[dasm->nb_tab][*j + 3] = '4';
-		dasm->tab[dasm->nb_tab][*j + 4] = '7';
-		dasm->tab[dasm->nb_tab][*j + 5] = '4';
-		dasm->tab[dasm->nb_tab][*j + 6] = '8';
-		dasm->tab[dasm->nb_tab][*j + 7] = '3';
-		dasm->tab[dasm->nb_tab][*j + 8] = '6';
-		dasm->tab[dasm->nb_tab][*j + 9] = '4';
-		dasm->tab[dasm->nb_tab][*j + 10] = '8';
+		ft_putnbr_dasm_b(dasm, j);
 		*j = *j + 11;
 		return ;
 	}
