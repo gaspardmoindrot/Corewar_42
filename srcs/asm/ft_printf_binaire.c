@@ -12,16 +12,67 @@
 
 #include "../../includes/asm.h"
 
+int				write_comment_c(char *line, int *quote, int *len_comment, t_asm *assm)
+{
+	int		r;
+
+	if ((r = ft_write_next(line, quote, assm)) < 0)
+		return (-1);
+	*len_comment = *len_comment + r;
+	if (*quote == 1)
+	{
+		assm->tab[assm->actual_bytes] = '\n';
+		assm->actual_bytes++;
+		*len_comment = *len_comment + 1;
+	}
+	if (*quote == 2)
+		return (*len_comment);
+	return (1);
+}
+
+void			change_assm_l(t_asm *assm, int *len_comment)
+{
+	assm->tab[assm->actual_bytes] = '\n';
+	assm->actual_bytes++;
+	*len_comment = *len_comment + 1;
+}
+
+int				write_comment_b(char *line, int *comment, int *quote,
+					int *len_comment, t_asm *assm)
+{
+	int		i;
+	char	*str;
+
+	i = 0;
+	if (*comment == 0 && (str = ft_strstr(line, COMMENT_CMD_STRING)))
+	{
+		*comment = *comment + 1;
+		if (check_nothing_before(line, COMMENT_CMD_STRING, 0) == 0)
+			return (-1);
+		if ((*len_comment = ft_write_begin(str, COMMENT_CMD_STRING, quote, assm)) < 0)
+			return (-1);
+		if (*quote == 1)
+			change_assm_l(assm, len_comment);
+		if (*quote == 2)
+			return (*len_comment);
+	}
+	else if (*comment == 0 && ft_strstr(line, COMMENT_CMD_STRING) == NULL)
+	{
+		if (check_nothing(line) == 0)
+			return (-1);
+	}
+	else
+			return (write_comment_c(line, quote, len_comment, assm));
+	return (1);
+}
+
 int				write_comment(int fd, t_asm *assm)
 {
 	char	*line;
-	char	*str;
 	char	*str_2;
 	int		comment;
 	int		quote;
-	int		i;
 	int		len_comment;
-	int		r;
 
 	comment = 0;
 	quote = 0;
@@ -31,45 +82,12 @@ int				write_comment(int fd, t_asm *assm)
 	free(str_2);
 	while (get_next_line(fd, &line) > 0)
 	{
-		i = 0;
-		if (comment == 0 && (str = ft_strstr(line, COMMENT_CMD_STRING)))
-		{
-			comment++;
-			if (check_nothing_before(line, COMMENT_CMD_STRING, 0) == 0
-							&& f_l(&line))
+		if (write_comment_b(line, &comment, &quote, &len_comment, assm) < 0
+						&& f_l(&line))
 				return (-1);
-			if ((len_comment = ft_write_begin(str, COMMENT_CMD_STRING, &quote, assm)) < 0
-							&& f_l(&line))
-				return (-1);
-			if (quote == 1)
-			{
-				assm->tab[assm->actual_bytes] = '\n';
-				assm->actual_bytes++;
-				len_comment++;
-			}
-			if (quote == 2 && f_l(&line))
-				return (len_comment);
-		}
-		else if (comment == 0 && ft_strstr(line, COMMENT_CMD_STRING) == NULL)
-		{
-			if (check_nothing(line) == 0 && f_l(&line))
-				return (-1);
-		}
-		else
-		{
-			if ((r = ft_write_next(line, &quote, assm)) < 0 && f_l(&line))
-				return (-1);
-			len_comment = len_comment + r;
-			if (quote == 1)
-			{
-				assm->tab[assm->actual_bytes] = '\n';
-				assm->actual_bytes++;
-				len_comment++;
-			}
-			if (quote == 2 && f_l(&line))
-				return (len_comment);
-		}
 		free(line);
+		if (quote == 2)
+				return (len_comment);
 	}
 	return (-1);
 }
@@ -170,16 +188,59 @@ void			ft_print_in_actual(char *str, t_asm *assm, int size)
 	assm->actual_bytes = assm->actual_bytes + size;
 }
 
+int				write_name_c(char *line, int *quote, int *len_name, t_asm *assm)
+{
+	int		r;
+
+	if ((r = ft_write_next(line, quote, assm)) < 0)
+		return (-1);
+	*len_name = *len_name + r;
+	if (*quote == 1)
+	{
+		assm->tab[assm->actual_bytes] = '\n';
+		assm->actual_bytes++;
+		*len_name = *len_name + 1;
+	}
+	if (*quote == 2)
+		return (*len_name);
+	return (1);
+}
+
+int				write_name_b(char *line, int *name, int *quote, int *len_name, t_asm *assm)
+{
+	int		i;
+	char	*str;
+
+	i = 0;
+	if (*name == 0 && (str = ft_strstr(line, NAME_CMD_STRING)))
+	{
+		*name = *name + 1;
+		if (check_nothing_before(line, NAME_CMD_STRING, 0) == 0)
+			return (-1);
+		if ((*len_name = ft_write_begin(str, NAME_CMD_STRING, quote, assm)) < 0)
+			return (-1);
+		if (*quote == 1)
+			change_assm_l(assm, len_name);
+		if (*quote == 2)
+			return (*len_name);
+	}
+	else if (*name == 0 && ft_strstr(line, NAME_CMD_STRING) == NULL)
+	{
+		if (check_nothing(line) == 0)
+			return (-1);
+	}
+	else
+		return (write_name_c(line, quote, len_name, assm));
+	return (1);
+}
+
 int				write_name(int fd, t_asm *assm)
 {
 	char	*line;
-	char	*str;
 	char	*str_2;
 	int		name;
 	int		quote;
-	int		i;
 	int		len_name;
-	int		r;
 
 	name = 0;
 	quote = 0;
@@ -188,45 +249,12 @@ int				write_name(int fd, t_asm *assm)
 	free(str_2);
 	while (get_next_line(fd, &line) > 0)
 	{
-		i = 0;
-		if (name == 0 && (str = ft_strstr(line, NAME_CMD_STRING)))
-		{
-			name++;
-			if (check_nothing_before(line, NAME_CMD_STRING, 0) == 0
-							&& f_l(&line))
-				return (-1);
-			if ((len_name = ft_write_begin(str, NAME_CMD_STRING, &quote, assm)) < 0
-						&& f_l(&line))
-				return (-1);
-			if (quote == 1)
-			{
-				assm->tab[assm->actual_bytes] = '\n';
-				assm->actual_bytes++;
-				len_name++;
-			}
-			if (quote == 2 && f_l(&line))
-				return (len_name);
-		}
-		else if (name == 0 && ft_strstr(line, NAME_CMD_STRING) == NULL)
-		{
-			if (check_nothing(line) == 0 && f_l(&line))
-				return (-1);
-		}
-		else
-		{
-			if ((r = ft_write_next(line, &quote, assm)) < 0 && f_l(&line))
-				return (-1);
-			len_name = len_name + r;
-			if (quote == 1)
-			{
-				assm->tab[assm->actual_bytes] = '\n';
-				assm->actual_bytes++;
-				len_name++;
-			}
-			if (quote == 2 && f_l(&line))
-				return (len_name);
-		}
+		if (write_name_b(line, &name, &quote, &len_name, assm) < 0
+				&& f_l(&line))
+			return (-1);
 		free(line);
+		if (quote == 2)
+			return (len_name);
 	}
 	return (-1);
 }
@@ -290,24 +318,24 @@ int				print_t_dir_b(char *str, int i, t_asm *assm, int j)
 	if (op_tab[j].label == 0)
 	{
 		if (assm->label[i].place + PROG_NAME_LENGTH
-			+ COMMENT_LENGTH + 16 - assm->actual_bytes_l >= 0)
+				+ COMMENT_LENGTH + 16 - assm->actual_bytes_l >= 0)
 			print_nb_bytes(4, assm, assm->label[i].place
-				+ PROG_NAME_LENGTH + COMMENT_LENGTH + 16
-				- assm->actual_bytes_l);
+					+ PROG_NAME_LENGTH + COMMENT_LENGTH + 16
+					- assm->actual_bytes_l);
 		else
 			print_nb_bytes(4, assm, puissance(16, 8)
-				+ (assm->label[i].place + PROG_NAME_LENGTH
-				+ COMMENT_LENGTH + 16 - assm->actual_bytes_l));
+					+ (assm->label[i].place + PROG_NAME_LENGTH
+						+ COMMENT_LENGTH + 16 - assm->actual_bytes_l));
 		return (1);
 	}
 	if (assm->label[i].place + PROG_NAME_LENGTH
-		+ COMMENT_LENGTH + 16 - assm->actual_bytes_l >= 0)
+			+ COMMENT_LENGTH + 16 - assm->actual_bytes_l >= 0)
 		print_nb_bytes(2, assm, assm->label[i].place + PROG_NAME_LENGTH
-			+ COMMENT_LENGTH + 16 - assm->actual_bytes_l);
+				+ COMMENT_LENGTH + 16 - assm->actual_bytes_l);
 	else
 		print_nb_bytes(2, assm, 65536
-		+ (assm->label[i].place + PROG_NAME_LENGTH
-			+ COMMENT_LENGTH + 16 - assm->actual_bytes_l));
+				+ (assm->label[i].place + PROG_NAME_LENGTH
+					+ COMMENT_LENGTH + 16 - assm->actual_bytes_l));
 	return (1);
 }
 
@@ -355,7 +383,7 @@ int				print_t_ind(char *str, t_asm *assm)
 					+ COMMENT_LENGTH + 16 - assm->actual_bytes_l);
 		else
 			print_nb_bytes(2, assm, 65536 + (assm->label[i].place +
-				PROG_NAME_LENGTH + COMMENT_LENGTH + 16 - assm->actual_bytes_l));
+						PROG_NAME_LENGTH + COMMENT_LENGTH + 16 - assm->actual_bytes_l));
 		return (1);
 	}
 	if (*str == '-')

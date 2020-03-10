@@ -114,7 +114,7 @@ int			check_comment_b(char *line, int *comment, int *quote, int *len_c)
 			return (return_f("FATAL_ERROR - wrong syntax on a line\n", -1));
 	}
 	else
-		return (check_name_c(line, quote, len_c));
+		return (check_comment_c(line, quote, len_c));
 	return (1);
 }
 
