@@ -40,7 +40,12 @@ typedef struct		s_asm
 	t_label			*label;
 }					t_asm;
 
-
+typedef struct		s_op_n
+{
+		int 		i;
+		int 		j;
+		int 		count;
+}					t_op_n;
 
 int					ft_error(char *str, int fd, int a);
 char				*change_s_cor(char *str);
@@ -91,7 +96,7 @@ int					check_label_2(char *line, t_asm *assm);
 char				*ft_put_together_b(char *str, char **res);
 char				*suppr_space_label_b(char *line, int i);
 char				*suppr_space_b(char *line, int j);
-int					check_params_b(char **tmp, int i, int j, int count);
+int					check_params_b(char **tmp, t_op_n n);
 char				*stock_label_b(char *line, int i);
 int					ft_second_turn_b(t_asm *assm, int fd, int i);
 int					ft_third_turn_b(t_asm *assm, int fd);
@@ -100,9 +105,10 @@ char				*ft_return_space(char *str);
 short				free_global(t_asm *assm, int nb);
 short				f_l(char **line);
 char				*check_label(char *line, int i);
-int					check_params_label_b(char **tmp, int i, int j, int count, t_asm *assm);
+int					check_params_label_b(char **tmp, t_op_n op_n, t_asm *assm);
 int					check_params_label(char **tmp, int i, t_asm *assm);
 int					check_n_b(int i, char *str);
 int					check_t_dir_label_b(char c, char *str);
+t_op_n				ft_init_op_n(int i, int j, int count);
 
 #endif

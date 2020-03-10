@@ -19,6 +19,16 @@ short	f_l(char **line)
 	return (1);
 }
 
+t_op_n	ft_init_op_n(int i, int j, int count)
+{
+	t_op_n	op_n;
+
+	op_n.i = i;
+	op_n.j = j;
+	op_n.count = count;
+	return (op_n);
+}
+
 int		ft_error(char *str, int fd, int error)
 {
 	if (error >= 0)

@@ -206,25 +206,25 @@ char		*suppr_space_label(char *line, t_asm *assm, int i)
 	return ("\0");
 }
 
-int			check_params_b(char **tmp, int i, int j, int count)
+int			check_params_b(char **tmp, t_op_n n)
 {
-	if ((op_tab[i].args[j] == T_DIR
-		|| op_tab[i].args[j] == T_DIR + T_REG
-		|| op_tab[i].args[j] == T_DIR + T_IND
-		|| op_tab[i].args[j] == T_DIR + T_REG + T_IND)
-			&& check_t_dir(tmp[j]) == 1)
+	if ((op_tab[n.i].args[n.j] == T_DIR
+		|| op_tab[n.i].args[n.j] == T_DIR + T_REG
+		|| op_tab[n.i].args[n.j] == T_DIR + T_IND
+		|| op_tab[n.i].args[n.j] == T_DIR + T_REG + T_IND)
+			&& check_t_dir(tmp[n.j]) == 1)
 	{
-		if (op_tab[i].label == 0)
-			return (count + 4);
+		if (op_tab[n.i].label == 0)
+			return (n.count + 4);
 		else
-			return (count + 2);
+			return (n.count + 2);
 	}
-	else if ((op_tab[i].args[j] == T_IND
-				|| op_tab[i].args[j] == T_IND + T_REG
-				|| op_tab[i].args[j] == T_IND + T_DIR
-				|| op_tab[i].args[j] == T_IND + T_DIR + T_REG)
-			&& check_t_ind(tmp[j]) == 1)
-		return (count + 2);
+	else if ((op_tab[n.i].args[n.j] == T_IND
+				|| op_tab[n.i].args[n.j] == T_IND + T_REG
+				|| op_tab[n.i].args[n.j] == T_IND + T_DIR
+				|| op_tab[n.i].args[n.j] == T_IND + T_DIR + T_REG)
+			&& check_t_ind(tmp[n.j]) == 1)
+		return (n.count + 2);
 	return (return_f("FATAL ERROR - not match with the opcode\n", -1));
 }
 
@@ -245,7 +245,7 @@ int			check_params(char **tmp, int i)
 				&& check_t_reg(tmp[j]) == 1)
 			count = count + 1;
 		else
-			count = check_params_b(tmp, i, j, count);
+			count = check_params_b(tmp, ft_init_op_n(i, j, count));
 		if (count < 0)
 			return (-1);
 		j++;
