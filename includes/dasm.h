@@ -29,6 +29,13 @@ typedef struct		s_dasm
 	int				fd;
 }					t_dasm;
 
+typedef struct		s_op_n
+{
+	int				i;
+	int				j;
+	int				opcode;
+}					t_op_n;
+
 int					ft_error(char *str, int fd, int error, int r);
 int					return_f(char *str, int return_f);
 void				free_tab(char **tab);
@@ -44,14 +51,17 @@ int					check_number_instruct(t_dasm *dasm);
 int					then(t_dasm *dasm);
 int					instruct_alone(t_dasm *dasm, int i);
 int					write_opcode(t_dasm *dasm, int opcode);
-int					write_big_arg(t_dasm *dasm, unsigned int nb_i,
-						int opcode, int j, int i);
-int					write_small_arg(t_dasm *dasm, int opcode, int j, int i);
+int					write_big_arg(t_dasm *dasm, unsigned int nb_i, t_op_n n);
+int					write_small_arg(t_dasm *dasm, t_op_n n);
 void				ft_putnbr_dasm(int n, t_dasm *dasm, int *j);
 int					write_reg(t_dasm *dasm, int j, int i);
 int					write_dir(t_dasm *dasm, int j, int i, int opcode);
 int					write_ind(t_dasm *dasm, int j, int i);
 unsigned long		puissance(unsigned long nb, int p);
 void				ft_putnbr_dasm_b(t_dasm *dasm, int *j);
+t_op_n				change_op_n(int i, int j, int opcode);
+t_op_n				write_big_a_1(t_op_n n, int pass, t_dasm *dasm);
+t_op_n				write_big_a_2(t_op_n n, int pass, t_dasm *dasm);
+t_op_n				write_big_a_3(t_op_n n, int pass, t_dasm *dasm);
 
 #endif

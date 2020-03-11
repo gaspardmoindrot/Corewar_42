@@ -383,7 +383,7 @@ int				print_t_ind(char *str, t_asm *assm)
 					+ COMMENT_LENGTH + 16 - assm->actual_bytes_l);
 		else
 			print_nb_bytes(2, assm, 65536 + (assm->label[i].place +
-						PROG_NAME_LENGTH + COMMENT_LENGTH + 16 - assm->actual_bytes_l));
+				PROG_NAME_LENGTH + COMMENT_LENGTH + 16 - assm->actual_bytes_l));
 		return (1);
 	}
 	if (*str == '-')
