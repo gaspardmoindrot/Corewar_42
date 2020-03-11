@@ -12,20 +12,20 @@
 
 #include "../../includes/asm.h"
 
-int				write_comment_c(char *line, int *quote, int *len_comment, t_asm *assm)
+int				write_comment_c(char *line, int *len_comment, t_asm *assm)
 {
 	int		r;
 
-	if ((r = ft_write_next(line, quote, assm)) < 0)
+	if ((r = ft_write_next(line, &(assm->quote), assm)) < 0)
 		return (-1);
 	*len_comment = *len_comment + r;
-	if (*quote == 1)
+	if (assm->quote == 1)
 	{
 		assm->tab[assm->actual_bytes] = '\n';
 		assm->actual_bytes++;
 		*len_comment = *len_comment + 1;
 	}
-	if (*quote == 2)
+	if (assm->quote == 2)
 		return (*len_comment);
 	return (1);
 }
@@ -37,7 +37,7 @@ void			change_assm_l(t_asm *assm, int *len_comment)
 	*len_comment = *len_comment + 1;
 }
 
-int				write_comment_b(char *line, int *comment, int *quote,
+int				write_comment_b(char *line, int *comment,
 					int *len_comment, t_asm *assm)
 {
 	int		i;
@@ -49,11 +49,12 @@ int				write_comment_b(char *line, int *comment, int *quote,
 		*comment = *comment + 1;
 		if (check_nothing_before(line, COMMENT_CMD_STRING, 0) == 0)
 			return (-1);
-		if ((*len_comment = ft_write_begin(str, COMMENT_CMD_STRING, quote, assm)) < 0)
+		if ((*len_comment = ft_write_begin(str, COMMENT_CMD_STRING,
+					&(assm->quote), assm)) < 0)
 			return (-1);
-		if (*quote == 1)
+		if (assm->quote == 1)
 			change_assm_l(assm, len_comment);
-		if (*quote == 2)
+		if (assm->quote == 2)
 			return (*len_comment);
 	}
 	else if (*comment == 0 && ft_strstr(line, COMMENT_CMD_STRING) == NULL)
@@ -62,7 +63,7 @@ int				write_comment_b(char *line, int *comment, int *quote,
 			return (-1);
 	}
 	else
-			return (write_comment_c(line, quote, len_comment, assm));
+			return (write_comment_c(line, len_comment, assm));
 	return (1);
 }
 
@@ -71,22 +72,21 @@ int				write_comment(int fd, t_asm *assm)
 	char	*line;
 	char	*str_2;
 	int		comment;
-	int		quote;
 	int		len_comment;
 
 	comment = 0;
-	quote = 0;
+	assm->quote = 0;
 	ft_print_in_actual("0\0", assm, 4);
 	str_2 = ft_itoa_base(assm->len_bytes, 16);
 	ft_print_in_actual(str_2, assm, 4);
 	free(str_2);
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (write_comment_b(line, &comment, &quote, &len_comment, assm) < 0
+		if (write_comment_b(line, &comment, &len_comment, assm) < 0
 						&& f_l(&line))
 				return (-1);
 		free(line);
-		if (quote == 2)
+		if (assm->quote == 2)
 				return (len_comment);
 	}
 	return (-1);

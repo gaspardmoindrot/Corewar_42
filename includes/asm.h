@@ -37,6 +37,7 @@ typedef struct		s_asm
 	int				actual_bytes_l;
 	int				nb_label;
 	int				line_error;
+	int				quote;
 	t_label			*label;
 }					t_asm;
 
@@ -116,8 +117,8 @@ int					check_comment_c(char *line, int *quote, int *len_comment);
 int					check_comment_b(char *line, int *c, int *quote, int *l_c);
 int					write_name_b(char *l, int *n, int *q, int *l_n, t_asm *a);
 int					write_name_c(char *l, int *q, int *l_n, t_asm *assm);
-int					write_comment_b(char *l, int *c, int *q, int *ln, t_asm *a);
-int					write_comment_c(char *l, int *q, int *ln, t_asm *a);
+int					write_comment_b(char *l, int *c, int *ln, t_asm *a);
+int					write_comment_c(char *l, int *ln, t_asm *a);
 void				change_assm_l(t_asm *assm, int *len_comment);
 
 #endif
