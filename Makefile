@@ -45,7 +45,8 @@ DASM_SRCS_FILES		:=	dasm.c \
 				init.c \
 				then.c \
 				op.c \
-				write_argu.c
+				write_argu.c \
+				init_op_tab.c
 
 CORE_SRCS_FILES		:=	corewar.c
 

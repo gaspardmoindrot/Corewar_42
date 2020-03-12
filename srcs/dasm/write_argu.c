@@ -66,7 +66,7 @@ int		write_reg(t_dasm *dasm, int j, int i)
 	return (j);
 }
 
-int		write_dir(t_dasm *dasm, int j, int i, int opcode)
+int		write_dir(t_dasm *dasm, int j, int i, int opcode, t_op *op_tab)
 {
 	unsigned int	nb;
 

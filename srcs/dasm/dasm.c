@@ -80,8 +80,11 @@ static void	print_dasm(t_dasm *dasm)
 int			main(int argc, char **argv)
 {
 	t_dasm	dasm;
+	t_op	*op_tab;
 	int		nb;
 
+	if (!(op_tab = init_op_tab()))
+		return (0);
 	nb = COMMENT_LENGTH + PROG_NAME_LENGTH + CHAMP_MAX_SIZE + 17;
 	if (argc != 2)
 		return (ft_error("usage: ./asm champion.s\n", 2, -1, 0));
@@ -97,7 +100,7 @@ int			main(int argc, char **argv)
 	dasm.tab = init_tab();
 	if (begin(&dasm) == -1)
 		return (ft_error("error : your file is incorrect\n", 2, -1, 0));
-	if (then(&dasm) == -1)
+	if (then(&dasm, op_tab) == -1)
 		return (ft_error("error : instructions are false\n", 2, -1, 0));
 	print_dasm(&dasm);
 	free_tab(dasm.tab);
