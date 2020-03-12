@@ -66,7 +66,7 @@ int		write_reg(t_dasm *dasm, int j, int i)
 	return (j);
 }
 
-int		write_dir(t_dasm *dasm, int j, int i, int opcode, t_op *op_tab)
+int		write_dir(t_dasm *dasm, int j, int opcode, t_op *op_tab)
 {
 	unsigned int	nb;
 
@@ -74,15 +74,15 @@ int		write_dir(t_dasm *dasm, int j, int i, int opcode, t_op *op_tab)
 	j++;
 	if (op_tab[opcode - 1].label == 1)
 	{
-		nb = dasm->buf[i] * 256 + dasm->buf[i + 1];
+		nb = dasm->buf[dasm->i] * 256 + dasm->buf[dasm->i + 1];
 		if (nb > 32767)
 			nb = nb - 65536;
 		ft_putnbr_dasm(nb, dasm, &j);
 	}
 	else
 	{
-		nb = dasm->buf[i] * 16777216 + dasm->buf[i + 1] * 65536
-			+ dasm->buf[i + 2] * 256 + dasm->buf[i + 3];
+		nb = dasm->buf[dasm->i] * 16777216 + dasm->buf[dasm->i + 1] * 65536
+			+ dasm->buf[dasm->i + 2] * 256 + dasm->buf[dasm->i + 3];
 		ft_putnbr_dasm(nb, dasm, &j);
 	}
 	return (j);

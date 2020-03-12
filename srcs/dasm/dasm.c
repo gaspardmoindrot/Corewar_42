@@ -100,20 +100,28 @@ short	free_op_tab(t_op *op_tab)
 	return (1);
 }
 
+void		end_dasm(t_dasm *dasm, t_op *op_tab)
+{
+	print_dasm(dasm);
+	free_tab(dasm->tab);
+	free(dasm->file);
+	free_op_tab(op_tab);
+	close(dasm->fd);
+}
+
 int			main(int argc, char **argv)
 {
 	t_dasm	dasm;
 	t_op	*op_tab;
-	int		nb;
 
 	if (!(op_tab = init_op_tab()))
 		return (0);
-	nb = COMMENT_LENGTH + PROG_NAME_LENGTH + CHAMP_MAX_SIZE + 17;
 	if (argc != 2 && free_op_tab(op_tab))
 		return (ft_error("usage: ./asm champion.s\n", 2, -1, 0));
 	if ((dasm.fd = open(argv[1], O_RDONLY)) < 3 && free_op_tab(op_tab))
 		return (ft_error("can't open the file\n", 2, -1, 0));
-	if ((dasm.ret = read(dasm.fd, dasm.buf, nb)) < 0 && free_op_tab(op_tab))
+	if ((dasm.ret = read(dasm.fd, dasm.buf, COMMENT_LENGTH + PROG_NAME_LENGTH
+			+ CHAMP_MAX_SIZE + 17)) < 0 && free_op_tab(op_tab))
 		return (ft_error("can't read the file\n", 2, -1, 0));
 	if (dasm.ret > COMMENT_LENGTH + PROG_NAME_LENGTH + CHAMP_MAX_SIZE + 16
 			&& free_op_tab(op_tab))
@@ -126,10 +134,6 @@ int			main(int argc, char **argv)
 		return (ft_error("error : your file is incorrect\n", 2, -1, 0));
 	if (then(&dasm, op_tab) == -1 && free_op_tab(op_tab))
 		return (ft_error("error : instructions are false\n", 2, -1, 0));
-	print_dasm(&dasm);
-	free_tab(dasm.tab);
-	free(dasm.file);
-	free_op_tab(op_tab);
-	close(dasm.fd);
+	end_dasm(&dasm, op_tab);
 	return (0);
 }

@@ -76,7 +76,8 @@ t_op_n			write_big_a_2(t_op_n n, int pass, t_dasm *dasm, t_op *op_tab)
 		n.i = -1;
 		return (n);
 	}
-	n.j = write_dir(dasm, n.j, n.i, n.opcode, op_tab);
+	dasm->i = n.i;
+	n.j = write_dir(dasm, n.j, n.opcode, op_tab);
 	if (op_tab[n.opcode - 1].label == 1)
 		n.i = n.i + 2;
 	else
@@ -99,7 +100,8 @@ t_op_n			write_big_a_3(t_op_n n, int pass, t_dasm *dasm, t_op *op_tab)
 	return (n);
 }
 
-int				write_big_arg(t_dasm *dasm, unsigned int nb_i, t_op_n n, t_op *op_tab)
+int				write_big_arg(t_dasm *dasm, unsigned int nb_i,
+					t_op_n n, t_op *op_tab)
 {
 	int		pass;
 	int		inst;
@@ -136,7 +138,8 @@ int				write_small_arg(t_dasm *dasm, t_op_n n, t_op *op_tab)
 	}
 	else if (op_tab[n.opcode - 1].args[0] == 2)
 	{
-		write_dir(dasm, n.j, n.i + 1, n.opcode, op_tab);
+		dasm->i = n.i + 1;
+		write_dir(dasm, n.j, n.opcode, op_tab);
 		if (op_tab[n.opcode - 1].label == 1)
 			return (2);
 		return (4);
@@ -149,29 +152,28 @@ int				write_small_arg(t_dasm *dasm, t_op_n n, t_op *op_tab)
 	return (-1);
 }
 
-int				instruct_alone(t_dasm *dasm, int i, t_op *op_tab)
+int				instruct_alone(t_dasm *dasm, int i, t_op *o)
 {
 	int				j;
 	int				nb;
 	unsigned int	nb_inst;
-	int				opcode;
+	int				op;
 
 	j = 0;
 	nb_inst = dasm->buf[i + 1];
-	opcode = dasm->buf[i];
-	if (opcode < 1 || opcode > 16
-			|| (nb_inst < 1 && op_tab[opcode - 1].nb_arg != 1))
+	op = dasm->buf[i];
+	if (op < 1 || op > 16 || (nb_inst < 1 && o[op - 1].nb_arg != 1))
 		return (return_f("FATAL ERROR : unknown opcode\n", -1));
-	j = write_opcode(dasm, opcode, op_tab);
-	if (op_tab[opcode - 1].nb_arg > 1)
+	j = write_opcode(dasm, op, o);
+	if (o[op - 1].nb_arg > 1)
 	{
-		if ((nb = write_big_arg(dasm, nb_inst, change_op_n(i, j, opcode), op_tab)) == -1)
+		if ((nb = write_big_arg(dasm, nb_inst, change_op_n(i, j, op), o)) == -1)
 			return (return_f("FATAL ERROR : pb instuct\n", -1));
 		i = nb;
 	}
 	else
 	{
-		if ((nb = write_small_arg(dasm, change_op_n(i, j, opcode), op_tab)) == -1)
+		if ((nb = write_small_arg(dasm, change_op_n(i, j, op), o)) == -1)
 			return (return_f("FATAL ERROR : pb instuct\n", -1));
 		i = i + nb + 1;
 	}
