@@ -206,7 +206,7 @@ char		*suppr_space_label(char *line, t_asm *assm, int i)
 	return ("\0");
 }
 
-int			check_params_b(char **tmp, t_op_n n)
+int			check_params_b(char **tmp, t_op_n n, t_op *op_tab)
 {
 	if ((op_tab[n.i].args[n.j] == T_DIR
 		|| op_tab[n.i].args[n.j] == T_DIR + T_REG
@@ -228,7 +228,7 @@ int			check_params_b(char **tmp, t_op_n n)
 	return (return_f("FATAL ERROR - not match with the opcode\n", -1));
 }
 
-int			check_params(char **tmp, int i)
+int			check_params(char **tmp, int i, t_op *op_tab)
 {
 	int	j;
 	int	count;
@@ -245,7 +245,7 @@ int			check_params(char **tmp, int i)
 				&& check_t_reg(tmp[j]) == 1)
 			count = count + 1;
 		else
-			count = check_params_b(tmp, ft_init_op_n(i, j, count));
+			count = check_params_b(tmp, ft_init_op_n(i, j, count), op_tab);
 		if (count < 0)
 			return (-1);
 		j++;
@@ -255,7 +255,7 @@ int			check_params(char **tmp, int i)
 	return (count);
 }
 
-int			check_line_instruc(char *line)
+int			check_line_instruc(char *line, t_op *op_tab)
 {
 	char	**tmp;
 	char	**pmt;
@@ -275,7 +275,7 @@ int			check_line_instruc(char *line)
 		return (return_f("FATAL ERROR - there is a final coma\n", -1));
 	pmt = ft_strsplit(tmp[1], SEPARATOR_CHAR);
 	free_tab(tmp);
-	if ((count = check_params(pmt, i)) < 0 && free_tab(pmt))
+	if ((count = check_params(pmt, i, op_tab)) < 0 && free_tab(pmt))
 		return (-1);
 	free_tab(pmt);
 	count++;
@@ -284,7 +284,7 @@ int			check_line_instruc(char *line)
 	return (count);
 }
 
-int			check_instruc(int fd, t_asm *assm)
+int			check_instruc(int fd, t_asm *assm, t_op *op_tab)
 {
 	char	*line;
 	char	*str;
@@ -300,7 +300,7 @@ int			check_instruc(int fd, t_asm *assm)
 			;
 		else
 		{
-			if ((r = check_line_instruc(str)) < 0 && f_l(&str)
+			if ((r = check_line_instruc(str, op_tab)) < 0 && f_l(&str)
 					&& f_l(&line))
 				return (-1);
 			assm->len_bytes = assm->len_bytes + r;

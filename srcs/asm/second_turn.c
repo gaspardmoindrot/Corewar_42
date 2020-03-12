@@ -69,7 +69,7 @@ char		*stock_label(char *line, t_asm *assm, int *j, int i)
 	return ("\0");
 }
 
-int			ft_second_turn_b(t_asm *assm, int fd, int i)
+int			ft_second_turn_b(t_asm *assm, int fd, int i, t_op *op_tab)
 {
 	char	*line;
 	char	*str_2;
@@ -84,7 +84,7 @@ int			ft_second_turn_b(t_asm *assm, int fd, int i)
 			;
 		else
 		{
-			if ((r = check_line_instruc(str_2)) < 0 && f_l(&line))
+			if ((r = check_line_instruc(str_2, op_tab)) < 0 && f_l(&line))
 				return (-1);
 			free(str_2);
 			assm->actual_bytes = assm->actual_bytes + r;
@@ -94,7 +94,7 @@ int			ft_second_turn_b(t_asm *assm, int fd, int i)
 	return (0);
 }
 
-int			ft_second_turn(t_asm *assm, char *str)
+int			ft_second_turn(t_asm *assm, char *str, t_op *op_tab)
 {
 	int	fd;
 
@@ -112,7 +112,7 @@ int			ft_second_turn(t_asm *assm, char *str)
 		return (-1);
 	if (check_comment(fd, &assm->line_error) < 0)
 		return (-1);
-	if (ft_second_turn_b(assm, fd, 0) < 0)
+	if (ft_second_turn_b(assm, fd, 0, op_tab) < 0)
 		return (-1);
 	close(fd);
 	return (0);

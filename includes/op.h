@@ -72,6 +72,4 @@ typedef struct					s_op
 # define COMMENT_LENGTH			2048
 # define COREWAR_EXEC_MAGIC		0xea83f3
 
-extern t_op						op_tab[17];
-
 #endif

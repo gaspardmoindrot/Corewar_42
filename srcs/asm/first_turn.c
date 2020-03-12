@@ -140,7 +140,7 @@ int			check_comment(int fd, int *error)
 	return (return_f("FATAL ERROR - wrong syntax comment\n", -1));
 }
 
-t_asm		first_turn(char *str, t_asm assm)
+t_asm		first_turn(char *str, t_asm assm, t_op *op_tab)
 {
 	int		fd;
 
@@ -156,7 +156,7 @@ t_asm		first_turn(char *str, t_asm assm)
 		return (assm);
 	if ((assm.len_comment = check_comment(fd, &assm.line_error)) < 0)
 		return (assm);
-	if ((assm.len_bytes = check_instruc(fd, &assm)) < 0)
+	if ((assm.len_bytes = check_instruc(fd, &assm, op_tab)) < 0)
 		return (assm);
 	close(fd);
 	return (assm);

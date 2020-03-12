@@ -274,7 +274,7 @@ unsigned long	puissance(unsigned long nb, int p)
 	return (nb_f);
 }
 
-void			ft_char_argu(char **tmp, int i, t_asm *assm)
+void			ft_char_argu(char **tmp, int i, t_asm *assm, t_op *op_tab)
 {
 	int	j;
 	int	count;
@@ -310,7 +310,7 @@ int				print_t_reg(char *str, t_asm *assm)
 	return (1);
 }
 
-int				print_t_dir_b(char *str, int i, t_asm *assm, int j)
+int				print_t_dir_b(char *str, int i, t_asm *assm, int j, t_op *op_tab)
 {
 	str++;
 	while (ft_strcmp(str, assm->label[i].name) != 0)
@@ -339,7 +339,7 @@ int				print_t_dir_b(char *str, int i, t_asm *assm, int j)
 	return (1);
 }
 
-int				print_t_dir(char *str, t_asm *assm, int j)
+int				print_t_dir(char *str, t_asm *assm, int j, t_op *op_tab)
 {
 	int i;
 
@@ -348,7 +348,7 @@ int				print_t_dir(char *str, t_asm *assm, int j)
 		return (-1);
 	str++;
 	if (*str == LABEL_CHAR)
-		return (print_t_dir_b(str, i, assm, j));
+		return (print_t_dir_b(str, i, assm, j, op_tab));
 	if (*str == '-')
 	{
 		str++;
@@ -415,7 +415,7 @@ void			print_nb_bytes(int bytes, t_asm *assm, unsigned int nb)
 	assm->actual_bytes = assm->actual_bytes + bytes;
 }
 
-void			ft_print_params(char **tmp, int i, t_asm *assm)
+void			ft_print_params(char **tmp, int i, t_asm *assm, t_op *op_tab)
 {
 	int	j;
 	int	count;
@@ -426,7 +426,7 @@ void			ft_print_params(char **tmp, int i, t_asm *assm)
 	{
 		if (print_t_reg(tmp[j], assm) == 1)
 			;
-		else if (print_t_dir(tmp[j], assm, i) == 1)
+		else if (print_t_dir(tmp[j], assm, i, op_tab) == 1)
 			;
 		else if (print_t_ind(tmp[j], assm) == 1)
 			;
@@ -434,7 +434,7 @@ void			ft_print_params(char **tmp, int i, t_asm *assm)
 	}
 }
 
-int				print_line_instruc(char *line, t_asm *assm)
+int				print_line_instruc(char *line, t_asm *assm, t_op *op_tab)
 {
 	char	**tmp;
 	char	**pmt;
@@ -451,13 +451,13 @@ int				print_line_instruc(char *line, t_asm *assm)
 	pmt = ft_strsplit(tmp[1], SEPARATOR_CHAR);
 	free_tab(tmp);
 	if (op_tab[i].nb_arg > 1)
-		ft_char_argu(pmt, i, assm);
-	ft_print_params(pmt, i, assm);
+		ft_char_argu(pmt, i, assm, op_tab);
+	ft_print_params(pmt, i, assm, op_tab);
 	free_tab(pmt);
 	return (0);
 }
 
-int				print_instruc(int fd, t_asm *assm)
+int				print_instruc(int fd, t_asm *assm, t_op *op_tab)
 {
 	char	*line;
 	char	*str;
@@ -476,7 +476,7 @@ int				print_instruc(int fd, t_asm *assm)
 			;
 		else
 		{
-			print_line_instruc(str, assm);
+			print_line_instruc(str, assm, op_tab);
 			free(str);
 		}
 		free(line);
@@ -484,7 +484,7 @@ int				print_instruc(int fd, t_asm *assm)
 	return (assm->len_bytes);
 }
 
-int				ft_print_binaire(t_asm *assm, char *str)
+int				ft_print_binaire(t_asm *assm, char *str, t_op *op_tab)
 {
 	int	fd;
 
@@ -498,7 +498,7 @@ int				ft_print_binaire(t_asm *assm, char *str)
 	assm->actual_bytes = PROG_NAME_LENGTH + 4;
 	write_comment(fd, assm);
 	assm->actual_bytes = PROG_NAME_LENGTH + COMMENT_LENGTH + 16;
-	print_instruc(fd, assm);
+	print_instruc(fd, assm, op_tab);
 	close(fd);
 	return (0);
 }
