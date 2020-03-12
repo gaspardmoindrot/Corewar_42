@@ -188,25 +188,25 @@ void			ft_print_in_actual(char *str, t_asm *assm, int size)
 	assm->actual_bytes = assm->actual_bytes + size;
 }
 
-int				write_name_c(char *line, int *quote, int *len_name, t_asm *assm)
+int				write_name_c(char *line, int *len_name, t_asm *assm)
 {
 	int		r;
 
-	if ((r = ft_write_next(line, quote, assm)) < 0)
+	if ((r = ft_write_next(line, &(assm->quote), assm)) < 0)
 		return (-1);
 	*len_name = *len_name + r;
-	if (*quote == 1)
+	if (assm->quote == 1)
 	{
 		assm->tab[assm->actual_bytes] = '\n';
 		assm->actual_bytes++;
 		*len_name = *len_name + 1;
 	}
-	if (*quote == 2)
+	if (assm->quote == 2)
 		return (*len_name);
 	return (1);
 }
 
-int				write_name_b(char *line, int *name, int *quote, int *len_name, t_asm *assm)
+int				write_name_b(char *line, int *name, int *len_name, t_asm *assm)
 {
 	int		i;
 	char	*str;
@@ -217,11 +217,12 @@ int				write_name_b(char *line, int *name, int *quote, int *len_name, t_asm *ass
 		*name = *name + 1;
 		if (check_nothing_before(line, NAME_CMD_STRING, 0) == 0)
 			return (-1);
-		if ((*len_name = ft_write_begin(str, NAME_CMD_STRING, quote, assm)) < 0)
+		if ((*len_name = ft_write_begin(str, NAME_CMD_STRING,
+				&(assm->quote), assm)) < 0)
 			return (-1);
-		if (*quote == 1)
+		if (assm->quote == 1)
 			change_assm_l(assm, len_name);
-		if (*quote == 2)
+		if (assm->quote == 2)
 			return (*len_name);
 	}
 	else if (*name == 0 && ft_strstr(line, NAME_CMD_STRING) == NULL)
@@ -230,7 +231,7 @@ int				write_name_b(char *line, int *name, int *quote, int *len_name, t_asm *ass
 			return (-1);
 	}
 	else
-		return (write_name_c(line, quote, len_name, assm));
+		return (write_name_c(line, len_name, assm));
 	return (1);
 }
 
@@ -239,21 +240,20 @@ int				write_name(int fd, t_asm *assm)
 	char	*line;
 	char	*str_2;
 	int		name;
-	int		quote;
 	int		len_name;
 
 	name = 0;
-	quote = 0;
+	assm->quote = 0;
 	str_2 = ft_itoa_base(COREWAR_EXEC_MAGIC, 16);
 	ft_print_in_actual(str_2, assm, 4);
 	free(str_2);
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (write_name_b(line, &name, &quote, &len_name, assm) < 0
+		if (write_name_b(line, &name, &len_name, assm) < 0
 				&& f_l(&line))
 			return (-1);
 		free(line);
-		if (quote == 2)
+		if (assm->quote == 2)
 			return (len_name);
 	}
 	return (-1);
@@ -310,12 +310,12 @@ int				print_t_reg(char *str, t_asm *assm)
 	return (1);
 }
 
-int				print_t_dir_b(char *str, int i, t_asm *assm, int j, t_op *op_tab)
+int				print_t_dir_b(char *str, int i, t_asm *assm, t_op *op_tab)
 {
 	str++;
 	while (ft_strcmp(str, assm->label[i].name) != 0)
 		i++;
-	if (op_tab[j].label == 0)
+	if (op_tab[assm->quote].label == 0)
 	{
 		if (assm->label[i].place + PROG_NAME_LENGTH
 				+ COMMENT_LENGTH + 16 - assm->actual_bytes_l >= 0)
@@ -347,8 +347,9 @@ int				print_t_dir(char *str, t_asm *assm, int j, t_op *op_tab)
 	if (*str != DIRECT_CHAR)
 		return (-1);
 	str++;
+	assm->quote = j;
 	if (*str == LABEL_CHAR)
-		return (print_t_dir_b(str, i, assm, j, op_tab));
+		return (print_t_dir_b(str, i, assm, op_tab));
 	if (*str == '-')
 	{
 		str++;

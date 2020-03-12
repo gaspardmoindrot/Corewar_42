@@ -17,8 +17,6 @@
 # include "op.h"
 # include <fcntl.h>
 
-# define OP(index)	op_tab[index]
-
 typedef struct		s_label
 {
 	int				place;
@@ -114,32 +112,33 @@ int					check_name_c(char *line, int *quote, int *len_name);
 int					check_name_b(char *line, int *name, int *quote, int *l_n);
 int					check_comment_c(char *line, int *quote, int *len_comment);
 int					check_comment_b(char *line, int *c, int *quote, int *l_c);
-int					write_name_b(char *l, int *n, int *q, int *l_n, t_asm *a);
-int					write_name_c(char *l, int *q, int *l_n, t_asm *assm);
+int					write_name_b(char *l, int *n, int *l_n, t_asm *a);
+int					write_name_c(char *l, int *l_n, t_asm *assm);
 int					write_comment_b(char *l, int *c, int *ln, t_asm *a);
 int					write_comment_c(char *l, int *ln, t_asm *a);
 void				change_assm_l(t_asm *assm, int *len_comment);
 t_op				*init_op_tab(void);
-int					print_t_dir_b(char *str, int i, t_asm *assm, int j, t_op *op_tab);
+int					print_t_dir_b(char *str, int i, t_asm *assm, t_op *op_tab);
 void				free_op_tab(t_op *op_tab);
-
-char    *name_op_tab(char *str);
-void    init_op_tab_1(t_op *op_tab);
-void    init_op_tab_2(t_op *op_tab);
-void    init_op_tab_3(t_op *op_tab);
-void    init_op_tab_4(t_op *op_tab);
-void    init_op_tab_5(t_op *op_tab);
-void    init_op_tab_6(t_op *op_tab);
-void    init_op_tab_7(t_op *op_tab);
-void    init_op_tab_8(t_op *op_tab);
-void    init_op_tab_9(t_op *op_tab);
-void    init_op_tab_10(t_op *op_tab);
-void    init_op_tab_11(t_op *op_tab);
-void    init_op_tab_12(t_op *op_tab);
-void    init_op_tab_13(t_op *op_tab);
-void    init_op_tab_14(t_op *op_tab);
-void    init_op_tab_15(t_op *op_tab);
-void    init_op_tab_16(t_op *op_tab);
-void    init_op_tab_17(t_op *op_tab);
+char				*name_op_tab(char *str);
+void				init_op_tab_1(t_op *op_tab);
+void				init_op_tab_2(t_op *op_tab);
+void				init_op_tab_3(t_op *op_tab);
+void				init_op_tab_4(t_op *op_tab);
+void				init_op_tab_5(t_op *op_tab);
+void				init_op_tab_6(t_op *op_tab);
+void				init_op_tab_7(t_op *op_tab);
+void				init_op_tab_8(t_op *op_tab);
+void				init_op_tab_9(t_op *op_tab);
+void				init_op_tab_10(t_op *op_tab);
+void				init_op_tab_11(t_op *op_tab);
+void				init_op_tab_12(t_op *op_tab);
+void				init_op_tab_13(t_op *op_tab);
+void				init_op_tab_14(t_op *op_tab);
+void				init_op_tab_15(t_op *op_tab);
+void				init_op_tab_16(t_op *op_tab);
+void				init_op_tab_17(t_op *op_tab);
+void				ft_change_tab_asm(t_asm *assm);
+int					check_label_dir(char *str, t_asm *assm);
 
 #endif

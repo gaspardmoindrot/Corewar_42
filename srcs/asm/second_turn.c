@@ -105,7 +105,8 @@ int			ft_second_turn(t_asm *assm, char *str, t_op *op_tab)
 		ft_putstr("\033[0;31merror : can't open the file\n\033[0m");
 		exit(EXIT_SUCCESS);
 	}
-	if (!(assm->label = (t_label *)malloc(sizeof(t_label) * (assm->nb_label + 1))))
+	if (!(assm->label = (t_label *)malloc(sizeof(t_label)
+			* (assm->nb_label + 1))))
 		return (return_f("FATAL ERROR - problem with a malloc\n", -1));
 	assm->label[assm->nb_label].name = NULL;
 	if (check_name(fd, &assm->line_error) < 0)

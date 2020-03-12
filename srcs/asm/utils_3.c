@@ -12,7 +12,7 @@
 
 #include "../../includes/asm.h"
 
-static int	check_label_dir(char *str, t_asm *assm)
+int	check_label_dir(char *str, t_asm *assm)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ static int	check_label_dir(char *str, t_asm *assm)
 	return (-1);
 }
 
-int			check_t_dir_label_b(char c, char *str)
+int	check_t_dir_label_b(char c, char *str)
 {
 	if (c == '-')
 	{
@@ -41,7 +41,7 @@ int			check_t_dir_label_b(char c, char *str)
 	return (1);
 }
 
-int			check_t_dir_label(char *str, t_asm *assm)
+int	check_t_dir_label(char *str, t_asm *assm)
 {
 	if (*str != DIRECT_CHAR)
 		return (-1);
@@ -62,7 +62,7 @@ int			check_t_dir_label(char *str, t_asm *assm)
 	return (check_t_dir_label_b(*str, str));
 }
 
-int			check_t_ind_label(char *str, t_asm *assm)
+int	check_t_ind_label(char *str, t_asm *assm)
 {
 	if (*str == LABEL_CHAR)
 	{
