@@ -27,7 +27,6 @@ FLAGS			:= -g -Wall -Wextra -Werror
 # =========== Files ============ #
 #
 ASM_SRCS_FILES		:=	asm.c \
-				op.c \
 				change_file.c \
 				first_turn.c \
 				utils.c \
@@ -44,7 +43,6 @@ DASM_SRCS_FILES		:=	dasm.c \
 				begin.c \
 				init.c \
 				then.c \
-				op.c \
 				write_argu.c \
 				init_op_tab.c
 

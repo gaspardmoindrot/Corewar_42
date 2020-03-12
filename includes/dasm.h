@@ -84,4 +84,6 @@ void				init_op_tab_15(t_op *op_tab);
 void				init_op_tab_16(t_op *op_tab);
 void				init_op_tab_17(t_op *op_tab);
 
+short				free_op_tab(t_op *op_tab);
+
 #endif

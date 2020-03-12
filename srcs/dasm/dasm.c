@@ -77,6 +77,29 @@ static void	print_dasm(t_dasm *dasm)
 	}
 }
 
+short	free_op_tab(t_op *op_tab)
+{
+	free(op_tab[0].name);
+	free(op_tab[1].name);
+	free(op_tab[2].name);
+	free(op_tab[3].name);
+	free(op_tab[4].name);
+	free(op_tab[5].name);
+	free(op_tab[6].name);
+	free(op_tab[7].name);
+	free(op_tab[8].name);
+	free(op_tab[9].name);
+	free(op_tab[10].name);
+	free(op_tab[11].name);
+	free(op_tab[12].name);
+	free(op_tab[13].name);
+	free(op_tab[14].name);
+	free(op_tab[15].name);
+	free(op_tab[16].name);
+	free(op_tab);
+	return (1);
+}
+
 int			main(int argc, char **argv)
 {
 	t_dasm	dasm;
@@ -86,25 +109,27 @@ int			main(int argc, char **argv)
 	if (!(op_tab = init_op_tab()))
 		return (0);
 	nb = COMMENT_LENGTH + PROG_NAME_LENGTH + CHAMP_MAX_SIZE + 17;
-	if (argc != 2)
+	if (argc != 2 && free_op_tab(op_tab))
 		return (ft_error("usage: ./asm champion.s\n", 2, -1, 0));
-	if ((dasm.fd = open(argv[1], O_RDONLY)) < 3)
+	if ((dasm.fd = open(argv[1], O_RDONLY)) < 3 && free_op_tab(op_tab))
 		return (ft_error("can't open the file\n", 2, -1, 0));
-	if ((dasm.ret = read(dasm.fd, dasm.buf, nb)) < 0)
+	if ((dasm.ret = read(dasm.fd, dasm.buf, nb)) < 0 && free_op_tab(op_tab))
 		return (ft_error("can't read the file\n", 2, -1, 0));
-	if (dasm.ret > COMMENT_LENGTH + PROG_NAME_LENGTH + CHAMP_MAX_SIZE + 16)
+	if (dasm.ret > COMMENT_LENGTH + PROG_NAME_LENGTH + CHAMP_MAX_SIZE + 16
+			&& free_op_tab(op_tab))
 		return (ft_error("file too big, there is a limit\n", 2, -1, 0));
 	init_buffer(&dasm);
-	if (!(dasm.file = change_cor_s(argv[1])))
+	if (!(dasm.file = change_cor_s(argv[1])) && free_op_tab(op_tab))
 		return (ft_error("error : your file is incorrect\n", 2, -1, 0));
 	dasm.tab = init_tab();
-	if (begin(&dasm) == -1)
+	if (begin(&dasm) == -1 && free_op_tab(op_tab))
 		return (ft_error("error : your file is incorrect\n", 2, -1, 0));
-	if (then(&dasm, op_tab) == -1)
+	if (then(&dasm, op_tab) == -1 && free_op_tab(op_tab))
 		return (ft_error("error : instructions are false\n", 2, -1, 0));
 	print_dasm(&dasm);
 	free_tab(dasm.tab);
 	free(dasm.file);
+	free_op_tab(op_tab);
 	close(dasm.fd);
 	return (0);
 }

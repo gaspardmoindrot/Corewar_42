@@ -93,12 +93,35 @@ void	ft_print_in_file(char *file, unsigned char *tab, t_asm assm)
 	close(fd);
 }
 
-short	free_global(t_asm *assm, int nb)
+void	free_op_tab(t_op *op_tab)
+{
+	free(op_tab[0].name);
+	free(op_tab[1].name);
+	free(op_tab[2].name);
+	free(op_tab[3].name);
+	free(op_tab[4].name);
+	free(op_tab[5].name);
+	free(op_tab[6].name);
+	free(op_tab[7].name);
+	free(op_tab[8].name);
+	free(op_tab[9].name);
+	free(op_tab[10].name);
+	free(op_tab[11].name);
+	free(op_tab[12].name);
+	free(op_tab[13].name);
+	free(op_tab[14].name);
+	free(op_tab[15].name);
+	free(op_tab[16].name);
+	free(op_tab);
+}
+
+short	free_global(t_asm *assm, t_op *op_tab, int nb)
 {
 	int		i;
 
 	i = 0;
 	free(assm->file);
+	free_op_tab(op_tab);
 	if (nb > 1)
 	{
 		while (i < assm->nb_label && assm->label[i].name != NULL)
@@ -127,21 +150,21 @@ int		main(int argc, char **argv)
 	if (!(assm.file = change_s_cor(argv[1])))
 		return (ft_error("error : your file is incorrect\n", 2, -1));
 	assm = first_turn(argv[1], assm, op_tab);
-	if (ft_error_first_turn(assm) == 0 && free_global(&assm, 1))
+	if (ft_error_first_turn(assm) == 0 && free_global(&assm, op_tab, 1))
 		return (0);
-	if (ft_second_turn(&assm, argv[1], op_tab) < 0 && free_global(&assm, 2))
+	if (ft_second_turn(&assm, argv[1], op_tab) < 0 && free_global(&assm, op_tab, 2))
 		return (ft_error("error : problem on file\n", 2, assm.line_error));
-	if (ft_third_turn(&assm, argv[1], op_tab) < 0 && free_global(&assm, 2))
+	if (ft_third_turn(&assm, argv[1], op_tab) < 0 && free_global(&assm, op_tab, 2))
 		return (ft_error("error : problem on file\n", 2, assm.line_error));
 	if (!(assm.tab = (unsigned char *)malloc(sizeof(unsigned char)
 			* (PROG_NAME_LENGTH + COMMENT_LENGTH + 16 + assm.len_bytes)))
-				&& free_global(&assm, 2))
+				&& free_global(&assm, op_tab, 2))
 		return (ft_error("error : probleme de malloc\n", 2, -1));
 	while (++i < PROG_NAME_LENGTH + COMMENT_LENGTH + 16 + assm.len_bytes)
 		assm.tab[i] = '\0';
 	ft_print_binaire(&assm, argv[1], op_tab);
 	ft_print_in_file(assm.file, assm.tab, assm);
-	free_global(&assm, 3);
+	free_global(&assm, op_tab, 3);
 	return (0);
 }
 

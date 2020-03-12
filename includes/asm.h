@@ -102,7 +102,7 @@ int					ft_second_turn_b(t_asm *assm, int fd, int i, t_op *op_tab);
 int					ft_third_turn_b(t_asm *assm, int fd, t_op *op_tab);
 int					check_no_space_number(char **tab, int i, int com);
 char				*ft_return_space(char *str);
-short				free_global(t_asm *assm, int nb);
+short				free_global(t_asm *assm, t_op *op_tab, int nb);
 short				f_l(char **line);
 char				*check_label(char *line, int i);
 int					check_params_label_b(char **t, t_op_n n, t_asm *a, t_op *o);
@@ -121,6 +121,7 @@ int					write_comment_c(char *l, int *ln, t_asm *a);
 void				change_assm_l(t_asm *assm, int *len_comment);
 t_op				*init_op_tab(void);
 int					print_t_dir_b(char *str, int i, t_asm *assm, int j, t_op *op_tab);
+void				free_op_tab(t_op *op_tab);
 
 char    *name_op_tab(char *str);
 void    init_op_tab_1(t_op *op_tab);
