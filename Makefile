@@ -27,6 +27,7 @@ FLAGS			:= -g -Wall -Wextra -Werror
 # =========== Files ============ #
 #
 ASM_SRCS_FILES		:=	asm.c \
+				asm2.c \
 				change_file.c \
 				first_turn.c \
 				utils.c \
@@ -36,6 +37,7 @@ ASM_SRCS_FILES		:=	asm.c \
 				utils_2.c \
 				second_turn.c \
 				third_turn.c \
+				third_turn2.c \
 				utils_3.c \
 				ft_printf_binaire.c \
 				init_op_tab.c \
