@@ -27,7 +27,7 @@ do
 	a=$(cut -d ' ' -f 7 trace_val/.$map_total.t)
 	c=$(cut -d ' ' -f 10 trace_val/.$map_total.t)
 	rm trace_val/.$map_total.t 2>/dev/null
-	if [[ "$a" == "7,832" && "$c" == "126" ]]; then
+	if [[ "$a" == "0" && "$c" == "0" ]]; then
 		echo "\033[0;32m\t[OK] $map_total : $map_valid.s \033[0m"
 		map_good=$(($map_good + 1))
 	else
