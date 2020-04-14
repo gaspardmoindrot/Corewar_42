@@ -12,33 +12,6 @@
 
 #include "../../includes/asm.h"
 
-char	*check_label(char *line, int i)
-{
-	while (line[i])
-	{
-		if (line[i] == ' ' || line[i] == '\t' || line[i] == '\n')
-			;
-		else if (line[i] == COMMENT_CHAR)
-			return ("\0");
-		else if (ft_strchr(LABEL_CHARS, line[i]) != NULL)
-		{
-			while (line[i] && ft_strchr(LABEL_CHARS, line[i]) != NULL)
-				i++;
-			if (line[i] && line[i] == LABEL_CHAR)
-			{
-				line = line + i + 1;
-				i = -1;
-			}
-			else
-				return (suppr_space_label_b(line, i));
-		}
-		else
-			return (NULL);
-		i++;
-	}
-	return ("\0");
-}
-
 int		check_params_label_b(char **tmp, t_op_n n, t_asm *assm, t_op *op_tab)
 {
 	if ((op_tab[n.i].args[n.j] == T_DIR
