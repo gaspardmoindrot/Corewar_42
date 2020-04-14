@@ -30,6 +30,7 @@ ASM_SRCS_FILES		:=	asm.c \
 				asm2.c \
 				change_file.c \
 				first_turn.c \
+				first_turn2.c \
 				utils.c \
 				check_instruction.c \
 				check_instruction2.c \
@@ -41,6 +42,9 @@ ASM_SRCS_FILES		:=	asm.c \
 				utils_3.c \
 				ft_printf_binaire.c \
 				init_op_tab.c \
+				init_op_tab2.c \
+				init_op_tab3.c \
+				init_op_tab4.c
 
 DASM_SRCS_FILES		:=	dasm.c \
 				change_file.c \
