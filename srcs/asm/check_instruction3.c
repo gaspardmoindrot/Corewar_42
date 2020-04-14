@@ -12,7 +12,7 @@
 
 #include "../../includes/asm.h"
 
-static char	*ft_strcat_mal(char *s1, const char *s2)
+char		*ft_strcat_mal(char *s1, const char *s2)
 {
 	int		len;
 	int		i;
