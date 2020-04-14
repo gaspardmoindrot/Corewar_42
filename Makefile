@@ -54,6 +54,7 @@ DASM_SRCS_FILES		:=	dasm.c \
 				dasm2.c \
 				change_file.c \
 				begin.c \
+				begin2.c \
 				init.c \
 				then.c \
 				then2.c \
