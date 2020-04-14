@@ -56,6 +56,7 @@ DASM_SRCS_FILES		:=	dasm.c \
 				begin.c \
 				init.c \
 				then.c \
+				then2.c \
 				write_argu.c \
 				init_op_tab.c
 
