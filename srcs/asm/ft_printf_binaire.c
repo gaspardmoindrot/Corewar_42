@@ -63,7 +63,7 @@ int				write_comment_b(char *line, int *comment,
 			return (-1);
 	}
 	else
-			return (write_comment_c(line, len_comment, assm));
+		return (write_comment_c(line, len_comment, assm));
 	return (1);
 }
 
@@ -84,10 +84,10 @@ int				write_comment(int fd, t_asm *assm)
 	{
 		if (write_comment_b(line, &comment, &len_comment, assm) < 0
 						&& f_l(&line))
-				return (-1);
+			return (-1);
 		free(line);
 		if (assm->quote == 2)
-				return (len_comment);
+			return (len_comment);
 	}
 	return (-1);
 }
