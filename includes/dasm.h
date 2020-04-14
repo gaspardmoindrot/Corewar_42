@@ -17,7 +17,7 @@
 # include "op.h"
 # include <fcntl.h>
 
-# define N_LENGTH PROF_NAME_LENGTH
+# define N_LENGTH PROG_NAME_LENGTH
 
 typedef struct		s_dasm
 {
