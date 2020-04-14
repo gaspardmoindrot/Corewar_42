@@ -41,6 +41,10 @@ ASM_SRCS_FILES		:=	asm.c \
 				third_turn2.c \
 				utils_3.c \
 				ft_printf_binaire.c \
+				ft_printf_binaire2.c \
+				ft_printf_binaire3.c \
+				ft_printf_binaire4.c \
+				ft_printf_binaire5.c \
 				init_op_tab.c \
 				init_op_tab2.c \
 				init_op_tab3.c \
