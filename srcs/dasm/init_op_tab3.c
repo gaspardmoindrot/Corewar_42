@@ -12,77 +12,72 @@
 
 #include "../../includes/dasm.h"
 
-char	*name_op_tab(char *str)
+void	init_op_tab_10(t_op *op_tab)
 {
-	char	*s;
-	int		i;
-	int		len;
-
-	len = ft_strlen(str);
-	i = 0;
-	if (!(s = (char *)malloc(sizeof(char) * (len + 1))))
-		return (NULL);
-	while (i < len)
-	{
-		s[i] = str[i];
-		i++;
-	}
-	s[i] = '\0';
-	return (s);
+	op_tab->name = name_op_tab("ldi");
+	op_tab->nb_arg = 3;
+	op_tab->args[0] = 7;
+	op_tab->args[1] = 3;
+	op_tab->args[2] = 1;
+	op_tab->opcode = 10;
+	op_tab->cycle = 25;
+	op_tab->description = NULL;
+	op_tab->octal = 1;
+	op_tab->label = 1;
 }
 
-void	init_op_tab_1(t_op *op_tab)
+void	init_op_tab_11(t_op *op_tab)
 {
-	op_tab->name = name_op_tab("live");
+	op_tab->name = name_op_tab("sti");
+	op_tab->nb_arg = 3;
+	op_tab->args[0] = 1;
+	op_tab->args[1] = 7;
+	op_tab->args[2] = 3;
+	op_tab->opcode = 11;
+	op_tab->cycle = 25;
+	op_tab->description = NULL;
+	op_tab->octal = 1;
+	op_tab->label = 1;
+}
+
+void	init_op_tab_12(t_op *op_tab)
+{
+	op_tab->name = name_op_tab("fork");
 	op_tab->nb_arg = 1;
 	op_tab->args[0] = 2;
 	op_tab->args[1] = 0;
 	op_tab->args[2] = 0;
-	op_tab->opcode = 1;
-	op_tab->cycle = 10;
+	op_tab->opcode = 12;
+	op_tab->cycle = 800;
 	op_tab->description = NULL;
 	op_tab->octal = 0;
-	op_tab->label = 0;
+	op_tab->label = 1;
 }
 
-void	init_op_tab_2(t_op *op_tab)
+void	init_op_tab_13(t_op *op_tab)
 {
-	op_tab->name = name_op_tab("ld");
+	op_tab->name = name_op_tab("lld");
 	op_tab->nb_arg = 2;
 	op_tab->args[0] = 6;
 	op_tab->args[1] = 1;
 	op_tab->args[2] = 0;
-	op_tab->opcode = 2;
-	op_tab->cycle = 5;
-	op_tab->description = NULL;
-	op_tab->octal = 1;
-	op_tab->label = 0;
-}
-
-void	init_op_tab_3(t_op *op_tab)
-{
-	op_tab->name = name_op_tab("st");
-	op_tab->nb_arg = 2;
-	op_tab->args[0] = 1;
-	op_tab->args[1] = 5;
-	op_tab->args[2] = 0;
-	op_tab->opcode = 3;
-	op_tab->cycle = 5;
-	op_tab->description = NULL;
-	op_tab->octal = 1;
-	op_tab->label = 0;
-}
-
-void	init_op_tab_4(t_op *op_tab)
-{
-	op_tab->name = name_op_tab("add");
-	op_tab->nb_arg = 3;
-	op_tab->args[0] = 1;
-	op_tab->args[1] = 1;
-	op_tab->args[2] = 1;
-	op_tab->opcode = 4;
+	op_tab->opcode = 13;
 	op_tab->cycle = 10;
 	op_tab->description = NULL;
 	op_tab->octal = 1;
 	op_tab->label = 0;
+}
+
+void	init_op_tab_14(t_op *op_tab)
+{
+	op_tab->name = name_op_tab("lldi");
+	op_tab->nb_arg = 3;
+	op_tab->args[0] = 7;
+	op_tab->args[1] = 3;
+	op_tab->args[2] = 1;
+	op_tab->opcode = 14;
+	op_tab->cycle = 50;
+	op_tab->description = NULL;
+	op_tab->octal = 1;
+	op_tab->label = 1;
 }
