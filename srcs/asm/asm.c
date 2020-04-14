@@ -172,9 +172,3 @@ int		main(int argc, char **argv)
 	free_global(&assm, o, 3);
 	return (0);
 }
-
-//__attribute__((destructor)) void end(void)
-//{
-//	printf("end");
-//	while (1);
-//}

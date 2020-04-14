@@ -14,12 +14,12 @@
 
 t_op_n			change_op_n(int i, int j, int opcode)
 {
-		t_op_n	n;
+	t_op_n	n;
 
-		n.i = i;
-		n.j = j;
-		n.opcode = opcode;
-		return (n);
+	n.i = i;
+	n.j = j;
+	n.opcode = opcode;
+	return (n);
 }
 
 unsigned long	puissance(unsigned long nb, int p)
@@ -180,7 +180,7 @@ int				instruct_alone(t_dasm *dasm, int i, t_op *o)
 	return (i);
 }
 
-int				then(t_dasm *dasm, t_op	*op_tab)
+int				then(t_dasm *dasm, t_op *op_tab)
 {
 	int		i;
 	int		bis;

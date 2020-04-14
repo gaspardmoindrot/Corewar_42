@@ -17,13 +17,14 @@
 # include "op.h"
 # include <fcntl.h>
 
+# define N_LENGTH PROG_NAME_LENGTH
 
 typedef struct		s_dasm
 {
 	char			**tab;
 	int				nb_tab;
 	char			*file;
-	unsigned char	buf[COMMENT_LENGTH + PROG_NAME_LENGTH + CHAMP_MAX_SIZE + 17];
+	unsigned char	buf[COMMENT_LENGTH + N_LENGTH + CHAMP_MAX_SIZE + 17];
 	int				ret;
 	int				fd;
 	int				i;
