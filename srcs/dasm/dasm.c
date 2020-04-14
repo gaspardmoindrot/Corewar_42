@@ -77,7 +77,7 @@ static void	print_dasm(t_dasm *dasm)
 	}
 }
 
-short		free_op_tab(t_op *op_tab)
+short	free_op_tab(t_op *op_tab)
 {
 	free(op_tab[0].name);
 	free(op_tab[1].name);

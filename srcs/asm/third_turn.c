@@ -39,7 +39,7 @@ char	*check_label(char *line, int i)
 	return ("\0");
 }
 
-int		check_params_label_b(char **tmp, t_op_n n, t_asm *assm, t_op *op_tab)
+int	check_params_label_b(char **tmp, t_op_n n, t_asm *assm, t_op *op_tab)
 {
 	if ((op_tab[n.i].args[n.j] == T_DIR
 				|| op_tab[n.i].args[n.j] == T_DIR + T_REG
@@ -61,7 +61,7 @@ int		check_params_label_b(char **tmp, t_op_n n, t_asm *assm, t_op *op_tab)
 	return (return_f("FATAL ERROR - not match with the opcode\n", -1));
 }
 
-int		check_params_label(char **tmp, int i, t_asm *assm, t_op *op_tab)
+int	check_params_label(char **tmp, int i, t_asm *assm, t_op *op_tab)
 {
 	int	j;
 	int	count;
@@ -88,7 +88,7 @@ int		check_params_label(char **tmp, int i, t_asm *assm, t_op *op_tab)
 	return (count);
 }
 
-int		check_label_2(char *line, t_asm *assm, t_op *op_tab)
+int			check_label_2(char *line, t_asm *assm, t_op *op_tab)
 {
 	char	**tmp;
 	char	**pmt;
@@ -116,7 +116,7 @@ int		check_label_2(char *line, t_asm *assm, t_op *op_tab)
 	return (count);
 }
 
-int		ft_third_turn(t_asm *assm, char *str, t_op *op_tab)
+int			ft_third_turn(t_asm *assm, char *str, t_op *op_tab)
 {
 	int	fd;
 	int	r[2];
@@ -145,7 +145,7 @@ int		ft_third_turn(t_asm *assm, char *str, t_op *op_tab)
 	return (0);
 }
 
-int		ft_third_turn_b(t_asm *assm, int fd, t_op *op_tab)
+int			ft_third_turn_b(t_asm *assm, int fd, t_op *op_tab)
 {
 	char	*line;
 	char	*str_2;

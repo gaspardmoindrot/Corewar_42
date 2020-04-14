@@ -41,9 +41,9 @@ typedef struct		s_asm
 
 typedef struct		s_op_n
 {
-	int			i;
-	int			j;
-	int			count;
+		int 		i;
+		int 		j;
+		int 		count;
 }					t_op_n;
 
 int					ft_error(char *str, int fd, int a);
