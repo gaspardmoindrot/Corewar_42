@@ -140,5 +140,6 @@ void				init_op_tab_16(t_op *op_tab);
 void				init_op_tab_17(t_op *op_tab);
 void				ft_change_tab_asm(t_asm *assm);
 int					check_label_dir(char *str, t_asm *assm);
+static char			*ft_strcat_mal(char *s1, const char *s2);
 
 #endif
