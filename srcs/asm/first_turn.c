@@ -28,10 +28,8 @@ int			check_name_c(char *line, int *quote, int *len_name)
 
 int			check_name_b(char *line, int *name, int *quote, int *len_name)
 {
-	int		i;
 	char	*str;
 
-	i = 0;
 	if (*name == 0 && (str = ft_strstr(line, NAME_CMD_STRING)))
 	{
 		*name = *name + 1;

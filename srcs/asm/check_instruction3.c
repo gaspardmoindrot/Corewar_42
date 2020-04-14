@@ -67,7 +67,6 @@ char		*suppr_space(char *line, int j)
 	char	**res;
 	char	**res_2;
 	char	*str[3];
-	int		i;
 
 	if (line[j] == '-' || line[j] == DIRECT_CHAR)
 	{
@@ -76,7 +75,6 @@ char		*suppr_space(char *line, int j)
 	}
 	else
 		str[1] = ft_strcat_mal("\0", line);
-	i = 0;
 	res = ft_split_whitespaces(str[1]);
 	free(str[1]);
 	str[0] = ft_put_together(res);

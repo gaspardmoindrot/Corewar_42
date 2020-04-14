@@ -40,10 +40,8 @@ void			change_assm_l(t_asm *assm, int *len_comment)
 int				write_comment_b(char *line, int *comment,
 					int *len_comment, t_asm *assm)
 {
-	int		i;
 	char	*str;
 
-	i = 0;
 	if (*comment == 0 && (str = ft_strstr(line, COMMENT_CMD_STRING)))
 	{
 		*comment = *comment + 1;

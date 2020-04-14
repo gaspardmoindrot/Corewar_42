@@ -66,11 +66,9 @@ static int	ft_strrchr_nbr(const char *s, int c)
 
 char		*change_s_cor(char *str)
 {
-	int		i;
 	char	*s;
 	char	*s_2;
 
-	i = 0;
 	if (ft_strchr(str, '.') == NULL)
 	{
 		return_f("FATAL ERROR - your file needs a .s extension\n", 0);

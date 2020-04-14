@@ -92,18 +92,18 @@ void			print_nb_bytes(int bytes, t_asm *assm, unsigned int nb)
 void			ft_print_params(char **tmp, int i, t_asm *assm, t_op *op_tab)
 {
 	int	j;
-	int	count;
+	int	u;
 
-	count = 0;
+	u = 3;
 	j = 0;
-	while (j < op_tab[i].nb_arg)
+	while (j < op_tab[i].nb_arg && u > 0)
 	{
 		if (print_t_reg(tmp[j], assm) == 1)
 			;
 		else if (print_t_dir(tmp[j], assm, i, op_tab) == 1)
 			;
 		else if (print_t_ind(tmp[j], assm) == 1)
-			;
+			u = 2;
 		j++;
 	}
 }

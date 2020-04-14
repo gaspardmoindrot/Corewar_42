@@ -101,10 +101,8 @@ int				write_name_c(char *line, int *len_name, t_asm *assm)
 
 int				write_name_b(char *line, int *name, int *len_name, t_asm *assm)
 {
-	int		i;
 	char	*str;
 
-	i = 0;
 	if (*name == 0 && (str = ft_strstr(line, NAME_CMD_STRING)))
 	{
 		*name = *name + 1;

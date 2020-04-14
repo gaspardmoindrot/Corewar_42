@@ -16,9 +16,7 @@ int				print_instruc(int fd, t_asm *assm, t_op *op_tab)
 {
 	char	*line;
 	char	*str;
-	int		r;
 
-	r = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
 		assm->actual_bytes_l = assm->actual_bytes + 1;

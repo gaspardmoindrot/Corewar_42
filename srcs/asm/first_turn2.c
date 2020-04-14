@@ -50,10 +50,8 @@ int			check_comment_c(char *line, int *quote, int *len_comment)
 
 int			check_comment_b(char *line, int *comment, int *quote, int *len_c)
 {
-	int		i;
 	char	*str;
 
-	i = 0;
 	if (*comment == 0 && (str = ft_strstr(line, COMMENT_CMD_STRING)))
 	{
 		*comment = *comment + 1;
