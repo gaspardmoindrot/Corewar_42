@@ -89,5 +89,6 @@ void				init_op_tab_16(t_op *op_tab);
 void				init_op_tab_17(t_op *op_tab);
 short				free_op_tab(t_op *op_tab);
 void				end_dasm(t_dasm *dasm, t_op *op_tab);
+void				print_dasm(t_dasm *dasm);
 
 #endif

@@ -51,6 +51,7 @@ ASM_SRCS_FILES		:=	asm.c \
 				init_op_tab4.c
 
 DASM_SRCS_FILES		:=	dasm.c \
+				dasm2.c \
 				change_file.c \
 				begin.c \
 				init.c \
