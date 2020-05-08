@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   op.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
+/*   By: ftrujill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2020/01/17 17:32:06 by gmoindro         ###   ########.fr       */
+/*   Updated: 2020/05/07 00:53:08 by ftrujill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # define IND_SIZE				2
 # define REG_SIZE				4
 # define DIR_SIZE				REG_SIZE
+
+#define MAX_SIZE				((REG_SIZE > IND_SIZE) ? REG_SIZE : IND_SIZE)
 
 # define REG_CODE				1
 # define DIR_CODE				2
@@ -61,6 +63,9 @@ typedef struct					s_op
 	char						*description;
 	unsigned char				octal;
 	unsigned char				label;
+	char						carry;
+	void						(*function)();
+
 }								t_op;
 
 # define T_REG					1
@@ -72,4 +77,13 @@ typedef struct					s_op
 # define COMMENT_LENGTH			2048
 # define COREWAR_EXEC_MAGIC		0xea83f3
 
+typedef struct					s_header
+{
+	unsigned int				magic;
+	char						prog_name[PROG_NAME_LENGTH + 1];
+	unsigned int				prog_size;
+	char						comment[COMMENT_LENGTH + 1];
+}								t_header;
+
+extern t_op						g_op_tab[17];
 #endif

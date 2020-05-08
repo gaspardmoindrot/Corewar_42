@@ -48,7 +48,7 @@ ASM_SRCS_FILES		:=	asm.c \
 				init_op_tab.c \
 				init_op_tab2.c \
 				init_op_tab3.c \
-				init_op_tab4.c
+				init_op_tab4.c \
 
 DASM_SRCS_FILES		:=	dasm.c \
 				dasm2.c \
@@ -62,9 +62,24 @@ DASM_SRCS_FILES		:=	dasm.c \
 				init_op_tab.c \
 				init_op_tab2.c \
 				init_op_tab3.c \
-				init_op_tab4.c
+				init_op_tab4.c \
 
-CORE_SRCS_FILES		:=	corewar.c
+CORE_SRCS_FILES		:=	corewar.c \
+				op.c \
+				options.c \
+				check_operation.c \
+				print_functions.c \
+				aux_functions.c \
+				init_aux_functions.c \
+				init_cw.c\
+				print_hexa.c \
+				get_args_1.c \
+				get_args_2.c \
+				op_aff_logical.c \
+				op_arithmetic_forks.c \
+				op_ld.c \
+				op_live_st_zjmp.c \
+				op_aux_functions.c \
 
 ASM_HEADERS_FILES	:=	asm.h \
 				op.h
